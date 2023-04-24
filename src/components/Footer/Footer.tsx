@@ -4,16 +4,19 @@ import Image from "next/image";
 import ghLogo from "./../../assets/github.png";
 import rsLogo from "./../../assets/rs_school_js.svg";
 
-const ghNames = ["killthecreator", "HelgaAthame", "alexmegadrive"];
+const ghUsers = [
+  { id: 1, name: "killthecreator" },
+  { id: 2, name: "HelgaAthame" },
+  { id: 3, name: "alexmegadrive" },
+];
 
 const Footer = () => {
   return (
     <footer className="flex items-center justify-between bg-slate-300">
       <ul className="flex justify-center gap-4">
-        {ghNames.map((name) => (
-          <li>
-            {" "}
-            <Link href={"https://github.com/" + name}>
+        {ghUsers.map((user) => (
+          <li key={user.id}>
+            <Link href={"https://github.com/" + user.name}>
               <Image className="w-10" src={ghLogo} alt="gh-logo"></Image>
             </Link>{" "}
           </li>
