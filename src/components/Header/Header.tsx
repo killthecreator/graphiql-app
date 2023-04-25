@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const pages = [
-  { id: 1, name: "Home" },
-  { id: 2, name: "Login" },
-  { id: 3, name: "Editor" },
-];
+  { id: 1, pathname: "Home" },
+  { id: 2, pathname: "Login" },
+  { id: 3, pathname: "Editor" },
+] as const;
 
 const Header = () => {
   return (
@@ -15,10 +15,12 @@ const Header = () => {
             <li key={page.id}>
               <Link
                 href={
-                  page.name === "Home" ? "/" : "/" + page.name.toLowerCase()
+                  page.pathname === "Home"
+                    ? "/"
+                    : "/" + page.pathname.toLowerCase()
                 }
               >
-                {page.name}
+                {page.pathname}
               </Link>
             </li>
           ))}
