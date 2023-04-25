@@ -20,7 +20,7 @@ const pages = [
 
 export const Header = () => {
   return (
-    <header>
+    <header className="p-2">
       <NavigationMenu>
         <NavigationMenuList>
           {pages.map((page) => (
