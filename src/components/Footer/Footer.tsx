@@ -26,7 +26,7 @@ const ghUsers = [
 
 export const Footer = () => {
   return (
-    <footer className="flex items-center justify-between p-2">
+    <footer className="flex items-center justify-between px-2">
       <NavigationMenu className="gap-4 w-full justify-between">
         <NavigationMenuList>
         {ghUsers.map((user) => (

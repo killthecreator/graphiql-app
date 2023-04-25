@@ -12,6 +12,8 @@ import {
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
 
+import { Button } from "~/components/ui/button";
+
 const pages = [
   { id: 1, pathname: "Home" },
   { id: 2, pathname: "Login" },
@@ -20,8 +22,8 @@ const pages = [
 
 export const Header = () => {
   return (
-    <header className="p-2">
-      <NavigationMenu>
+    <header className="px-2 pt-2 flex justify-between">
+      <NavigationMenu className="grow-0">
         <NavigationMenuList>
           {pages.map((page) => (
             <NavigationMenuItem className="hover:cursor-pointer" key={page.id}>
@@ -40,6 +42,8 @@ export const Header = () => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
+
+      <Button>Sign Out</Button>
     </header>
   );
 };
