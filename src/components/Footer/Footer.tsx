@@ -10,7 +10,7 @@ const ghUsers = [
   { id: 3, name: "alexmegadrive" },
 ] as const;
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="flex items-center justify-between bg-slate-300">
       <ul className="flex justify-center gap-4">
@@ -29,4 +29,3 @@ const Footer = () => {
     </footer>
   );
 };
-export default Footer;

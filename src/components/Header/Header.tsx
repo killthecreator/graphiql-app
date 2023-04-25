@@ -1,18 +1,30 @@
 import Link from "next/link";
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "~/components/ui/navigation-menu";
+
 const pages = [
   { id: 1, pathname: "Home" },
   { id: 2, pathname: "Login" },
   { id: 3, pathname: "Editor" },
 ] as const;
 
-const Header = () => {
+export const Header = () => {
   return (
     <header>
-      <nav>
-        <ul className="flex h-10 items-center justify-center gap-11 bg-slate-600">
+      <NavigationMenu>
+        <NavigationMenuList>
           {pages.map((page) => (
-            <li key={page.id}>
+            <NavigationMenuItem className="hover:cursor-pointer" key={page.id}>
               <Link
                 href={
                   page.pathname === "Home"
@@ -20,13 +32,14 @@ const Header = () => {
                     : "/" + page.pathname.toLowerCase()
                 }
               >
-                {page.pathname}
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  {page.pathname}
+                </NavigationMenuLink>
               </Link>
-            </li>
+            </NavigationMenuItem>
           ))}
-        </ul>
-      </nav>
+        </NavigationMenuList>
+      </NavigationMenu>
     </header>
   );
 };
-export default Header;

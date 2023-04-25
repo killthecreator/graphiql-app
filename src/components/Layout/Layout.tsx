@@ -1,8 +1,8 @@
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import { Header } from "../Header";
+import { Footer } from "../Footer";
 import { PropsWithChildren } from "react";
 
-const Layout = ({ children }: PropsWithChildren) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
@@ -11,5 +11,3 @@ const Layout = ({ children }: PropsWithChildren) => {
     </>
   );
 };
-
-export default Layout;
