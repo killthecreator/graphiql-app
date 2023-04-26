@@ -6,7 +6,9 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
-      <main className="max-w-xl flex-col items-center">{children}</main>
+      <main className="flex max-w-xl flex-col items-center justify-center">
+        {children}
+      </main>
       <Footer />
     </>
   );

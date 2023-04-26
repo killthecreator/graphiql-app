@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const pages = [
   { id: 1, pathname: "Home" },
@@ -7,10 +9,11 @@ const pages = [
 ] as const;
 
 const Header = () => {
+  const { data: session } = useSession();
   return (
     <header>
-      <nav>
-        <ul className="flex h-10 items-center justify-center gap-11 bg-slate-600">
+      <nav className="flex h-10 justify-between bg-slate-600 px-20">
+        <ul className="flex  items-center justify-center gap-11 ">
           {pages.map((page) => (
             <li key={page.id}>
               <Link
@@ -25,6 +28,7 @@ const Header = () => {
             </li>
           ))}
         </ul>
+        {session && <button onClick={() => signOut()}>Sign Out</button>}
       </nav>
     </header>
   );
