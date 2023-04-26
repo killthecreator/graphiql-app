@@ -1,22 +1,24 @@
-import { createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
+import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
 
-interface SomeState {
-
+interface DataState {
+  isDay: boolean;
 }
 
-const initialState: SomeState = {
-
+const initialState: DataState = {
+  isDay: true,
 };
 
-export const dataSlice: Slice<SomeState, SliceCaseReducers<SomeState>, 'somename'> = createSlice({
-  name: 'somename',
+export const dataSlice: Slice<DataState, SliceCaseReducers<DataState>, 'action'> = createSlice({
+  name: 'action',
   initialState,
   reducers: {
-    someReducer(state, action: PayloadAction<string>) {
-
+    setIsDay(state, action: PayloadAction<boolean>) {
+      state.isDay = action.payload;
+      if (!state.isDay) document.body.classList.add('dark');
+      if (state.isDay) document.body.classList.remove('dark');
     },
   },
 });
 
-export const { sortCards, setCards } = dataSlice.actions;
+export const { setIsDay } = dataSlice.actions;
 export default dataSlice.reducer;
