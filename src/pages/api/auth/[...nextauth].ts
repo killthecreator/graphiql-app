@@ -30,6 +30,28 @@ const loginErrors = {
     clientError:
       "User with such email is not registred or you inputed the wrong password",
   },
+  "user-not-found ": {
+    firebaseError: "Firebase: Error (auth/user-not-found).",
+    clientError:
+      "User with such email is not registred or you inputed the wrong password",
+  },
+  "already-in-use ": {
+    firebaseError: "Firebase: Error (auth/email-already-in-use).",
+    clientError:
+      "User with such email already exists, please Sign In or Sign Up with another email",
+  },
+  "wrong-password": {
+    firebaseError: "Firebase: Error (auth/wrong-password).",
+    clientError: "The password is not correct",
+  },
+};
+
+const generateClientError = (errorMessage: string): string => {
+  console.log(errorMessage);
+  const errorType = Object.values(loginErrors).find(
+    (error) => error.firebaseError === errorMessage
+  );
+  return errorType?.clientError ?? "Unknown server error";
 };
 
 export default NextAuth({
@@ -58,8 +80,11 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          console.log(e);
-          throw new Error(e.message);
+          if (e instanceof Error) {
+            throw Error(generateClientError(e.message));
+          } else {
+            throw Error(generateClientError(e as string));
+          }
         }
       },
     }),
@@ -82,7 +107,11 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          throw new Error(e.message);
+          if (e instanceof Error) {
+            throw Error(generateClientError(e.message));
+          } else {
+            throw Error(generateClientError(e as string));
+          }
         }
       },
     }),

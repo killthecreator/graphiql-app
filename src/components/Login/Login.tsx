@@ -67,6 +67,7 @@ const Login = ({ trigger }: { trigger: boolean }) => {
               placeholder="Password"
               {...register("password", {
                 validate: (value) => {
+                  if (submitType === "sign-in") return;
                   if (value.length < 8)
                     return "Password should be at least 8 characters long";
                   if (!value.match(/(?=.*?[0-9])/))
