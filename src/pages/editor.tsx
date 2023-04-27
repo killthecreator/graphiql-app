@@ -21,8 +21,35 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 
 import { Button } from "~/components/ui/button";
+import { useGraphqlMutation } from "~/rtk";
+import { MouseEventHandler } from "react";
 
 const Editor: NextPage = () => {
+
+  const [graphql, response] = useGraphqlMutation();
+
+  const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    console.log('click send');
+    const data = graphql(`
+    {
+      getPokemon(pokemon: dragonite) {
+          sprite
+          num
+          species
+          color
+      }
+    }
+  `)
+    .unwrap()
+    .then((data) => {console.log(data);})
+    .then((error) => {
+      console.log(error)
+    })
+    console.log(data);
+    console.log(response);
+
+  }
+
   return (
     <>
       <Head>
@@ -41,7 +68,7 @@ const Editor: NextPage = () => {
               <Textarea className="grow"/>
             </CardContent>
             <CardFooter>
-              <Button>Send</Button>
+              <Button onClick={handleButtonClick}>Send</Button>
             </CardFooter>
           </Card>
 

@@ -2,14 +2,16 @@ import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCa
 
 interface DataState {
   isDay: boolean;
+  editorText: string;
 }
 
 const initialState: DataState = {
   isDay: true,
+  editorText: '',
 };
 
-export const dataSlice: Slice<DataState, SliceCaseReducers<DataState>, 'action'> = createSlice({
-  name: 'action',
+export const dataSlice: Slice<DataState, SliceCaseReducers<DataState>, 'somename'> = createSlice({
+  name: 'somename',
   initialState,
   reducers: {
     setIsDay(state, action: PayloadAction<boolean>) {
