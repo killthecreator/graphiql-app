@@ -32,8 +32,7 @@ const loginErrors = {
   },
   "user-not-found ": {
     firebaseError: "Firebase: Error (auth/user-not-found).",
-    clientError:
-      "User with such email is not registred or you inputed the wrong password",
+    clientError: "User with such email does not exist",
   },
   "already-in-use ": {
     firebaseError: "Firebase: Error (auth/email-already-in-use).",
@@ -47,7 +46,6 @@ const loginErrors = {
 };
 
 const generateClientError = (errorMessage: string): string => {
-  console.log(errorMessage);
   const errorType = Object.values(loginErrors).find(
     (error) => error.firebaseError === errorMessage
   );

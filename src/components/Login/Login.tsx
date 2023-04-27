@@ -56,8 +56,13 @@ const Login = ({ trigger }: { trigger: boolean }) => {
               className="h-10 w-80 bg-slate-200 p-2"
               type="email"
               placeholder="Email"
-              {...register("email")}
+              {...register("email", {
+                required: "Please, input Email",
+              })}
             />
+            <span className="h-1">
+              {errors.email ? errors.email.message : ""}
+            </span>
           </label>
           <label className="flex flex-col gap-2">
             Password
@@ -66,6 +71,7 @@ const Login = ({ trigger }: { trigger: boolean }) => {
               type="password"
               placeholder="Password"
               {...register("password", {
+                required: "Please, input password",
                 validate: (value) => {
                   if (submitType === "sign-in") return;
                   if (value.length < 8)
@@ -82,7 +88,9 @@ const Login = ({ trigger }: { trigger: boolean }) => {
                 },
               })}
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            <span className="h-1">
+              {errors.password ? errors.password.message : ""}
+            </span>
           </label>
           <button className="h-10 w-40 rounded bg-cyan-700" type="submit">
             {submitType === "sign-in" ? "Sign In" : "Sign Up"}
