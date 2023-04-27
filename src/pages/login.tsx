@@ -1,10 +1,10 @@
-import { type NextPage } from "next";
+/* import { type NextPage } from "next";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import SignIn from "./auth/login";
+import Login from "../components/Login/Login";
 
 import Head from "next/head";
 
@@ -28,3 +28,4 @@ const Login: NextPage = () => {
 };
 
 export default Login;
+ */

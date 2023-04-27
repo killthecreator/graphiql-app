@@ -24,6 +24,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+const loginErrors = {
+  "invalid-email": {
+    firebaseError: "Firebase: Error (auth/invalid-email).",
+    clientError:
+      "User with such email is not registred or you inputed the wrong password",
+  },
+};
+
 export default NextAuth({
   callbacks: {
     async session({ session, token }) {
@@ -40,7 +48,6 @@ export default NextAuth({
       },
 
       async authorize(credentials) {
-        console.log(credentials);
         if (!credentials) return null;
         try {
           const userCredential = await createUserWithEmailAndPassword(
@@ -49,10 +56,10 @@ export default NextAuth({
             credentials.password
           );
           const { uid } = userCredential.user;
-          return { id: uid, email: credentials.email };
+          return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          console.error(e);
-          return null;
+          console.log(e);
+          throw new Error(e.message);
         }
       },
     }),
@@ -65,6 +72,7 @@ export default NextAuth({
 
       async authorize(credentials) {
         if (!credentials) return null;
+
         try {
           const userCredential = await signInWithEmailAndPassword(
             auth,
@@ -72,10 +80,9 @@ export default NextAuth({
             credentials.password
           );
           const { uid } = userCredential.user;
-          return { id: uid, email: credentials.email };
+          return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          console.error(e);
-          return null;
+          throw new Error(e.message);
         }
       },
     }),
