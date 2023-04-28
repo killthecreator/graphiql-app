@@ -23,7 +23,8 @@ export const api = createApi({
         url: '',
         method: 'POST',
         body: JSON.stringify({
-          query: payload
+          query: payload.query,
+          variables: payload.variables,
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

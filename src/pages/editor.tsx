@@ -21,34 +21,39 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 
 import { Button } from "~/components/ui/button";
-import { useGraphqlMutation } from "~/rtk";
-import { MouseEventHandler } from "react";
+import { AppDispatch, RootState, setEditorText, setResponseText, useGraphqlMutation, useTypedSelector } from "~/rtk";
+import { useDispatch } from 'react-redux';
+import { ChangeEvent, MouseEventHandler } from "react";
 
 const Editor: NextPage = () => {
 
   const [graphql, response] = useGraphqlMutation();
+  const dispatch = useDispatch<AppDispatch>();
+  const data = useTypedSelector((state: RootState) => state.data);
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     console.log('click send');
-    const data = graphql(`
-    {
-      getPokemon(pokemon: dragonite) {
-          sprite
-          num
-          species
-          color
-      }
-    }
-  `)
-    .unwrap()
-    .then((data) => {console.log(data);})
-    .then((error) => {
-      console.log(error)
+    const resp = graphql({
+      query: data.editorText,
+      variables: {},
     })
-    console.log(data);
-    console.log(response);
+    .unwrap()
+    .then((resp) => {
+      const stringified = JSON.stringify(resp.data, null, 4)
+      dispatch(setResponseText(stringified));
+    })
+    .catch((error) => {
+      const stringified = JSON.stringify(error.data, null, 4);
+      dispatch(setResponseText(stringified));
+    })
 
-  }
+  };
+
+  const handleTextareaInput = (e: InputEvent) => {
+    const inp = e.target as HTMLInputElement;
+    const val = inp.value;
+    dispatch(setEditorText(val));
+  };
 
   return (
     <>
@@ -65,7 +70,7 @@ const Editor: NextPage = () => {
               <CardDescription>Wite your Grqphql request</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
-              <Textarea className="grow"/>
+              <Textarea className="grow" onInput={handleTextareaInput}/>
             </CardContent>
             <CardFooter>
               <Button onClick={handleButtonClick}>Send</Button>
@@ -107,10 +112,10 @@ const Editor: NextPage = () => {
               <CardDescription>This is the section for response</CardDescription>
             </CardHeader>
             <CardContent>
-              <p>Some response...</p>
+              <p className="flex flex-wrap">{data.responseText}</p>
             </CardContent>
             <CardFooter>
-              <p>Card Footer if needed</p>
+              <p></p>
             </CardFooter>
           </Card>
 
