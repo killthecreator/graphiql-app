@@ -22,7 +22,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+export const auth = getAuth();
 
 const loginErrors = {
   "auth/invalid-email":
@@ -30,12 +30,11 @@ const loginErrors = {
 
   "auth/user-not-found": "User with such email does not exist",
 
-  "auth/email-already-in-use":
-    "User with such email already exists, please Sign In or Sign Up with another email",
+  "auth/email-already-in-use": "User with such email already exists",
 
   "auth/wrong-password": "The password is not correct",
 
-  "auth/too-many-requests": "Forgot password? We can restore it via your email",
+  "auth/too-many-requests": "Too many requests...",
 };
 
 const generateClientError = (errorCode: string): string => {
@@ -75,7 +74,7 @@ export default NextAuth({
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
           if (e instanceof FirebaseError) {
-            throw Error(generateClientError(e.message));
+            throw Error(generateClientError(e.code));
           } else {
             throw Error(generateClientError(e as string));
           }
@@ -113,8 +112,5 @@ export default NextAuth({
   adapter: FirestoreAdapter(app),
   session: {
     strategy: "jwt",
-  },
-  pages: {
-    error: "/auth/error",
   },
 });

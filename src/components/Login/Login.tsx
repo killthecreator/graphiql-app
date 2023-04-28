@@ -23,10 +23,13 @@ interface FormData {
   type: string;
 }
 
+import { auth } from "~/pages/api/auth/[...nextauth]";
+import { sendPasswordResetEmail } from "firebase/auth";
+
 const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
   const [formError, setFormError] = useState(" ");
-  const [wrongPassCounter, setWrongPassCounter] = useState(0);
+  const [wrongPassCount, setWrongPassCount] = useState(0);
 
   const csrfInput = useRef<HTMLInputElement>(null);
 
@@ -48,8 +51,11 @@ const Login = () => {
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
+      if (signInRes.error === "Too many requests...") {
+        setWrongPassCount(wrongPassCount + 1);
+      }
+
       setFormError(signInRes.error);
-      console.log(signInRes?.error);
     }
   };
   return (
@@ -91,7 +97,7 @@ const Login = () => {
           <Label className="flex flex-col gap-2">
             Password
             <Input
-              className="h-10  w-80 bg-slate-200 p-2"
+              className="h-10 w-80 bg-slate-200 p-2"
               type="password"
               placeholder="Password"
               {...register("password", {
@@ -116,7 +122,18 @@ const Login = () => {
               {errors.password ? errors.password.message : ""}
             </span>
           </Label>
-          <DialogFooter className="mt-5  flex items-center gap-10 ">
+          <span
+            className={
+              "-mt8 text-center text-xs" +
+              (wrongPassCount < 3 ? "opacity-0" : "opacity-100")
+            }
+          >
+            Forgot password?&nbsp;
+            <span className=" cursor-pointer font-semibold  underline">
+              You can resotre it via email
+            </span>
+          </span>
+          <DialogFooter className="-mt-4 flex items-center gap-10 ">
             <Button className="h-10 w-40" type="submit">
               {submitType === "sign-in" ? "Sign In" : "Sign Up"}
             </Button>
