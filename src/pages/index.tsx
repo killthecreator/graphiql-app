@@ -13,8 +13,6 @@ import Login from "~/components/Login/Login";
 const Home: NextPage = () => {
   const { data: session } = useSession();
 
-  const [isPopup, setPopup] = useState(false);
-
   return (
     <>
       <Head>
@@ -27,9 +25,8 @@ const Home: NextPage = () => {
           You are successfully logged-in! Go to the editor
         </Link>
       ) : (
-        <button onClick={() => setPopup(true)}>Sign In / Sign Up</button>
+        <Login></Login>
       )}
-      <Login trigger={isPopup}></Login>
     </>
   );
 };

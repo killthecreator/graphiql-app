@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -25,31 +25,27 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 const loginErrors = {
-  "invalid-email": {
-    firebaseError: "Firebase: Error (auth/invalid-email).",
-    clientError:
-      "User with such email is not registred or you inputed the wrong password",
-  },
-  "user-not-found ": {
-    firebaseError: "Firebase: Error (auth/user-not-found).",
-    clientError: "User with such email does not exist",
-  },
-  "already-in-use ": {
-    firebaseError: "Firebase: Error (auth/email-already-in-use).",
-    clientError:
-      "User with such email already exists, please Sign In or Sign Up with another email",
-  },
-  "wrong-password": {
-    firebaseError: "Firebase: Error (auth/wrong-password).",
-    clientError: "The password is not correct",
-  },
+  "auth/invalid-email":
+    "User with such email is not registred or you inputed the wrong password",
+
+  "auth/user-not-found": "User with such email does not exist",
+
+  "auth/email-already-in-use":
+    "User with such email already exists, please Sign In or Sign Up with another email",
+
+  "auth/wrong-password": "The password is not correct",
+
+  "auth/too-many-requests": "Forgot password? We can restore it via your email",
 };
 
-const generateClientError = (errorMessage: string): string => {
-  const errorType = Object.values(loginErrors).find(
-    (error) => error.firebaseError === errorMessage
+const generateClientError = (errorCode: string): string => {
+  const errorType = Object.keys(loginErrors).find(
+    (error) => error === errorCode
   );
-  return errorType?.clientError ?? "Unknown server error";
+
+  return (
+    loginErrors[errorType as keyof typeof loginErrors] ?? "Unknown server error"
+  );
 };
 
 export default NextAuth({
@@ -78,7 +74,7 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          if (e instanceof Error) {
+          if (e instanceof FirebaseError) {
             throw Error(generateClientError(e.message));
           } else {
             throw Error(generateClientError(e as string));
@@ -105,8 +101,8 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          if (e instanceof Error) {
-            throw Error(generateClientError(e.message));
+          if (e instanceof FirebaseError) {
+            throw Error(generateClientError(e.code));
           } else {
             throw Error(generateClientError(e as string));
           }
@@ -119,7 +115,6 @@ export default NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/auth/login",
     error: "/auth/error",
   },
 });

@@ -3,7 +3,19 @@ import { useForm } from "react-hook-form";
 
 import { useState, useRef, useEffect } from "react";
 
-import * as Switch from "@radix-ui/react-switch";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  Switch,
+  Input,
+  Label,
+  Button,
+} from "~/components/ui";
 
 interface FormData {
   email: string;
@@ -11,9 +23,10 @@ interface FormData {
   type: string;
 }
 
-const Login = ({ trigger }: { trigger: boolean }) => {
+const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
   const [formError, setFormError] = useState(" ");
+  const [wrongPassCounter, setWrongPassCounter] = useState(0);
 
   const csrfInput = useRef<HTMLInputElement>(null);
 
@@ -33,26 +46,37 @@ const Login = ({ trigger }: { trigger: boolean }) => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
     const signInRes = await signIn(submitType, { ...data, redirect: false });
-    if (signInRes && signInRes.error) setFormError(signInRes.error);
+    if (signInRes && signInRes.error) {
+      setFormError(signInRes.error);
+      console.log(signInRes?.error);
+    }
   };
   return (
-    <>
-      {trigger && (
+    <Dialog>
+      <DialogTrigger>Sign in / Sign Up</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            {submitType === "sign-in" ? "Sign In" : "Sign Up"}
+          </DialogTitle>
+          <DialogDescription>
+            {submitType === "sign-in"
+              ? "Login into existing account"
+              : "Create a new account"}
+          </DialogDescription>
+        </DialogHeader>
         <form
-          className="fixed left-1/2 top-1/2 flex -translate-x-1/2 
-          -translate-y-1/2 flex-col items-center justify-center 
-          gap-8 rounded-md bg-slate-600 p-8 shadow-lg"
+          className="flex flex-col items-center justify-center gap-8"
           method="post"
           action="/api/auth/callback/credentials"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <p>{formError}</p>
+          <p className="h-2 text-center">{formError}</p>
           <input ref={csrfInput} name="csrfToken" type="hidden" />
-          <label className="flex flex-col gap-2">
+          <Label className="flex flex-col gap-2">
             Email
-            <input
+            <Input
               className="h-10 w-80 bg-slate-200 p-2"
               type="email"
               placeholder="Email"
@@ -63,10 +87,10 @@ const Login = ({ trigger }: { trigger: boolean }) => {
             <span className="h-1">
               {errors.email ? errors.email.message : ""}
             </span>
-          </label>
-          <label className="flex flex-col gap-2">
+          </Label>
+          <Label className="flex flex-col gap-2">
             Password
-            <input
+            <Input
               className="h-10  w-80 bg-slate-200 p-2"
               type="password"
               placeholder="Password"
@@ -91,31 +115,22 @@ const Login = ({ trigger }: { trigger: boolean }) => {
             <span className="h-1">
               {errors.password ? errors.password.message : ""}
             </span>
-          </label>
-          <button className="h-10 w-40 rounded bg-cyan-700" type="submit">
-            {submitType === "sign-in" ? "Sign In" : "Sign Up"}
-          </button>
-          <p>Sign In</p>
-          <input
-            type="radio"
-            value="sign-in"
-            defaultChecked
-            name="type"
-            onChange={(e) => setSubmitType(e.target.value)}
-          />
-          <p>Sign Up</p>
-          <input
-            type="radio"
-            value="sign-up"
-            name="type"
-            onChange={(e) => setSubmitType(e.target.value)}
-          />
-          <Switch.Root className="SwitchRoot" id="airplane-mode">
-            <Switch.Thumb className="SwitchThumb" />
-          </Switch.Root>
+          </Label>
+          <DialogFooter className="mt-5  flex items-center gap-10 ">
+            <Button className="h-10 w-40" type="submit">
+              {submitType === "sign-in" ? "Sign In" : "Sign Up"}
+            </Button>
+            <Switch
+              value={submitType}
+              onClick={() => {
+                setFormError("");
+                setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");
+              }}
+            ></Switch>
+          </DialogFooter>
         </form>
-      )}
-    </>
+      </DialogContent>
+    </Dialog>
   );
 };
 
