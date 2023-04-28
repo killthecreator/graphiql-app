@@ -82,3 +82,30 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+
+
+
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(214.3, 31.8%, 91.4%) transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 100%;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(214.3, 31.8%, 91.4%);
+  border-radius: 14px;
+  border: none;
+}

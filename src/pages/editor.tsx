@@ -9,18 +9,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "~/components/ui";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "~/components/ui/accordion";
+} from "~/components/ui";
 
-import { Textarea } from "~/components/ui/textarea";
+import { ScrollArea } from "~/components/ui";
 
-import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui";
+
+import { Button } from "~/components/ui";
 import { AppDispatch, RootState, setEditorText, setResponseText, useGraphqlMutation, useTypedSelector } from "~/rtk";
 import { useDispatch } from 'react-redux';
 import { ChangeEvent, MouseEventHandler } from "react";
@@ -46,10 +48,9 @@ const Editor: NextPage = () => {
       const stringified = JSON.stringify(error.data, null, 4);
       dispatch(setResponseText(stringified));
     })
-
   };
 
-  const handleTextareaInput = (e: InputEvent) => {
+  const handleTextareaInput = (e) => {
     const inp = e.target as HTMLInputElement;
     const val = inp.value;
     dispatch(setEditorText(val));
