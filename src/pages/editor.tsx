@@ -117,7 +117,7 @@ const Editor: NextPage = () => {
               <CardDescription>This is the section for response</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="flex flex-wrap">{data.responseText}</p>
+              <p className="flex flex-wrap"><ScrollArea className="min-h-20 max-h-screen">{data.responseText}</ScrollArea></p>
             </CardContent>
             <CardFooter>
               <p></p>
