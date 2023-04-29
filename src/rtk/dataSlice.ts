@@ -1,18 +1,28 @@
 import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
 
+type Headers = {
+  [key: string]: string,
+};
+
 interface DataState {
   isDay: boolean;
   editorText: string;
   responseText: string;
+  variables: string;
+  headers: Headers;
 }
 
 const initialState: DataState = {
   isDay: true,
   editorText: '',
-  responseText: 'There will be a response'
+  responseText: 'There will be a response',
+  variables: '{}',
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  }
 };
 
-export const dataSlice: Slice<DataState, SliceCaseReducers<DataState>, 'somename'> = createSlice({
+export const dataSlice = createSlice({
   name: 'somename',
   initialState,
   reducers: {
@@ -25,13 +35,20 @@ export const dataSlice: Slice<DataState, SliceCaseReducers<DataState>, 'somename
       state.editorText = action.payload;
     },
     setResponseText(state, action: PayloadAction<string>) {
-      console.log(action.payload);
       state.responseText = action.payload;
-
-      console.log(state.responseText);
     },
+    setVariables(state, action: PayloadAction<string>) {
+      state.variables = action.payload;
+    },
+    setHeaders(state, action: PayloadAction<string>) {
+      try{
+        const parsed = JSON.parse(action.payload);
+        state.headers = parsed;
+      } catch (e) {
+      }
+    }
   },
 });
 
-export const { setIsDay, setEditorText, setResponseText } = dataSlice.actions;
+export const { setIsDay, setEditorText, setResponseText, setVariables, setHeaders } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -23,21 +23,20 @@ import { ScrollArea } from "~/components/ui";
 import { Textarea } from "~/components/ui";
 
 import { Button } from "~/components/ui";
-import { AppDispatch, RootState, setEditorText, setResponseText, useGraphqlMutation, useTypedSelector } from "~/rtk";
-import { useDispatch } from 'react-redux';
-import { ChangeEvent, MouseEventHandler } from "react";
+import { AppDispatch, RootState, setEditorText, setResponseText, setVariables, setHeaders, useGraphqlMutation, useAppSelector, useAppDispatch } from "~/rtk";
+import { ChangeEvent, FormEventHandler, MouseEventHandler } from "react";
 
 const Editor: NextPage = () => {
 
   const [graphql, response] = useGraphqlMutation();
-  const dispatch = useDispatch<AppDispatch>();
-  const data = useTypedSelector((state: RootState) => state.data);
+  const dispatch = useAppDispatch();
+  const data = useAppSelector((state: RootState) => state.data);
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log('click send');
     const resp = graphql({
       query: data.editorText,
-      variables: {},
+      variables: data.variables,
+      headers: data.headers,
     })
     .unwrap()
     .then((resp) => {
@@ -50,10 +49,22 @@ const Editor: NextPage = () => {
     })
   };
 
-  const handleTextareaInput = (e) => {
+  const handleTextareaInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
     const inp = e.target as HTMLInputElement;
     const val = inp.value;
     dispatch(setEditorText(val));
+  };
+
+  const handleVariablesInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
+    const inp = e.target as HTMLInputElement;
+    const val = inp.value;
+    dispatch(setVariables(val));
+  };
+
+  const handleHeadersInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
+    const inp = e.target as HTMLInputElement;
+    const val = inp.value;
+    dispatch(setHeaders(val));
   };
 
   return (
@@ -71,7 +82,7 @@ const Editor: NextPage = () => {
               <CardDescription>Wite your Grqphql request</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
-              <Textarea className="grow" onInput={handleTextareaInput}/>
+              <Textarea className="grow" onInput={handleTextareaInput} defaultValue={data.editorText}/>
             </CardContent>
             <CardFooter>
               <Button onClick={handleButtonClick}>Send</Button>
@@ -84,7 +95,7 @@ const Editor: NextPage = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Variables Editor</AccordionTrigger>
                   <AccordionContent className="p-1">
-                    <Textarea />
+                    <Textarea onInput={handleVariablesInput} defaultValue={data.variables}/>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -98,7 +109,7 @@ const Editor: NextPage = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Headers Editor</AccordionTrigger>
                   <AccordionContent className="p-1">
-                    <Textarea />
+                    <Textarea onInput={handleHeadersInput} defaultValue={JSON.stringify(data.headers)}/>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

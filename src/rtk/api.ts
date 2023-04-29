@@ -1,11 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import type { Query } from '@favware/graphql-pokemon';
-
-interface GraphQLPokemonResponse<K extends keyof Omit<Query, '__typename'>> {
-  data: Record<K, Omit<Query[K], '__typename'>>;
-}
-
 const mainUrl = 'https://graphqlpokemon.favware.tech/v7';
 
 export const api = createApi({
@@ -26,9 +20,7 @@ export const api = createApi({
           query: payload.query,
           variables: payload.variables,
         }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
+        headers: payload.headers,
       }),
     }),
   }),
