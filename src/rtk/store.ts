@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api';
 import dataReducer from './dataSlice';
+import themeReducer from './themeSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     data: dataReducer,
+    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });

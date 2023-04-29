@@ -23,20 +23,19 @@ import { ScrollArea } from "~/components/ui";
 import { Textarea } from "~/components/ui";
 
 import { Button } from "~/components/ui";
-import { AppDispatch, RootState, setEditorText, setResponseText, setVariables, setHeaders, useGraphqlMutation, useAppSelector, useAppDispatch } from "~/rtk";
+import { AppDispatch, RootState, setEditorText, setResponseText, setVariables, useGraphqlMutation, useAppSelector, useAppDispatch } from "~/rtk";
 import { ChangeEvent, FormEventHandler, MouseEventHandler } from "react";
 
 const Editor: NextPage = () => {
 
   const [graphql, response] = useGraphqlMutation();
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state: RootState) => state.data);
+  const data = useAppSelector(state => state.data);
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     const resp = graphql({
       query: data.editorText,
       variables: data.variables,
-      headers: data.headers,
     })
     .unwrap()
     .then((resp) => {
@@ -59,12 +58,6 @@ const Editor: NextPage = () => {
     const inp = e.target as HTMLInputElement;
     const val = inp.value;
     dispatch(setVariables(val));
-  };
-
-  const handleHeadersInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
-    const inp = e.target as HTMLInputElement;
-    const val = inp.value;
-    dispatch(setHeaders(val));
   };
 
   return (
@@ -109,7 +102,7 @@ const Editor: NextPage = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Headers Editor</AccordionTrigger>
                   <AccordionContent className="p-1">
-                    <Textarea onInput={handleHeadersInput} defaultValue={JSON.stringify(data.headers)}/>
+                    <Textarea />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

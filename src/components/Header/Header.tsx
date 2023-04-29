@@ -18,8 +18,7 @@ import { Switch } from "~/components/ui/switch";
 
 import { Sun, Moon } from "lucide-react";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsDay, AppDispatch, RootState } from '../../rtk';
+import { setIsDay, AppDispatch, RootState, useAppDispatch, useAppSelector } from '../../rtk';
 
 import { MouseEvent } from 'react';
 
@@ -31,10 +30,8 @@ const pages = [
 
 export const Header = () => {
 
-  const clickHandler = () => document.body.classList.toggle('dark');
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { isDay } = useSelector((state: RootState) => state.data);
+  const dispatch = useAppDispatch();
+  const { isDay } = useAppSelector(state => state.theme);
 
   const handleClick = () => {
     const isDark = document.body.classList.contains('dark') as boolean;
