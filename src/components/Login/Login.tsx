@@ -91,7 +91,7 @@ const Login = () => {
           <Label className="flex flex-col gap-2">
             Password
             <Input
-              className="h-10 w-80 bg-slate-200 p-2"
+              className="h-10 w-80 bg-slate-200 p-2 dark:text-black"
               type="password"
               placeholder="Password"
               {...register("password", {

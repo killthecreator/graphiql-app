@@ -57,7 +57,11 @@ export const Footer = () => {
               <NavigationMenuLink
                 className={"h-20 " + navigationMenuTriggerStyle()}
               >
-                <Image className="w-24" src={rsLogo} alt="rs-logo" />
+                <Image
+                  className="w-24 dark:invert"
+                  src={rsLogo}
+                  alt="rs-logo"
+                />
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
