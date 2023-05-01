@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import {
   NavigationMenu,
@@ -32,6 +34,8 @@ export const Header = () => {
 
   const dispatch = useAppDispatch();
   const { isDay } = useAppSelector(state => state.theme);
+            
+  const { data: session } = useSession();
 
   const handleClick = () => {
     const isDark = document.body.classList.contains('dark') as boolean;
@@ -65,7 +69,7 @@ export const Header = () => {
           <Switch onClick={handleClick} className="mt-2"/>
         </div>
         <Moon className="ml-2 mr-4"/>
-        <Button>Sign Out</Button>
+        {session && <Button onClick={() => signOut()}>Sign Out</Button>}
       </div>
     </header>
   );

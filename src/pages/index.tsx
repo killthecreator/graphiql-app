@@ -3,10 +3,16 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
+import { signIn } from "next-auth/react";
+
+import { useState } from "react";
 import { useSession } from "next-auth/react";
+
+import Login from "~/components/Login/Login";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
+
   return (
     <>
       <Head>
@@ -19,7 +25,7 @@ const Home: NextPage = () => {
           You are successfully logged-in! Go to the editor
         </Link>
       ) : (
-        <Link href="/login">Sign In / Sign Up</Link>
+        <Login></Login>
       )}
     </>
   );

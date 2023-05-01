@@ -1,11 +1,20 @@
-import { type NextPage } from "next";
-
+/* import { type NextPage } from "next";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+
+import Login from "../components/Login/Login";
 
 import Head from "next/head";
-import Link from "next/link";
 
 const Login: NextPage = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (session) router.push("/");
+  });
+
   return (
     <>
       <Head>
@@ -19,3 +28,4 @@ const Login: NextPage = () => {
 };
 
 export default Login;
+ */

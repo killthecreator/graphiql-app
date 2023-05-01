@@ -1,30 +1,116 @@
 import NextAuth from "next-auth";
-import { FirestoreAdapter, initFirestore } from "@next-auth/firebase-adapter";
-import { cert } from "firebase-admin/app";
+import { FirestoreAdapter } from "@next-auth/firebase-adapter";
+import { FirebaseError, initializeApp } from "firebase/app";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth";
 
-import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-const firestore = initFirestore({
-  credential: cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
-  }),
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyDTYLMLx4me6RruOfkxb1TMqtucN2EbNGU",
+  authDomain: "graphiql-app.firebaseapp.com",
+  projectId: "graphiql-app",
+  storageBucket: "graphiql-app.appspot.com",
+  messagingSenderId: "581579745098",
+  appId: "1:581579745098:web:cc718240e2f1df78ec43b3",
+  measurementId: "G-W6HLFS6K4J",
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth();
+
+const loginErrors = {
+  "auth/invalid-email":
+    "User with such email is not registred or you inputed the wrong password",
+
+  "auth/user-not-found": "User with such email does not exist",
+
+  "auth/email-already-in-use": "User with such email already exists",
+
+  "auth/wrong-password": "The password is not correct",
+
+  "auth/too-many-requests": "Too many requests...",
+};
+
+const generateClientError = (errorCode: string): string => {
+  const errorType = Object.keys(loginErrors).find(
+    (error) => error === errorCode
+  );
+
+  return (
+    loginErrors[errorType as keyof typeof loginErrors] ?? "Unknown server error"
+  );
+};
 
 export default NextAuth({
+  callbacks: {
+    async session({ session, token }) {
+      session.user.id = token.sub as string;
+      return session;
+    },
+  },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
+    CredentialsProvider({
+      id: "sign-up",
+      credentials: {
+        email: {},
+        password: {},
+      },
+
+      async authorize(credentials) {
+        if (!credentials) return null;
+        try {
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            credentials.email,
+            credentials.password
+          );
+          const { uid } = userCredential.user;
+          return uid ? { id: uid, email: credentials.email } : null;
+        } catch (e) {
+          if (e instanceof FirebaseError) {
+            throw Error(generateClientError(e.code));
+          } else {
+            throw Error(generateClientError(e as string));
+          }
+        }
+      },
+    }),
+    CredentialsProvider({
+      id: "sign-in",
+      credentials: {
+        email: {},
+        password: {},
+      },
+
+      async authorize(credentials) {
+        if (!credentials) return null;
+
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            credentials.email,
+            credentials.password
+          );
+          const { uid } = userCredential.user;
+          return uid ? { id: uid, email: credentials.email } : null;
+        } catch (e) {
+          if (e instanceof FirebaseError) {
+            throw Error(generateClientError(e.code));
+          } else {
+            throw Error(generateClientError(e as string));
+          }
+        }
       },
     }),
   ],
-  adapter: FirestoreAdapter(firestore),
+  adapter: FirestoreAdapter(app),
+  session: {
+    strategy: "jwt",
+  },
 });
