@@ -4,7 +4,7 @@ import { Fragment, PropsWithChildren } from "react";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex min-h-[100vh] flex-col">
+    <div className="flex flex-col">
       <Header />
       <main className="flex h-[1000px] w-full grow flex-col items-center p-1 pt-16">
         {children}
