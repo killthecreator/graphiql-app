@@ -26,31 +26,37 @@ const ghUsers = [
 
 export const Footer = () => {
   return (
-    <footer className="flex items-center justify-between px-2">
-      <NavigationMenu className="gap-4 w-full justify-between">
-        <NavigationMenuList>
-        {ghUsers.map((user) => (
-          <NavigationMenuItem key={user.id}>
-            <Link href={"https://github.com/" + user.name}>
-              <NavigationMenuLink className={' h-20 ' +  navigationMenuTriggerStyle()}>
-              <Avatar>
-                <AvatarImage src={"https://github.com/" + user.name + ".png"}/>
-                <AvatarFallback>{user.name}</AvatarFallback>
-              </Avatar>
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        ))}
+    <footer className="px-2">
+      <NavigationMenu className="grid w-full grid-cols-3 gap-4">
+        <NavigationMenuList className="justify-start">
+          {ghUsers.map((user) => (
+            <NavigationMenuItem key={user.id}>
+              <Link href={"https://github.com/" + user.name}>
+                <NavigationMenuLink
+                  className={" h-20 " + navigationMenuTriggerStyle()}
+                >
+                  <Avatar>
+                    <AvatarImage
+                      src={"https://github.com/" + user.name + ".png"}
+                    />
+                    <AvatarFallback>{user.name}</AvatarFallback>
+                  </Avatar>
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          ))}
         </NavigationMenuList>
         <NavigationMenuList>
-          <NavigationMenuItem key={2023} className='grow'>
+          <NavigationMenuItem key={2023}>
             <span className="font-medium">2023</span>
           </NavigationMenuItem>
         </NavigationMenuList>
-        <NavigationMenuList>
+        <NavigationMenuList className="justify-end">
           <NavigationMenuItem key={2024}>
             <Link href="https://rs.school/">
-              <NavigationMenuLink className={' h-20 ' +  navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={"h-20 " + navigationMenuTriggerStyle()}
+              >
                 <Image className="w-24" src={rsLogo} alt="rs-logo" />
               </NavigationMenuLink>
             </Link>
