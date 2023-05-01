@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import {
   Button,
@@ -34,29 +34,27 @@ const pages = [
 ] as const;
 
 export const Header = () => {
+  const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const { isDay } = useAppSelector((state) => state.theme);
 
-  const [headerScroll, setHeaderScroll] = useState("sm");
-
-  const { data: session } = useSession();
+  const [headerScroll, setHeaderScroll] = useState("-sm");
 
   const handleClick = () => {
     const isDark = document.body.classList.contains("dark") as boolean;
     dispatch(setIsDay(isDark));
   };
 
-  const listenScrollEvent = () => {
+  const handleScroll = useCallback(() => {
     if (window.scrollY > 8) return setHeaderScroll("-lg");
     if (window.scrollY > 6) return setHeaderScroll("-md");
     if (window.scrollY > 4) return setHeaderScroll("");
-    if (window.scrollY > 2) return setHeaderScroll("-sm");
-  };
+    if (window.scrollY <= 4) return setHeaderScroll("-sm");
+  }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", listenScrollEvent);
-
-    return () => window.removeEventListener("scroll", listenScrollEvent);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
