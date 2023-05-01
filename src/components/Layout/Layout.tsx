@@ -1,17 +1,15 @@
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import { PropsWithChildren } from "react";
+import { Header } from "../Header";
+import { Footer } from "../Footer";
+import { Fragment, PropsWithChildren } from "react";
 
-const Layout = ({ children }: PropsWithChildren) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <>
+    <div className="flex flex-col min-h-[100vh]">
       <Header />
-      <main className="flex max-w-xl flex-col items-center justify-center">
+      <main className="flex flex-col items-center grow p-1 w-full">
         {children}
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
-
-export default Layout;
