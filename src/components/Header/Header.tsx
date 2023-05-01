@@ -4,8 +4,7 @@ import { useSession } from "next-auth/react";
 
 const pages = [
   { id: 1, pathname: "Home" },
-  { id: 2, pathname: "Login" },
-  { id: 3, pathname: "Editor" },
+  { id: 2, pathname: "Editor" },
 ] as const;
 
 const Header = () => {

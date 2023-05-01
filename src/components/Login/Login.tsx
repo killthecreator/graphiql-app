@@ -40,7 +40,7 @@ const Login = () => {
         csrfInput.current.value = csrfToken as string;
       }
     })();
-  });
+  }, []);
 
   const {
     register,
@@ -74,8 +74,6 @@ const Login = () => {
         </DialogHeader>
         <form
           className="flex flex-col items-center justify-center gap-8"
-          method="post"
-          action="/api/auth/callback/credentials"
           onSubmit={handleSubmit(onSubmit)}
         >
           <p className="h-2 text-center">{formError}</p>
@@ -90,9 +88,7 @@ const Login = () => {
                 required: "Please, input Email",
               })}
             />
-            <span className="h-1">
-              {errors.email ? errors.email.message : ""}
-            </span>
+            <span className="h-1">{errors.email && errors.email.message}</span>
           </Label>
           <Label className="flex flex-col gap-2">
             Password
@@ -119,7 +115,7 @@ const Login = () => {
               })}
             />
             <span className="h-1">
-              {errors.password ? errors.password.message : ""}
+              {errors.password && errors.password.message}
             </span>
           </Label>
           <span
@@ -143,7 +139,7 @@ const Login = () => {
                 setFormError("");
                 setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");
               }}
-            ></Switch>
+            />
           </DialogFooter>
         </form>
       </DialogContent>
@@ -152,12 +148,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/* export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return {
-    props: {
-      trigger: false,
-      csrfToken: await getCsrfToken(context),
-    },
-  };
-} */
