@@ -24,6 +24,16 @@ interface FormData {
   type: string;
 }
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDTYLMLx4me6RruOfkxb1TMqtucN2EbNGU",
+  authDomain: "graphiql-app.firebaseapp.com",
+  projectId: "graphiql-app",
+  storageBucket: "graphiql-app.appspot.com",
+  messagingSenderId: "581579745098",
+  appId: "1:581579745098:web:cc718240e2f1df78ec43b3",
+  measurementId: "G-W6HLFS6K4J",
+};
+
 const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
   const [formError, setFormError] = useState("");
@@ -127,6 +137,7 @@ const Login = () => {
                   "font-semibold underline",
                   wrongPassCount > 3 && "cursor-pointer"
                 )}
+                onClick={() => console.log(1)}
               >
                 You can resotre it via email
               </span>
