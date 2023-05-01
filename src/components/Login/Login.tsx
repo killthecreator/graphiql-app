@@ -52,7 +52,7 @@ const Login = () => {
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "Too many requests...") {
+      if (signInRes.error === "Too many attempts with incorrect password...") {
         setSuggestReset(true);
       }
       setFormError(signInRes.error);
