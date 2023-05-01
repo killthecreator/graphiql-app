@@ -4,29 +4,59 @@ import Image from "next/image";
 import ghLogo from "./../../assets/github.png";
 import rsLogo from "./../../assets/rs_school_js.svg";
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "~/components/ui/navigation-menu";
+
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+
 const ghUsers = [
   { id: 1, name: "killthecreator" },
   { id: 2, name: "HelgaAthame" },
   { id: 3, name: "alexmegadrive" },
 ] as const;
 
-const Footer = () => {
+export const Footer = () => {
   return (
-    <footer className="flex items-center justify-between bg-slate-300">
-      <ul className="flex justify-center gap-4">
+    <footer className="flex items-center justify-between px-2">
+      <NavigationMenu className="gap-4 w-full justify-between">
+        <NavigationMenuList>
         {ghUsers.map((user) => (
-          <li key={user.id}>
+          <NavigationMenuItem key={user.id}>
             <Link href={"https://github.com/" + user.name}>
-              <Image className="w-10" src={ghLogo} alt="gh-logo" />
-            </Link>{" "}
-          </li>
+              <NavigationMenuLink className={' h-20 ' +  navigationMenuTriggerStyle()}>
+              <Avatar>
+                <AvatarImage src={"https://github.com/" + user.name + ".png"}/>
+                <AvatarFallback>{user.name}</AvatarFallback>
+              </Avatar>
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
         ))}
-      </ul>
-      <span>2023</span>
-      <Link href="https://rs.school/">
-        <Image className="w-24" src={rsLogo} alt="rs-logo" />
-      </Link>
+        </NavigationMenuList>
+        <NavigationMenuList>
+          <NavigationMenuItem key={2023} className='grow'>
+            <span className="font-medium">2023</span>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+        <NavigationMenuList>
+          <NavigationMenuItem key={2024}>
+            <Link href="https://rs.school/">
+              <NavigationMenuLink className={' h-20 ' +  navigationMenuTriggerStyle()}>
+                <Image className="w-24" src={rsLogo} alt="rs-logo" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </footer>
   );
 };
-export default Footer;
