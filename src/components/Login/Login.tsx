@@ -24,20 +24,11 @@ interface FormData {
   type: string;
 }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDTYLMLx4me6RruOfkxb1TMqtucN2EbNGU",
-  authDomain: "graphiql-app.firebaseapp.com",
-  projectId: "graphiql-app",
-  storageBucket: "graphiql-app.appspot.com",
-  messagingSenderId: "581579745098",
-  appId: "1:581579745098:web:cc718240e2f1df78ec43b3",
-  measurementId: "G-W6HLFS6K4J",
-};
-
 const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
   const [formError, setFormError] = useState("");
-  const [wrongPassCount, setWrongPassCount] = useState(0);
+  const [suggestReset, setSuggestReset] = useState(false);
+  const [isPassSent, setIsPassSent] = useState(false);
 
   const csrfInput = useRef<HTMLInputElement>(null);
 
@@ -54,18 +45,32 @@ const Login = () => {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "The password is not correct") {
-        setWrongPassCount(wrongPassCount + 1);
+      if (signInRes.error === "Too many requests...") {
+        setSuggestReset(true);
       }
       setFormError(signInRes.error);
     }
   };
+
+  const resetPassword = async (e: React.SyntheticEvent) => {
+    const curEmail = getValues("email");
+    await signIn("reset", { email: curEmail, redirect: false });
+
+    setSuggestReset(false);
+    setIsPassSent(true);
+
+    setTimeout(() => {
+      setIsPassSent(false);
+    }, 2000);
+  };
+
   return (
     <Dialog>
       <DialogTrigger>Sign in / Sign Up</DialogTrigger>
@@ -76,7 +81,7 @@ const Login = () => {
           </DialogTitle>
           <DialogDescription>
             {submitType === "sign-in"
-              ? "Login into existing account"
+              ? "Login into an existing account"
               : "Create a new account"}
           </DialogDescription>
         </DialogHeader>
@@ -127,17 +132,26 @@ const Login = () => {
             </span>
             <span
               className={cn(
+                "text-center text-xs text-green-500",
+                !isPassSent && "hidden"
+              )}
+            >
+              We sent you an email to restore your password
+            </span>
+            <span
+              className={cn(
                 "cursor-default text-center text-xs opacity-0",
-                wrongPassCount > 3 && "cursor-auto opacity-100"
+                suggestReset && "cursor-text opacity-100",
+                isPassSent && "hidden"
               )}
             >
               Forgot password?&nbsp;
               <span
                 className={cn(
                   "font-semibold underline",
-                  wrongPassCount > 3 && "cursor-pointer"
+                  suggestReset && "cursor-pointer"
                 )}
-                onClick={() => console.log(1)}
+                onClick={resetPassword}
               >
                 You can resotre it via email
               </span>
@@ -149,10 +163,9 @@ const Login = () => {
               {submitType === "sign-in" ? "Sign In" : "Sign Up"}
             </Button>
             <Switch
-              className="grow-0"
               value={submitType}
               onClick={() => {
-                setWrongPassCount(0);
+                setSuggestReset(false);
                 reset();
                 setFormError("");
                 setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");

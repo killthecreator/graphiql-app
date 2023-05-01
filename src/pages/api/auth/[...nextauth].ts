@@ -24,10 +24,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-export const validate = () => {
-  sendPasswordResetEmail(auth, "podiumfffuuu@gmail.com");
-};
-
 const loginErrors = {
   "auth/invalid-email":
     "User with such email is not registred or you inputed the wrong password",
@@ -38,7 +34,7 @@ const loginErrors = {
 
   "auth/wrong-password": "The password is not correct",
 
-  "auth/too-many-requests": "Too many requests...",
+  "auth/too-many-requests": "Too many attempts with incorrect password...",
 };
 
 const generateClientError = (errorCode: string): string => {
@@ -103,12 +99,25 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
+          console.log(e);
           if (e instanceof FirebaseError) {
             throw Error(generateClientError(e.code));
           } else {
             throw Error(generateClientError(e as string));
           }
         }
+      },
+    }),
+    CredentialsProvider({
+      id: "reset",
+      credentials: {
+        email: {},
+      },
+
+      async authorize(credentials) {
+        if (!credentials) return null;
+        await sendPasswordResetEmail(auth, credentials.email);
+        return null;
       },
     }),
   ],
