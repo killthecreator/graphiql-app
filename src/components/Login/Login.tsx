@@ -16,6 +16,7 @@ import {
   Label,
   Button,
 } from "~/components/ui";
+import { cn } from "~/lib/utils";
 
 interface FormData {
   email: string;
@@ -23,12 +24,9 @@ interface FormData {
   type: string;
 }
 
-import { auth } from "~/pages/api/auth/[...nextauth]";
-import { sendPasswordResetEmail } from "firebase/auth";
-
 const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
-  const [formError, setFormError] = useState(" ");
+  const [formError, setFormError] = useState("");
   const [wrongPassCount, setWrongPassCount] = useState(0);
 
   const csrfInput = useRef<HTMLInputElement>(null);
@@ -45,16 +43,16 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "Too many requests...") {
+      if (signInRes.error === "The password is not correct") {
         setWrongPassCount(wrongPassCount + 1);
       }
-
       setFormError(signInRes.error);
     }
   };
@@ -85,7 +83,7 @@ const Login = () => {
               type="email"
               placeholder="Email"
               {...register("email", {
-                required: "Please, input Email",
+                required: "Please, input email",
               })}
             />
             <span className="h-1">{errors.email && errors.email.message}</span>
@@ -114,28 +112,37 @@ const Login = () => {
                 },
               })}
             />
-            <span className="h-1">
+            <span className="mb-6 h-1">
               {errors.password && errors.password.message}
             </span>
-          </Label>
-          <span
-            className={
-              "-mt8 text-center text-xs" +
-              (wrongPassCount < 3 ? "opacity-0" : "opacity-100")
-            }
-          >
-            Forgot password?&nbsp;
-            <span className=" cursor-pointer font-semibold  underline">
-              You can resotre it via email
+            <span
+              className={cn(
+                "cursor-default text-center text-xs opacity-0",
+                wrongPassCount > 3 && "cursor-auto opacity-100"
+              )}
+            >
+              Forgot password?&nbsp;
+              <span
+                className={cn(
+                  "font-semibold underline",
+                  wrongPassCount > 3 && "cursor-pointer"
+                )}
+              >
+                You can resotre it via email
+              </span>
             </span>
-          </span>
-          <DialogFooter className="-mt-4 flex items-center gap-10 ">
-            <Button className="h-10 w-40" type="submit">
+          </Label>
+
+          <DialogFooter className="w-6/12 items-center gap-10 ">
+            <Button className="grow" type="submit">
               {submitType === "sign-in" ? "Sign In" : "Sign Up"}
             </Button>
             <Switch
+              className="grow-0"
               value={submitType}
               onClick={() => {
+                setWrongPassCount(0);
+                reset();
                 setFormError("");
                 setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");
               }}
