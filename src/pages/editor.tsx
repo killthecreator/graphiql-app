@@ -37,10 +37,16 @@ import {
   ChangeEvent,
   FormEventHandler,
   MouseEventHandler,
+  Suspense,
   useState,
 } from "react";
 
 import GraphqlResponseSkeleton from "~/components/ui/graphqlResponseSkeleton";
+import {
+  Doc01Welcome,
+  Doc02Examples,
+  Doc03GetAbility,
+} from "~/components/Documentation";
 
 const Editor: NextPage = () => {
   const [graphql, response] = useGraphqlMutation();
@@ -165,6 +171,16 @@ const Editor: NextPage = () => {
             </CardHeader>
             <CardContent>
               <p>Some docs</p>
+
+              <Suspense fallback={<div>Loading...</div>}>
+                <Doc01Welcome />
+              </Suspense>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Doc02Examples />
+              </Suspense>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Doc03GetAbility py-10 />
+              </Suspense>
             </CardContent>
             <CardFooter>
               <p>Card Footer if needed</p>
