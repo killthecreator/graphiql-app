@@ -7,6 +7,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: mainUrl,
     prepareHeaders: (headers) => {
+
       headers.set('Content-Type', 'application/json');
       return headers;
     },
