@@ -93,7 +93,7 @@ const Editor: NextPage = () => {
       </Head>
       <section className="flex w-full grow">
         <article className="flex w-6/12 flex-col">
-          <Card className="m-1 flex grow flex-col">
+          <Card className="m-1 flex  flex-col">
             <CardHeader>
               <CardTitle>Request Editor</CardTitle>
               <CardDescription>Wite your Grqphql request</CardDescription>

@@ -2,16 +2,22 @@ import React from "react";
 
 const DocExamples = () => {
   return (
-    <div className={"py-10"}>
+    <div
+      className={"py-10"}
+      style={{
+        position: "relative",
+        height: "900px",
+        overflow: "hidden",
+      }}
+    >
       <iframe
         src="https://graphql-pokemon.js.org/introduction/javascript-examples"
         scrolling="yes"
         style={{
           height: "900px",
           width: "100%",
-          position: "relative",
-          top: "-50px",
-          //   transform: "translateY('-100px')",
+          position: "absolute",
+          top: "-48px",
         }}
       >
         Ваш браузер не поддерживает iframe!
