@@ -72,6 +72,7 @@ const Editor: NextPage = () => {
       .catch((error) => {
         const stringified = JSON.stringify(error.data, null, 4);
         dispatch(setResponseText(stringified));
+        dispatch(setIsSchema(false));
       })
       .finally(() => setIsLoading(false));
   };
