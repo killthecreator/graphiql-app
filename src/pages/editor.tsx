@@ -29,6 +29,7 @@ import {
   setEditorText,
   setResponseText,
   setVariables,
+  setIsSchema,
   useGraphqlMutation,
   useAppSelector,
   useAppDispatch,
@@ -53,6 +54,7 @@ const Editor: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.data);
+  const schema = useAppSelector((state) => state.schema);
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
@@ -64,6 +66,8 @@ const Editor: NextPage = () => {
       .then((resp) => {
         const stringified = JSON.stringify(resp.data, null, 4);
         dispatch(setResponseText(stringified));
+        const isIntrospective = stringified.match(/\_\_\w/) !== null;
+        dispatch(setIsSchema(isIntrospective));
       })
       .catch((error) => {
         const stringified = JSON.stringify(error.data, null, 4);
@@ -164,14 +168,12 @@ const Editor: NextPage = () => {
             </CardFooter>
           </Card>
 
-          <Card className="m-1">
+          {schema.isSchema && <Card className="m-1 max-h-screen overflow-y-scroll">
             <CardHeader>
               <CardTitle>Documentation Explorer</CardTitle>
-              <CardDescription>should be lazy-loaded</CardDescription>
+              <CardDescription>is lazy-loaded</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>Some docs</p>
-
+            <CardContent className="overflow-y-scroll">
               <Suspense fallback={<div>Loading...</div>}>
                 <Doc01Welcome />
               </Suspense>
@@ -185,7 +187,7 @@ const Editor: NextPage = () => {
             <CardFooter>
               <p>Card Footer if needed</p>
             </CardFooter>
-          </Card>
+          </Card>}
         </article>
       </section>
     </>
