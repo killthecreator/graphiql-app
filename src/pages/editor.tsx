@@ -47,7 +47,55 @@ import {
   Doc01Welcome,
   Doc02Examples,
   Doc03GetAbility,
+  SomeDoc,
 } from "~/components/Documentation";
+
+const queries = [
+  "getAbility",
+  "getAllPokemon",
+  "getFuzzyAbility",
+  "getFuzzyItem",
+  "getFuzzyLearnset",
+  "getFuzzyMove",
+  "getFuzzyPokemon",
+  "getItem",
+  "getLearnset",
+  "getMove",
+  "getPokemon",
+  "getPokemonByDexNumber",
+  "getTypeMatchup",
+];
+const types = [
+  "Abilities",
+  "AbilitiesEnum",
+  "Ability",
+  "Boolean",
+  "CatchRate",
+  "EvYields",
+  "Flavor",
+  "Float",
+  "Gender",
+  "GenerationalPokemonLearnset",
+  "Int",
+  "IsNonStandard",
+  "Item",
+  "ItemsEnum",
+  "Learnset",
+  "LearnsetLevelUpMove",
+  "LearnsetMove",
+  "Move",
+  "MovesEnum",
+  "Pokemon",
+  "PokemonEnum",
+  "PokemonLearnset",
+  "PokemonType",
+  "Query",
+  "Stats",
+  "String",
+  "TypeEffectiveness",
+  "TypeMatchup",
+  "TypesEnum",
+];
 
 const Editor: NextPage = () => {
   const [graphql, response] = useGraphqlMutation();
@@ -181,9 +229,20 @@ const Editor: NextPage = () => {
               <Suspense fallback={<div>Loading...</div>}>
                 <Doc02Examples />
               </Suspense>
-              <Suspense fallback={<div>Loading...</div>}>
-                <Doc03GetAbility py-10 />
-              </Suspense>
+              {types
+              .filter(docUrl => data.responseText.includes(docUrl))
+              .map(docUrl => (
+                <Suspense>
+                  <SomeDoc url={`types/${docUrl}`}/>
+                </Suspense>
+              ))}
+              {queries
+              .filter(docUrl => data.responseText.includes(docUrl))
+              .map(docUrl => (
+                <Suspense>
+                  <SomeDoc url={`queries/${docUrl}`}/>
+                </Suspense>
+              ))}
             </CardContent>
             <CardFooter>
               <p>Card Footer if needed</p>
