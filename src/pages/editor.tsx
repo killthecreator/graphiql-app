@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   Button,
+  Input,
   Card,
   CardContent,
   CardDescription,
@@ -17,15 +18,6 @@ import {
   ScrollArea,
   Textarea,
 } from "~/components/ui";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui";
-
-import { ScrollArea, Textarea, Button, Input } from "~/components/ui";
 
 import { AppDispatch, RootState, setEditorText, setResponseText, setVariables, setHeaders, useGraphqlMutation, useAppSelector, useAppDispatch, Headers } from "~/rtk";
 import { ChangeEvent, ChangeEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, useRef, useEffect, useState, FocusEventHandler } from "react";
