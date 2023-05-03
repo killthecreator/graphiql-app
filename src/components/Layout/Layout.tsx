@@ -4,9 +4,9 @@ import { Fragment, PropsWithChildren } from "react";
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex flex-col min-h-[100vh]">
+    <div className="flex min-h-[100vh] flex-col">
       <Header />
-      <main className="flex flex-col items-center grow p-1 w-full">
+      <main className="flex w-full grow flex-col items-center p-1 pt-16">
         {children}
       </main>
       <Footer />

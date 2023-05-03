@@ -23,10 +23,7 @@ const Home: NextPage = () => {
       {session ? (
         <Link href="/editor">
           You are successfully logged-in! Go to the editor
-        </Link>
-      ) : (
-        <Login></Login>
-      )}
+        </Link>) : (<Login />)}
     </>
   );
 };

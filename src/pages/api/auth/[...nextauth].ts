@@ -12,17 +12,17 @@ import {
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDTYLMLx4me6RruOfkxb1TMqtucN2EbNGU",
-  authDomain: "graphiql-app.firebaseapp.com",
-  projectId: "graphiql-app",
-  storageBucket: "graphiql-app.appspot.com",
-  messagingSenderId: "581579745098",
-  appId: "1:581579745098:web:cc718240e2f1df78ec43b3",
-  measurementId: "G-W6HLFS6K4J",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+const auth = getAuth();
 
 const loginErrors = {
   "auth/invalid-email":
@@ -34,14 +34,13 @@ const loginErrors = {
 
   "auth/wrong-password": "The password is not correct",
 
-  "auth/too-many-requests": "Too many requests...",
+  "auth/too-many-requests": "Too many attempts with incorrect password...",
 };
 
 const generateClientError = (errorCode: string): string => {
   const errorType = Object.keys(loginErrors).find(
     (error) => error === errorCode
   );
-
   return (
     loginErrors[errorType as keyof typeof loginErrors] ?? "Unknown server error"
   );
@@ -100,12 +99,25 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
+          console.log(e);
           if (e instanceof FirebaseError) {
             throw Error(generateClientError(e.code));
           } else {
             throw Error(generateClientError(e as string));
           }
         }
+      },
+    }),
+    CredentialsProvider({
+      id: "reset",
+      credentials: {
+        email: {},
+      },
+
+      async authorize(credentials) {
+        if (!credentials) return null;
+        await sendPasswordResetEmail(auth, credentials.email);
+        return null;
       },
     }),
   ],

@@ -16,6 +16,7 @@ import {
   Label,
   Button,
 } from "~/components/ui";
+import { cn } from "~/lib/utils";
 
 interface FormData {
   email: string;
@@ -23,13 +24,11 @@ interface FormData {
   type: string;
 }
 
-import { auth } from "~/pages/api/auth/[...nextauth]";
-import { sendPasswordResetEmail } from "firebase/auth";
-
 const Login = () => {
   const [submitType, setSubmitType] = useState("sign-in");
-  const [formError, setFormError] = useState(" ");
-  const [wrongPassCount, setWrongPassCount] = useState(0);
+  const [formError, setFormError] = useState("");
+  const [suggestReset, setSuggestReset] = useState(false);
+  const [isPassSent, setIsPassSent] = useState(false);
 
   const csrfInput = useRef<HTMLInputElement>(null);
 
@@ -40,24 +39,38 @@ const Login = () => {
         csrfInput.current.value = csrfToken as string;
       }
     })();
-  });
+  }, []);
 
   const {
     register,
     handleSubmit,
+    reset,
+    getValues,
     formState: { errors },
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "Too many requests...") {
-        setWrongPassCount(wrongPassCount + 1);
+      if (signInRes.error === "Too many attempts with incorrect password...") {
+        setSuggestReset(true);
       }
-
       setFormError(signInRes.error);
     }
   };
+
+  const resetPassword = async (e: React.SyntheticEvent) => {
+    const curEmail = getValues("email");
+    await signIn("reset", { email: curEmail, redirect: false });
+
+    setSuggestReset(false);
+    setIsPassSent(true);
+
+    setTimeout(() => {
+      setIsPassSent(false);
+    }, 2000);
+  };
+
   return (
     <Dialog>
       <DialogTrigger>Sign in / Sign Up</DialogTrigger>
@@ -68,14 +81,12 @@ const Login = () => {
           </DialogTitle>
           <DialogDescription>
             {submitType === "sign-in"
-              ? "Login into existing account"
+              ? "Login into an existing account"
               : "Create a new account"}
           </DialogDescription>
         </DialogHeader>
         <form
           className="flex flex-col items-center justify-center gap-8"
-          method="post"
-          action="/api/auth/callback/credentials"
           onSubmit={handleSubmit(onSubmit)}
         >
           <p className="h-2 text-center">{formError}</p>
@@ -87,17 +98,15 @@ const Login = () => {
               type="email"
               placeholder="Email"
               {...register("email", {
-                required: "Please, input Email",
+                required: "Please, input email",
               })}
             />
-            <span className="h-1">
-              {errors.email ? errors.email.message : ""}
-            </span>
+            <span className="h-1">{errors.email && errors.email.message}</span>
           </Label>
           <Label className="flex flex-col gap-2">
             Password
             <Input
-              className="h-10 w-80 bg-slate-200 p-2"
+              className="h-10 w-80 bg-slate-200 p-2 dark:text-black"
               type="password"
               placeholder="Password"
               {...register("password", {
@@ -118,32 +127,47 @@ const Login = () => {
                 },
               })}
             />
-            <span className="h-1">
-              {errors.password ? errors.password.message : ""}
+            <span className="mb-6 h-1">
+              {errors.password && errors.password.message}
             </span>
+            {!isPassSent ? (
+              <span
+                className={cn(
+                  "cursor-default text-center text-xs opacity-0",
+                  suggestReset && "cursor-text opacity-100"
+                )}
+              >
+                Forgot password?&nbsp;
+                <span
+                  className={cn(
+                    "font-semibold underline",
+                    suggestReset && "cursor-pointer"
+                  )}
+                  onClick={suggestReset ? resetPassword : undefined}
+                >
+                  You can resotre it via email
+                </span>
+              </span>
+            ) : (
+              <span className={cn("text-center text-xs text-green-500")}>
+                We sent you an email to restore your password
+              </span>
+            )}
           </Label>
-          <span
-            className={
-              "-mt8 text-center text-xs" +
-              (wrongPassCount < 3 ? "opacity-0" : "opacity-100")
-            }
-          >
-            Forgot password?&nbsp;
-            <span className=" cursor-pointer font-semibold  underline">
-              You can resotre it via email
-            </span>
-          </span>
-          <DialogFooter className="-mt-4 flex items-center gap-10 ">
-            <Button className="h-10 w-40" type="submit">
+
+          <DialogFooter className="w-6/12 items-center gap-10 ">
+            <Button className="grow" type="submit">
               {submitType === "sign-in" ? "Sign In" : "Sign Up"}
             </Button>
             <Switch
               value={submitType}
               onClick={() => {
+                setSuggestReset(false);
+                reset();
                 setFormError("");
                 setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");
               }}
-            ></Switch>
+            />
           </DialogFooter>
         </form>
       </DialogContent>
@@ -152,12 +176,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/* export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return {
-    props: {
-      trigger: false,
-      csrfToken: await getCsrfToken(context),
-    },
-  };
-} */
