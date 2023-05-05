@@ -61,10 +61,23 @@ export const Header = () => {
     <header
       className={cn(
         `shadow${headerScroll}`,
-        "fixed flex h-16 w-full justify-between px-2 pt-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
+        "fixed flex h-16 w-full justify-end px-2 pt-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
       )}
     >
-      <NavigationMenu className="grow-0">
+
+      <div className="flex flex-nowrap items-center">
+        <Sun className="mx-2" />
+        <div className="mx-2">
+          <Switch onClick={handleClick} className="mt-2" />
+        </div>
+        <Moon className="ml-2 mr-4" />
+        {session && <Button onClick={() => signOut()}>Sign Out</Button>}
+      </div>
+    </header>
+  );
+};
+
+/*<NavigationMenu className="grow-0">
         <NavigationMenuList>
           {pages.map((page) => (
             <NavigationMenuItem className="hover:cursor-pointer" key={page.id}>
@@ -82,15 +95,4 @@ export const Header = () => {
             </NavigationMenuItem>
           ))}
         </NavigationMenuList>
-      </NavigationMenu>
-      <div className="flex flex-nowrap items-center">
-        <Sun className="mx-2" />
-        <div className="mx-2">
-          <Switch onClick={handleClick} className="mt-2" />
-        </div>
-        <Moon className="ml-2 mr-4" />
-        {session && <Button onClick={() => signOut()}>Sign Out</Button>}
-      </div>
-    </header>
-  );
-};
+      </NavigationMenu> */
