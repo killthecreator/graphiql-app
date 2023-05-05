@@ -7,19 +7,25 @@ import "~/styles/globals.css";
 
 import { Provider } from 'react-redux';
 import { store } from '../rtk';
+import { ErrorBoundary } from "react-error-boundary";
+import { Fallback } from "~/components/Fallback";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <Provider store={store}>
-      <SessionProvider session={session}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </SessionProvider>
-    </Provider>
+    <ErrorBoundary
+      FallbackComponent={Fallback}
+    >
+      <Provider store={store}>
+        <SessionProvider session={session}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SessionProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 
