@@ -20,18 +20,6 @@ import {
 } from "~/components/ui";
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui";
-
-import { ScrollArea, Textarea, Button, Input } from "~/components/ui";
-
-import { Textarea } from "~/components/ui";
-
-import { Button } from "~/components/ui";
-import {
   AppDispatch,
   RootState,
   setEditorText,
@@ -44,6 +32,7 @@ import {
   setHeaders,
   Headers
 } from "~/rtk";
+
 import {
   ChangeEvent,
   FormEventHandler,
@@ -64,6 +53,16 @@ import {
   Doc03GetAbility,
   SomeDoc,
 } from "~/components/Documentation";
+
+import { graphqlSchema } from "~/graphql/buildSchema";
+
+import { EditorState } from '@codemirror/state';
+import { EditorView, lineNumbers } from '@codemirror/view';
+import { history } from '@codemirror/commands';
+import { autocompletion, closeBrackets } from '@codemirror/autocomplete';
+import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
+import { oneDarkHighlightStyle, oneDark } from '@codemirror/theme-one-dark';
+import { graphql } from 'cm6-graphql';
 
 const queries = [
   "getAbility",
@@ -119,7 +118,7 @@ const Editor: NextPage = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.data);
   const schema = useAppSelector((state) => state.schema);
-  
+
   const headersAccordion = useRef<HTMLDivElement>(null);
   const lastKeyInput = useRef<HTMLInputElement>(null);
   const lastValueInput = useRef<HTMLInputElement>(null);
@@ -144,7 +143,57 @@ const Editor: NextPage = () => {
       setFocused(inputToFocus);
     }
   }, [changed]);
-  
+
+  const textArea = useRef(null);
+
+  useEffect(() => {
+
+  const baseTheme = EditorView.baseTheme({
+    ".cm-o-replacement": {
+      fontSize: "1rem",
+      display: "inline-block",
+      width: ".5em",
+      height: ".5em",
+      borderRadius: ".25em"
+    },
+    "&light .cm-o-replacement": {
+      backgroundColor: "#555"
+    },
+    "&dark .cm-o-replacement": {
+      backgroundColor: "#aaa"
+    }
+  });
+
+    const state = EditorState.create({
+      doc: `mutation mutationName {
+        setString(value: "newString")
+      }`,
+      extensions: [
+        bracketMatching(),
+        closeBrackets(),
+        history(),
+        autocompletion(),
+        lineNumbers(),
+        syntaxHighlighting(oneDarkHighlightStyle),
+        /*graphql(graphqlSchema, {
+          onShowInDocs(field, type, parentType) {
+            alert(
+              `Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`,
+            );
+          },
+          onFillAllFields(view, schema, _query, cursor, token) {
+            alert(`Filling all fields. Token: ${token}`);
+          },
+        }),*/
+      ],
+    });
+
+    new EditorView({
+      state,
+      parent: textArea.current!,
+    });
+  }, [ ]);
+
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
     const headersWithoutEmpty: Headers = {};
@@ -172,7 +221,7 @@ const Editor: NextPage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handleTextareaInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
+  const handleTextareaInput: FormEventHandler<HTMLDivElement> = (e) => {
     const inp = e.target as HTMLInputElement;
     const val = inp.value;
     dispatch(setEditorText(val));
@@ -223,11 +272,12 @@ const Editor: NextPage = () => {
               <CardDescription>Wite your Grqphql request</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
-              <Textarea
+              <div
+                ref={textArea}
                 className="grow"
                 onInput={handleTextareaInput}
                 defaultValue={data.editorText}
-              />
+              ></div>
             </CardContent>
             <CardFooter>
               <Button onClick={handleButtonClick}>Send</Button>
@@ -285,7 +335,7 @@ const Editor: NextPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="flex flex-wrap">
+              <div className="flex flex-wrap">
                 {isLoading ? (
                   <GraphqlResponseSkeleton />
                 ) : (
@@ -293,7 +343,7 @@ const Editor: NextPage = () => {
                     {data.responseText}
                   </ScrollArea>
                 )}
-              </p>
+              </div>
             </CardContent>
             <CardFooter>
               <p></p>

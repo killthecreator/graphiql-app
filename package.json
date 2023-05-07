@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@codemirror/theme-one-dark": "^6.1.2",
     "@next-auth/firebase-adapter": "^2.0.1",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-alert-dialog": "^1.0.3",
@@ -25,8 +26,11 @@
     "@reduxjs/toolkit": "^1.9.5",
     "class-variance-authority": "^0.5.2",
     "clsx": "^1.2.1",
+    "cm6-graphql": "^0.0.5",
+    "codemirror": "^6.0.1",
     "firebase": "^9.20.0",
     "firebase-admin": "^11.7.0",
+    "graphql": "^16.6.0",
     "lucide-react": "^0.177.0",
     "next": "^13.2.4",
     "next-auth": "^4.22.1",
