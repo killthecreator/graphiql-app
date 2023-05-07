@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api';
 import dataReducer from './dataSlice';
 import themeReducer from './themeSlice';
+import schemaReducer from './schemaSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
     data: dataReducer,
     theme: themeReducer,
+    schema: schemaReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
