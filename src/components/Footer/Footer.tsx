@@ -31,18 +31,17 @@ export const Footer = () => {
         <NavigationMenuList className="justify-start">
           {ghUsers.map((user) => (
             <NavigationMenuItem key={user.id}>
-              <Link href={"https://github.com/" + user.name}>
-                <NavigationMenuLink
-                  className={" h-20 " + navigationMenuTriggerStyle()}
-                >
-                  <Avatar>
-                    <AvatarImage
-                      src={"https://github.com/" + user.name + ".png"}
-                    />
-                    <AvatarFallback>{user.name}</AvatarFallback>
-                  </Avatar>
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                className={" h-20 " + navigationMenuTriggerStyle()}
+                href={"https://github.com/" + user.name}
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={"https://github.com/" + user.name + ".png"}
+                  />
+                  <AvatarFallback>{user.name}</AvatarFallback>
+                </Avatar>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
         </NavigationMenuList>
@@ -53,17 +52,16 @@ export const Footer = () => {
         </NavigationMenuList>
         <NavigationMenuList className="justify-end">
           <NavigationMenuItem key={2024}>
-            <Link href="https://rs.school/">
-              <NavigationMenuLink
-                className={"h-20 " + navigationMenuTriggerStyle()}
-              >
-                <Image
-                  className="w-24 dark:invert"
-                  src={rsLogo}
-                  alt="rs-logo"
-                />
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              className={"h-20 " + navigationMenuTriggerStyle()}
+              href="https://rs.school/"
+            >
+              <Image
+                className="w-24 dark:invert"
+                src={rsLogo}
+                alt="rs-logo"
+              />
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
