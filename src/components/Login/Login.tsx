@@ -52,7 +52,7 @@ const Login = () => {
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(submitType, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "Too many requests...") {
+      if (signInRes.error === "Too many attempts with incorrect password...") {
         setSuggestReset(true);
       }
       setFormError(signInRes.error);
@@ -130,32 +130,29 @@ const Login = () => {
             <span className="mb-6 h-1">
               {errors.password && errors.password.message}
             </span>
-            <span
-              className={cn(
-                "text-center text-xs text-green-500",
-                !isPassSent && "hidden"
-              )}
-            >
-              We sent you an email to restore your password
-            </span>
-            <span
-              className={cn(
-                "cursor-default text-center text-xs opacity-0",
-                suggestReset && "cursor-text opacity-100",
-                isPassSent && "hidden"
-              )}
-            >
-              Forgot password?&nbsp;
+            {!isPassSent ? (
               <span
                 className={cn(
-                  "font-semibold underline",
-                  suggestReset && "cursor-pointer"
+                  "cursor-default text-center text-xs opacity-0",
+                  suggestReset && "cursor-text opacity-100"
                 )}
-                onClick={resetPassword}
               >
-                You can resotre it via email
+                Forgot password?&nbsp;
+                <span
+                  className={cn(
+                    "font-semibold underline",
+                    suggestReset && "cursor-pointer"
+                  )}
+                  onClick={suggestReset ? resetPassword : undefined}
+                >
+                  You can resotre it via email
+                </span>
               </span>
-            </span>
+            ) : (
+              <span className={cn("text-center text-xs text-green-500")}>
+                We sent you an email to restore your password
+              </span>
+            )}
           </Label>
 
           <DialogFooter className="w-6/12 items-center gap-10 ">

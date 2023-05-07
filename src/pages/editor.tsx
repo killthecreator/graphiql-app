@@ -3,12 +3,19 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  ScrollArea,
+  Textarea,
 } from "~/components/ui";
 
 import {
@@ -18,7 +25,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui";
 
-import { ScrollArea } from "~/components/ui";
+import { ScrollArea, Textarea, Button, Input } from "~/components/ui";
 
 import { Textarea } from "~/components/ui";
 
@@ -33,6 +40,8 @@ import {
   useGraphqlMutation,
   useAppSelector,
   useAppDispatch,
+  setHeaders,
+  Headers
 } from "~/rtk";
 import {
   ChangeEvent,
@@ -40,6 +49,11 @@ import {
   MouseEventHandler,
   Suspense,
   useState,
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  useRef,
+  useEffect,
+  FocusEventHandler
 } from "react";
 
 import GraphqlResponseSkeleton from "~/components/ui/graphqlResponseSkeleton";
@@ -97,23 +111,55 @@ const types = [
   "TypesEnum",
 ];
 
+
 const Editor: NextPage = () => {
   const [graphql, response] = useGraphqlMutation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.data);
   const schema = useAppSelector((state) => state.schema);
+  
+  const headersAccordion = useRef<HTMLDivElement>(null);
+  const lastKeyInput = useRef<HTMLInputElement>(null);
+  const lastValueInput = useRef<HTMLInputElement>(null);
 
+  const [focused, setFocused] = useState<HTMLInputElement | null>(null);
+  const [changed, setChanged] = useState<boolean>(false);
+
+  useEffect(() => {
+    const keyInputs = headersAccordion.current?.querySelectorAll('.key') as NodeListOf<HTMLInputElement>;
+    const valueInputs = headersAccordion.current?.querySelectorAll('.value') as NodeListOf<HTMLInputElement>;
+    if (focused === lastKeyInput.current && focused !== null && keyInputs.length > 1) {
+      focused.value = '';
+      const inputToFocus = Array.from(keyInputs).at(-2) as HTMLInputElement;
+      inputToFocus.focus();
+      setFocused(inputToFocus);
+    }
+
+    if (focused === lastValueInput.current && focused !== null && valueInputs.length > 1) {
+      focused.value = '';
+      const inputToFocus = Array.from(valueInputs).at(-2) as HTMLInputElement;
+      inputToFocus.focus();
+      setFocused(inputToFocus);
+    }
+  }, [changed]);
+  
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
+    const headersWithoutEmpty: Headers = {};
+    Object.keys(data.headers).forEach(key => {
+      if (key !== "") headersWithoutEmpty[key] = data.headers[key] as string;
+    });
     const resp = graphql({
       query: data.editorText,
       variables: data.variables,
+      headers: headersWithoutEmpty,
     })
       .unwrap()
       .then((resp) => {
         const stringified = JSON.stringify(resp.data, null, 4);
         dispatch(setResponseText(stringified));
+
         const isIntrospective = stringified.match(/\_\_\w/) !== null;
         dispatch(setIsSchema(isIntrospective));
       })
@@ -137,6 +183,30 @@ const Editor: NextPage = () => {
     dispatch(setVariables(val));
   };
 
+  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (e) => {
+    setFocused(e.target);
+    if (e.target.value === null) e.target.value = '';
+    headersSetting();
+  }
+
+  const handleHeaderInputs: ChangeEventHandler<HTMLInputElement> = (e) => {
+    headersSetting();
+    setChanged(!changed);
+  }
+
+  const headersSetting = () => {
+    const keyInputs = headersAccordion.current?.querySelectorAll('.key') as NodeListOf<HTMLInputElement>;
+    const valueInputs = headersAccordion.current?.querySelectorAll('.value') as NodeListOf<HTMLInputElement>;
+
+    let newHeaders: Headers = {};
+    keyInputs.forEach((keyInput: HTMLInputElement, i: number) => {
+      const key = keyInput.value as keyof typeof newHeaders;
+      const val = valueInputs[i]?.value as string;
+      newHeaders[key] = val;
+    })
+    dispatch(setHeaders(newHeaders));
+  }
+
   return (
     <>
       <Head>
@@ -146,7 +216,7 @@ const Editor: NextPage = () => {
       </Head>
       <section className="flex w-full grow">
         <article className="flex w-6/12 flex-col">
-          <Card className="m-1 flex  flex-col">
+          <Card className="m-1 flex grow flex-col">
             <CardHeader>
               <CardTitle>Request Editor</CardTitle>
               <CardDescription>Wite your Grqphql request</CardDescription>
@@ -184,8 +254,20 @@ const Editor: NextPage = () => {
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Headers Editor</AccordionTrigger>
-                  <AccordionContent className="p-1">
-                    <Textarea />
+                  <AccordionContent className="p-1 flex w-full" ref={headersAccordion}>
+                    {Object.entries(data.headers).map((entrie, index) =>
+                      <>
+                      {(entrie[0] !== '' || entrie[1] !=='') &&
+                      <div className="w-full flex">
+                        <Input className="key m-1 w-6/12" key={2 * index} defaultValue={entrie[0]} onChange={handleHeaderInputs} onFocus={handleInputFocus}/>
+                        <Input className="value m-1 w-6/12" key={2 * index + 1} defaultValue={entrie[1]} onChange={handleHeaderInputs} onFocus={handleInputFocus}/>
+                      </div>}
+                      </>
+                    )}
+                    <div className="w-full flex">
+                      <Input ref={lastKeyInput} className="key last-key m-1 w-6/12" key="200" onChange={handleHeaderInputs} onFocus={handleInputFocus}/>
+                      <Input ref={lastValueInput} className="value last-value m-1 w-6/12" key="201" onChange={handleHeaderInputs} onFocus={handleInputFocus}/>
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

@@ -1,15 +1,21 @@
 import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
 
+export type Headers = {
+  [key: string]: string;
+}
+
 interface DataState {
   editorText: string;
   responseText: string;
   variables: string;
+  headers: Headers;
 }
 
 const initialState: DataState = {
   editorText: '',
   responseText: 'There will be a response',
   variables: '{}',
+  headers: {},
 };
 
 export const dataSlice = createSlice({
@@ -25,8 +31,11 @@ export const dataSlice = createSlice({
     setVariables(state, action: PayloadAction<string>) {
       state.variables = action.payload;
     },
+    setHeaders(state, action: PayloadAction<Headers>) {
+      state.headers = action.payload;
+    }
   },
 });
 
-export const { setEditorText, setResponseText, setVariables } = dataSlice.actions;
+export const { setEditorText, setResponseText, setVariables, setHeaders } = dataSlice.actions;
 export default dataSlice.reducer;
