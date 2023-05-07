@@ -29,6 +29,7 @@ import {
   setEditorText,
   setResponseText,
   setVariables,
+  setIsSchema,
   useGraphqlMutation,
   useAppSelector,
   useAppDispatch,
@@ -46,13 +47,62 @@ import {
   Doc01Welcome,
   Doc02Examples,
   Doc03GetAbility,
+  SomeDoc,
 } from "~/components/Documentation";
+
+const queries = [
+  "getAbility",
+  "getAllPokemon",
+  "getFuzzyAbility",
+  "getFuzzyItem",
+  "getFuzzyLearnset",
+  "getFuzzyMove",
+  "getFuzzyPokemon",
+  "getItem",
+  "getLearnset",
+  "getMove",
+  "getPokemon",
+  "getPokemonByDexNumber",
+  "getTypeMatchup",
+];
+const types = [
+  "Abilities",
+  "AbilitiesEnum",
+  "Ability",
+  "Boolean",
+  "CatchRate",
+  "EvYields",
+  "Flavor",
+  "Float",
+  "Gender",
+  "GenerationalPokemonLearnset",
+  "Int",
+  "IsNonStandard",
+  "Item",
+  "ItemsEnum",
+  "Learnset",
+  "LearnsetLevelUpMove",
+  "LearnsetMove",
+  "Move",
+  "MovesEnum",
+  "Pokemon",
+  "PokemonEnum",
+  "PokemonLearnset",
+  "PokemonType",
+  "Query",
+  "Stats",
+  "String",
+  "TypeEffectiveness",
+  "TypeMatchup",
+  "TypesEnum",
+];
 
 const Editor: NextPage = () => {
   const [graphql, response] = useGraphqlMutation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.data);
+  const schema = useAppSelector((state) => state.schema);
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
@@ -64,10 +114,13 @@ const Editor: NextPage = () => {
       .then((resp) => {
         const stringified = JSON.stringify(resp.data, null, 4);
         dispatch(setResponseText(stringified));
+        const isIntrospective = stringified.match(/\_\_\w/) !== null;
+        dispatch(setIsSchema(isIntrospective));
       })
       .catch((error) => {
         const stringified = JSON.stringify(error.data, null, 4);
         dispatch(setResponseText(stringified));
+        dispatch(setIsSchema(false));
       })
       .finally(() => setIsLoading(false));
   };
@@ -164,28 +217,37 @@ const Editor: NextPage = () => {
             </CardFooter>
           </Card>
 
-          <Card className="m-1">
+          {schema.isSchema && <Card className="m-1 max-h-screen overflow-y-scroll">
             <CardHeader>
               <CardTitle>Documentation Explorer</CardTitle>
-              <CardDescription>should be lazy-loaded</CardDescription>
+              <CardDescription>is lazy-loaded</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>Some docs</p>
-
+            <CardContent className="overflow-y-scroll">
               <Suspense fallback={<div>Loading...</div>}>
                 <Doc01Welcome />
               </Suspense>
               <Suspense fallback={<div>Loading...</div>}>
                 <Doc02Examples />
               </Suspense>
-              <Suspense fallback={<div>Loading...</div>}>
-                <Doc03GetAbility py-10 />
-              </Suspense>
+              {types
+              .filter(docUrl => data.responseText.includes(docUrl))
+              .map(docUrl => (
+                <Suspense>
+                  <SomeDoc url={`types/${docUrl}`}/>
+                </Suspense>
+              ))}
+              {queries
+              .filter(docUrl => data.responseText.includes(docUrl))
+              .map(docUrl => (
+                <Suspense>
+                  <SomeDoc url={`queries/${docUrl}`}/>
+                </Suspense>
+              ))}
             </CardContent>
             <CardFooter>
               <p>Card Footer if needed</p>
             </CardFooter>
-          </Card>
+          </Card>}
         </article>
       </section>
     </>
