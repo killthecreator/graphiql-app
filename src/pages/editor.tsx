@@ -146,25 +146,26 @@ const Editor: NextPage = () => {
 
   const textArea = useRef(null);
 
+  let state: EditorState | undefined, view: EditorView | undefined;
+
   useEffect(() => {
+    const baseTheme = EditorView.baseTheme({
+      ".cm-o-replacement": {
+        fontSize: "1rem",
+        display: "inline-block",
+        width: ".5em",
+        height: ".5em",
+        borderRadius: ".25em"
+      },
+      "&light .cm-o-replacement": {
+        backgroundColor: "#555"
+      },
+      "&dark .cm-o-replacement": {
+        backgroundColor: "#aaa"
+      }
+    });
 
-  const baseTheme = EditorView.baseTheme({
-    ".cm-o-replacement": {
-      fontSize: "1rem",
-      display: "inline-block",
-      width: ".5em",
-      height: ".5em",
-      borderRadius: ".25em"
-    },
-    "&light .cm-o-replacement": {
-      backgroundColor: "#555"
-    },
-    "&dark .cm-o-replacement": {
-      backgroundColor: "#aaa"
-    }
-  });
-
-    const state = EditorState.create({
+    if (state === undefined) state = EditorState.create({
       doc: `mutation mutationName {
         setString(value: "newString")
       }`,
@@ -175,7 +176,7 @@ const Editor: NextPage = () => {
         autocompletion(),
         lineNumbers(),
         syntaxHighlighting(oneDarkHighlightStyle),
-        /*graphql(graphqlSchema, {
+        graphql(graphqlSchema, {
           onShowInDocs(field, type, parentType) {
             alert(
               `Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`,
@@ -184,11 +185,11 @@ const Editor: NextPage = () => {
           onFillAllFields(view, schema, _query, cursor, token) {
             alert(`Filling all fields. Token: ${token}`);
           },
-        }),*/
+        }),
       ],
     });
 
-    new EditorView({
+    if (view === undefined) view = new EditorView({
       state,
       parent: textArea.current!,
     });
