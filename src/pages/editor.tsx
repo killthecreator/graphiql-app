@@ -20,18 +20,6 @@ import {
 } from "~/components/ui";
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui";
-
-import { ScrollArea, Textarea, Button, Input } from "~/components/ui";
-
-import { Textarea } from "~/components/ui";
-
-import { Button } from "~/components/ui";
-import {
   AppDispatch,
   RootState,
   setEditorText,
@@ -44,6 +32,7 @@ import {
   setHeaders,
   Headers
 } from "~/rtk";
+
 import {
   ChangeEvent,
   FormEventHandler,
@@ -64,6 +53,8 @@ import {
   Doc03GetAbility,
   SomeDoc,
 } from "~/components/Documentation";
+
+import { Monaco } from '~/graphql/graphql';
 
 const queries = [
   "getAbility",
@@ -119,7 +110,7 @@ const Editor: NextPage = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.data);
   const schema = useAppSelector((state) => state.schema);
-  
+
   const headersAccordion = useRef<HTMLDivElement>(null);
   const lastKeyInput = useRef<HTMLInputElement>(null);
   const lastValueInput = useRef<HTMLInputElement>(null);
@@ -144,7 +135,7 @@ const Editor: NextPage = () => {
       setFocused(inputToFocus);
     }
   }, [changed]);
-  
+
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
     const headersWithoutEmpty: Headers = {};
@@ -228,6 +219,7 @@ const Editor: NextPage = () => {
                 onInput={handleTextareaInput}
                 defaultValue={data.editorText}
               />
+              <Monaco />
             </CardContent>
             <CardFooter>
               <Button onClick={handleButtonClick}>Send</Button>

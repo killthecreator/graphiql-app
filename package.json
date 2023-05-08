@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@graphiql/toolkit": "^0.8.4",
     "@next-auth/firebase-adapter": "^2.0.1",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-alert-dialog": "^1.0.3",
@@ -27,9 +28,13 @@
     "clsx": "^1.2.1",
     "firebase": "^9.20.0",
     "firebase-admin": "^11.7.0",
+    "jsonc-parser": "^3.2.0",
     "lucide-react": "^0.177.0",
+    "monaco-editor": "^0.38.0",
+    "monaco-graphql": "^1.2.2",
     "next": "^13.2.4",
     "next-auth": "^4.22.1",
+    "next-remove-imports": "^1.0.11",
     "react": "18.2.0",
     "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
