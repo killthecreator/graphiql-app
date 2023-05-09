@@ -214,11 +214,6 @@ const Editor: NextPage = () => {
               <CardDescription>Wite your Grqphql request</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
-              <Textarea
-                className="grow"
-                onInput={handleTextareaInput}
-                defaultValue={data.editorText}
-              />
               <Monaco />
             </CardContent>
             <CardFooter>

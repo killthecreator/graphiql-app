@@ -1,66 +1,20 @@
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { mainUrl } from '~/rtk';
 import { defaultVariables, defaultOperations } from '~/graphql/default';
-import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
-import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
+import { IntrospectionQuery } from 'graphql';
+import { Uri, editor, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import * as JSONC from 'jsonc-parser';
-import { useEffect, useRef, useState } from 'react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 import { debounce } from '~/graphql/debounce';
+import { queryAction } from '~/graphql/queryAction';
+import { getSchema } from '~/graphql/getSchema';
+import { getOrCreateModel } from './getOrCreateModel';
+import { createEditor } from './createEditor';
+import { setEditorText, useAppDispatch } from '~/rtk';
 
-const fetcher = createGraphiQLFetcher({
-  url: mainUrl,
-});
-
-const getSchema = async () =>
-  fetcher({
-    query: getIntrospectionQuery(),
-    operationName: 'IntrospectionQuery',
-  });
-
-const getOrCreateModel = (uri: string, value: string) => {
-  return (
-    editor.getModel(Uri.file(uri)) ??
-    editor.createModel(value, uri.split('.').pop(), Uri.file(uri))
-  );
-};
-
-
-const execOperation = async function () {
-  const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
-  const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
-  const resultsModel = editor.getModel(Uri.file('results.json'));
-  const result = await fetcher({
-    query: operations,
-    variables: JSON.stringify(JSONC.parse(variables)),
-  });
-  const data = await result.next();
-
-  resultsModel?.setValue(JSON.stringify(data.value, null, 2));
-};
-
-
-const queryAction = {
-  id: 'graphql-run',
-  label: 'Run Operation',
-  contextMenuOrder: 0,
-  contextMenuGroupId: 'graphql',
-  keybindings: [
-    // eslint-disable-next-line no-bitwise
-    KeyMod.CtrlCmd | KeyCode.Enter,
-  ],
-  run: execOperation,
-};
 // set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
   trailingCommas: 'ignore',
 });
-
-const createEditor = (
-  ref: React.MutableRefObject<null>,
-  options: editor.IStandaloneEditorConstructionOptions
-) => editor.create(ref.current as unknown as HTMLElement, options);
 
 export function Monaco() {
   const opsRef = useRef(null);
@@ -74,6 +28,8 @@ export function Monaco() {
     useState<editor.IStandaloneCodeEditor | null>(null);
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   /**
    * Create the models & editors
@@ -169,10 +125,17 @@ export function Monaco() {
         .then(() => setLoading(false));
     }
   }, [schema, loading]);
+
+  const handleEditorChange: FormEventHandler<HTMLDivElement> = (e) => {
+    const inp = e.target as HTMLInputElement;
+    const val = inp.value;
+    dispatch(setEditorText(val));
+  };
+
   return (
     <div id="wrapper">
       <div id="left-pane" className="pane">
-        <div ref={opsRef} className="editor" />
+        <div ref={opsRef} className="editor" onChange={handleEditorChange}/>
         <div ref={varsRef} className="editor" />
       </div>
       <div id="right-pane" className="pane">
