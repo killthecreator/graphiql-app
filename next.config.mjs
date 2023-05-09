@@ -3,14 +3,11 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
-
-import removeImports from 'next-remove-imports'
-
-/** @type {function(import("next").NextConfig): import("next").NextConfig}} */
-const removeImportsFun = removeImports({
-  test: /node_modules([\s\S]*?)\.(tsx|ts|js|mjs|jsx)$/,
-  matchImports: "\\.(less|css|scss|sass|styl)$"
-});
+//import withImages from 'next-images';
+import withTM from 'next-transpile-modules';
+const withTMnew = withTM([
+  'monaco-editor',
+]);
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -21,10 +18,4 @@ const config = {
   },
 };
 
-export default removeImportsFun({
-  webpack(config, options) {
-    return config
-  },
-});
-
-//export default config;
+export default withTMnew(config);

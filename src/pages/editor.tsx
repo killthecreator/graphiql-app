@@ -54,7 +54,7 @@ import {
   SomeDoc,
 } from "~/components/Documentation";
 
-import { Monaco } from '~/graphql/graphql';
+import { Monaco } from '~/components/Monaco';
 
 const queries = [
   "getAbility",
