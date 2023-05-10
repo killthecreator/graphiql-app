@@ -1,4 +1,4 @@
-import { KeyMod, KeyCode } from "monaco-editor";
+import { KeyMod } from "monaco-editor";
 import { execOperation } from "~/graphql/execOperation";
 
 export const queryAction = {
@@ -8,7 +8,7 @@ export const queryAction = {
   contextMenuGroupId: 'graphql',
   keybindings: [
     // eslint-disable-next-line no-bitwise
-    KeyMod.CtrlCmd | KeyCode.Enter,
+    KeyMod.CtrlCmd
   ],
   run: execOperation,
 };

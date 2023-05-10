@@ -10,6 +10,15 @@ import { getOrCreateModel } from './getOrCreateModel';
 import { createEditor } from './createEditor';
 import { setEditorText, useAppDispatch } from '~/rtk';
 
+window.MonacoEnvironment = {
+  getWorker: (workerId, label) => {
+    if (label === 'json') {
+      return new Worker(new URL('monaco-editor/esm/vs/language/json/json.worker?worker', import.meta.url));
+    }
+    return new Worker(new URL('monaco-editor/esm/vs/editor/editor.worker?worker', import.meta.url));
+  }
+};
+
 // set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
@@ -90,6 +99,8 @@ export function Monaco() {
       setLoading(true);
       getSchema()
         .then((data) => {
+          console.log('this is schema');
+          console.log(data);
           if (!('data' in data)) {
             throw Error(
               'this demo does not support subscriptions or http multipart yet'
@@ -133,7 +144,7 @@ export function Monaco() {
   };
 
   return (
-    <div id="wrapper">
+    <div id="wrapper" className="grow">
       <div id="left-pane" className="pane">
         <div ref={opsRef} className="editor" onChange={handleEditorChange}/>
         <div ref={varsRef} className="editor" />
