@@ -9,7 +9,7 @@ export const MonacoEditor = () => {
   }
 
   return (<Editor
-    height="90vh"
+    height="100%"
     defaultLanguage="graphql"
     defaultValue="// some comment"
     onMount={handleEditorDidMount}
