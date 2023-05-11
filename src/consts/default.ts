@@ -1,6 +1,5 @@
-export const defaultOperations =
-  localStorage.getItem('operations') ??
-  `
+export const defaultOperations = `
+
   query (
     $offset: Int
     $take: Int
@@ -140,14 +139,9 @@ export const defaultOperations =
       mythical
       legendary
     }
-  }
+  }` as const;
 
-
-`;
-
-export const defaultVariables =
-  localStorage.getItem('variables') ??
-  `
+export const defaultVariables = `
   {
     "offset": 42,
     "take": 42,
@@ -156,4 +150,4 @@ export const defaultVariables =
     "takeFlavorTexts": 42,
     "reverseFlavorTexts": true
   }
-`;
+` as const;

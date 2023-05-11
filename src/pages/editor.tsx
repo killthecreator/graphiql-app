@@ -55,53 +55,7 @@ import {
 } from "~/components/Documentation";
 
 import { Monaco } from '~/components/Monaco';
-
-const queries = [
-  "getAbility",
-  "getAllPokemon",
-  "getFuzzyAbility",
-  "getFuzzyItem",
-  "getFuzzyLearnset",
-  "getFuzzyMove",
-  "getFuzzyPokemon",
-  "getItem",
-  "getLearnset",
-  "getMove",
-  "getPokemon",
-  "getPokemonByDexNumber",
-  "getTypeMatchup",
-];
-const types = [
-  "Abilities",
-  "AbilitiesEnum",
-  "Ability",
-  "Boolean",
-  "CatchRate",
-  "EvYields",
-  "Flavor",
-  "Float",
-  "Gender",
-  "GenerationalPokemonLearnset",
-  "Int",
-  "IsNonStandard",
-  "Item",
-  "ItemsEnum",
-  "Learnset",
-  "LearnsetLevelUpMove",
-  "LearnsetMove",
-  "Move",
-  "MovesEnum",
-  "Pokemon",
-  "PokemonEnum",
-  "PokemonLearnset",
-  "PokemonType",
-  "Query",
-  "Stats",
-  "String",
-  "TypeEffectiveness",
-  "TypeMatchup",
-  "TypesEnum",
-];
+import { queries, types } from '~/consts';
 
 
 const Editor: NextPage = () => {
@@ -293,10 +247,10 @@ const Editor: NextPage = () => {
               <CardDescription>is lazy-loaded</CardDescription>
             </CardHeader>
             <CardContent className="overflow-y-scroll">
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<GraphqlResponseSkeleton />}>
                 <Doc01Welcome />
               </Suspense>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<GraphqlResponseSkeleton />}>
                 <Doc02Examples />
               </Suspense>
               {types

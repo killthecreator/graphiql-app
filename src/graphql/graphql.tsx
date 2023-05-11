@@ -1,4 +1,4 @@
-import { defaultVariables, defaultOperations } from '~/graphql/default';
+import { defaultVariables, defaultOperations } from '~/consts/default';
 import { IntrospectionQuery } from 'graphql';
 import { Uri, editor, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';

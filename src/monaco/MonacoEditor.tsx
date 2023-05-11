@@ -2,9 +2,10 @@ import Editor, { OnChange, OnMount } from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 import { Uri, editor, languages } from 'monaco-editor';
 import { setEditorText, useAppDispatch } from '~/rtk';
-import { getSchema, defaultOperations } from '~/graphql';
+import { getSchema } from '~/graphql';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { IntrospectionQuery } from 'graphql';
+import { defaultOperations } from '~/consts';
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -69,14 +70,6 @@ export const MonacoEditor = () => {
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
   }
-
-
-  /*const handleEditorChange: FormEventHandler<HTMLDivElement> = (e) => {
-    const inp = e.target as HTMLInputElement;
-    const val = inp.value;
-    dispatch(setEditorText(val));
-  };*/
-
   const handleEditorChange: OnChange = (value) => {
     console.log('here is the current model value:', value);
     if (value !== undefined) dispatch(setEditorText(value));
