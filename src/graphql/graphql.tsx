@@ -19,6 +19,7 @@ window.MonacoEnvironment = {
   }
 };
 
+
 // set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
