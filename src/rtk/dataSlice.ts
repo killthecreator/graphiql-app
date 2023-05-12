@@ -1,4 +1,5 @@
 import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
+import { defaultOperations, defaultVariables } from '~/consts';
 
 export type Headers = {
   [key: string]: string;
@@ -12,9 +13,9 @@ interface DataState {
 }
 
 const initialState: DataState = {
-  editorText: '',
+  editorText: defaultOperations,
   responseText: 'There will be a response',
-  variables: '{}',
+  variables: defaultVariables,
   headers: {},
 };
 

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const mainUrl = 'https://graphqlpokemon.favware.tech/v7';
+export const mainUrl = 'https://graphqlpokemon.favware.tech/v7';
 
 export const api = createApi({
   reducerPath: 'myApi',
