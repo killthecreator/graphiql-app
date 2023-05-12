@@ -61,7 +61,7 @@ export const Header = () => {
     <header
       className={cn(
         `shadow${headerScroll}`,
-        "fixed flex h-16 w-full justify-between px-2 pt-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
+        "fixed z-10 flex h-16 w-full justify-between px-2 pt-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
       )}
     >
       <NavigationMenu className="grow-0">
