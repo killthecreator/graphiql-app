@@ -50,11 +50,10 @@ import GraphqlResponseSkeleton from "~/components/ui/graphqlResponseSkeleton";
 import {
   Doc01Welcome,
   Doc02Examples,
-  Doc03GetAbility,
   SomeDoc,
 } from "~/components/Documentation";
 
-import { Monaco } from '~/components/Monaco';
+import { MonacoEditor, MonacoVariables, MonacoResponse } from '~/components/Monaco';
 import { queries, types } from '~/consts';
 
 
@@ -117,18 +116,6 @@ const Editor: NextPage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handleTextareaInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
-    const inp = e.target as HTMLInputElement;
-    const val = inp.value;
-    dispatch(setEditorText(val));
-  };
-
-  const handleVariablesInput: FormEventHandler<HTMLTextAreaElement> = (e) => {
-    const inp = e.target as HTMLInputElement;
-    const val = inp.value;
-    dispatch(setVariables(val));
-  };
-
   const handleInputFocus: FocusEventHandler<HTMLInputElement> = (e) => {
     setFocused(e.target);
     if (e.target.value === null) e.target.value = '';
@@ -168,7 +155,7 @@ const Editor: NextPage = () => {
               <CardDescription>Wite your Grqphql request</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
-              <Monaco />
+              <MonacoEditor />
             </CardContent>
             <CardFooter>
               <Button onClick={handleButtonClick}>Send</Button>
@@ -181,10 +168,7 @@ const Editor: NextPage = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Variables Editor</AccordionTrigger>
                   <AccordionContent className="p-1">
-                    <Textarea
-                      onInput={handleVariablesInput}
-                      defaultValue={data.variables}
-                    />
+                    <MonacoVariables />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -218,21 +202,19 @@ const Editor: NextPage = () => {
         </article>
 
         <article className="flex w-6/12 flex-col">
-          <Card className="m-1 grow">
+          <Card className="m-1 grow flex flex-col">
             <CardHeader>
               <CardTitle>Response Section</CardTitle>
               <CardDescription>
                 This is the section for response
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap">
+            <CardContent className="grow flex">
+              <div className="flex flex-wrap grow">
                 {isLoading ? (
                   <GraphqlResponseSkeleton />
                 ) : (
-                  <ScrollArea className="min-h-20 max-h-screen">
-                    {data.responseText}
-                  </ScrollArea>
+                  <MonacoResponse />
                 )}
               </div>
             </CardContent>

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Skeleton } from "~/components/ui/";
 
-export const Monaco = dynamic(() => import('~/monaco').then(module => module.MonacoEditor), {
+export const MonacoEditor = dynamic(() => import('~/monaco').then(module => module.MonacoEditor), {
   ssr: false,
   loading: () => (<div className="space-y-2">
         <Skeleton className="h-4 w-[220px]" />

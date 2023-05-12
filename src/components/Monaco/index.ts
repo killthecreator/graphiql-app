@@ -1,1 +1,3 @@
-export * from './Monaco';
+export * from './MonacoEditor';
+export * from './MonacoVariables';
+export * from './MonacoResponse';

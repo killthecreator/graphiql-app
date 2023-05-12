@@ -1,12 +1,11 @@
 import Editor, { OnChange, OnMount } from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 import { Uri, editor, languages } from 'monaco-editor';
-import { setEditorText, setSchema, useAppDispatch, useAppSelector } from '~/rtk';
+import { setVariables, setSchema, useAppDispatch, useAppSelector } from '~/rtk';
 import { getSchema } from '~/graphql';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { IntrospectionQuery } from 'graphql';
-import { defaultOperations } from '~/consts';
-
+import { defaultOperations, defaultVariables } from '~/consts';
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -17,8 +16,8 @@ window.MonacoEnvironment = {
   }
 };
 
-export const MonacoEditor = () => {
-  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+export const MonacoVariables = () => {
+  const variablesRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -69,18 +68,18 @@ export const MonacoEditor = () => {
   }, [schema, loading]);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
-    editorRef.current = editor;
+    variablesRef.current = editor;
   }
   const handleEditorChange: OnChange = (value) => {
-    if (value !== undefined) dispatch(setEditorText(value));
+    if (value !== undefined) dispatch(setVariables(value));
   }
 
   return (<Editor
-    height="100%"
+    height="10rem"
     defaultLanguage="graphql"
     language="graphql"
     theme={theme.isDay ? 'light' : 'vs-dark'}
-    defaultValue={defaultOperations}
+    defaultValue={defaultVariables}
     onMount={handleEditorDidMount}
     onChange={handleEditorChange}
   />);
