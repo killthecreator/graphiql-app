@@ -8,9 +8,7 @@ export async function middleware(req: NextRequest) {
   if (isPathProtected) {
     const token = await getToken({ req });
     if (!token) {
-      const url = new URL("/", req.url);
-      url.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(url);
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
   return res;
