@@ -6,7 +6,7 @@ import {
   setSchema,
   useAppDispatch,
   useAppSelector,
-  setIsError
+  setIsError,
 } from "~/rtk";
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
@@ -98,6 +98,13 @@ export const MonacoEditor = () => {
       defaultValue={defaultOperations}
       onMount={handleEditorDidMount}
       onChange={handleEditorChange}
+      options={{
+        smoothScrolling: true,
+        scrollbar: {
+          verticalScrollbarSize: 8,
+          horizontalScrollbarSize: 8,
+        },
+      }}
     />
   );
 };

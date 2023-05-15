@@ -98,6 +98,13 @@ export const MonacoVariables = () => {
       defaultValue={defaultVariables}
       onMount={handleEditorDidMount}
       onChange={handleEditorChange}
+      options={{
+        smoothScrolling: true,
+        scrollbar: {
+          verticalScrollbarSize: 8,
+          horizontalScrollbarSize: 8,
+        },
+      }}
     />
   );
 };
