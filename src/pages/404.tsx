@@ -1,15 +1,29 @@
 import { type NextPage } from "next";
 import Link from "next/link";
-import { Button } from "~/components/ui";
+import {
+  Button,
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui";
 
 const Custom404: NextPage = () => {
   return (
-    <>
-      <h1>404 - Page Not Found</h1>
-      <Button>
-        <Link href="/">Go to Homepage</Link>
-      </Button>
-    </>
+    <section className="flex flex-col items-center h-full grow justify-center">
+      <Card className="">
+      <CardHeader>
+        <CardTitle>404</CardTitle>
+        <CardDescription>Page Not Found</CardDescription>
+      </CardHeader>
+            <CardFooter>
+        <Button className="w-full">
+          <Link href="/">Go to Homepage</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+    </section>
   );
 };
 
