@@ -1,12 +1,12 @@
 import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
 import { GraphQLSchema } from 'graphql';
 
-interface DataState {
+interface SchemaState {
   isSchema: boolean;
   schema: unknown;
 }
 
-const initialState: DataState = {
+const initialState: SchemaState = {
   isSchema: false,
   schema: undefined,
 };
