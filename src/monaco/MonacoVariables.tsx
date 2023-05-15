@@ -1,7 +1,7 @@
 import Editor, { OnChange, OnMount } from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 import { Uri, editor, languages } from 'monaco-editor';
-import { setVariables, setSchema, useAppDispatch, useAppSelector } from '~/rtk';
+import { setVariables, setSchema, useAppDispatch, useAppSelector, setIsError } from '~/rtk';
 import { getSchema } from '~/graphql';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { IntrospectionQuery } from 'graphql';
@@ -72,6 +72,7 @@ export const MonacoVariables = () => {
   }
   const handleEditorChange: OnChange = (value) => {
     if (value !== undefined) dispatch(setVariables(value));
+    dispatch(setIsError(false));
   }
 
   return (<Editor
