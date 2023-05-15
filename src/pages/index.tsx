@@ -3,12 +3,11 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
-import { signIn } from "next-auth/react";
-
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 import Login from "~/components/Login/Login";
+
+import { Button } from "~/components/ui";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -21,9 +20,19 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {session ? (
-        <Link href="/editor">
-          You are successfully logged-in! Go to the editor
-        </Link>) : (<Login />)}
+        <Button className="fixed right-8 top-20">
+          <Link href="/editor">Go to the editor</Link>
+        </Button>
+      ) : (
+        <div className="fixed right-8 top-20 flex gap-3">
+          <Login mode="sign-in">
+            <Button>Sign In</Button>
+          </Login>
+          <Login mode="sign-up">
+            <Button>Sign Up</Button>
+          </Login>
+        </div>
+      )}
     </>
   );
 };

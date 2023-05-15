@@ -8,7 +8,8 @@ export async function middleware(req: NextRequest) {
   if (isPathProtected) {
     const token = await getToken({ req });
     if (!token) {
-      return NextResponse.redirect(new URL("/", req.url));
+      const url = new URL("/", req.url);
+      return NextResponse.redirect(url);
     }
   }
   return res;

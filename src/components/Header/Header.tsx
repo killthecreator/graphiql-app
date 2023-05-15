@@ -9,9 +9,12 @@ import { cn } from "~/lib/utils";
 
 import { setIsDay, useAppDispatch } from "../../rtk";
 
+import { useRouter } from "next/router";
+
 export const Header = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
 
@@ -62,7 +65,19 @@ export const Header = () => {
             </div>
           </li>
           <li>
-            {session && <Button onClick={() => signOut()}>Sign Out</Button>}
+            {session && (
+              <Button
+                onClick={async () => {
+                  const data = await signOut({
+                    redirect: false,
+                    callbackUrl: "/",
+                  });
+                  router.push(data.url);
+                }}
+              >
+                Sign Out
+              </Button>
+            )}
           </li>
         </ul>
       </nav>
