@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut,
 } from "firebase/auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -24,27 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-const loginErrors = {
-  "auth/invalid-email":
-    "User with such email is not registred or you inputed the wrong password",
 
-  "auth/user-not-found": "User with such email does not exist",
-
-  "auth/email-already-in-use": "User with such email already exists",
-
-  "auth/wrong-password": "The password is not correct",
-
-  "auth/too-many-requests": "Too many attempts with incorrect password...",
-};
-
-const generateClientError = (errorCode: string): string => {
-  const errorType = Object.keys(loginErrors).find(
-    (error) => error === errorCode
-  );
-  return (
-    loginErrors[errorType as keyof typeof loginErrors] ?? "Unknown server error"
-  );
-};
 
 export default NextAuth({
   callbacks: {
@@ -73,9 +52,9 @@ export default NextAuth({
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
           if (e instanceof FirebaseError) {
-            throw Error(generateClientError(e.code));
+            throw Error(e.code);
           } else {
-            throw Error(generateClientError(e as string));
+            throw Error(e as string);
           }
         }
       },
@@ -99,11 +78,10 @@ export default NextAuth({
           const { uid } = userCredential.user;
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
-          console.log(e);
           if (e instanceof FirebaseError) {
-            throw Error(generateClientError(e.code));
+            throw Error(e.code);
           } else {
-            throw Error(generateClientError(e as string));
+            throw Error(e as string);
           }
         }
       },

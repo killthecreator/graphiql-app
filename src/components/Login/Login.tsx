@@ -14,7 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  Switch,
   Input,
   Label,
   Button,
@@ -59,7 +58,7 @@ const Login = ({ children, mode }: LoginProps) => {
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(mode, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
-      if (signInRes.error === "Too many attempts with incorrect password...") {
+      if (signInRes.error === "auth/too-many-requests") {
         setSuggestReset(true);
       }
       setFormError(signInRes.error);
@@ -96,7 +95,7 @@ const Login = ({ children, mode }: LoginProps) => {
           className="flex flex-col items-center justify-center gap-5"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <p className="h-2 text-center">{formError}</p>
+          <p className="h-2 text-center">{t(formError)}</p>
           <input ref={csrfInput} name="csrfToken" type="hidden" />
           <Label className="flex flex-col gap-2">
             Email
