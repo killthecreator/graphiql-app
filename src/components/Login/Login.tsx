@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 
 import { useState, useRef, useEffect } from "react";
 
+import { useRouter } from "next/router";
+
 import {
   Dialog,
   DialogContent,
@@ -24,13 +26,17 @@ interface FormData {
   type: string;
 }
 
-const Login = () => {
-  const [submitType, setSubmitType] = useState("sign-in");
+interface LoginProps {
+  children: React.ReactNode;
+  mode: "sign-in" | "sign-up";
+}
+
+const Login = ({ children, mode }: LoginProps) => {
   const [formError, setFormError] = useState("");
   const [suggestReset, setSuggestReset] = useState(false);
   const [isPassSent, setIsPassSent] = useState(false);
-
   const csrfInput = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -44,22 +50,23 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    reset,
     getValues,
     formState: { errors },
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    const signInRes = await signIn(submitType, { ...data, redirect: false });
+    const signInRes = await signIn(mode, { ...data, redirect: false });
     if (signInRes && signInRes.error) {
       if (signInRes.error === "Too many attempts with incorrect password...") {
         setSuggestReset(true);
       }
       setFormError(signInRes.error);
+    } else {
+      router.push("/editor");
     }
   };
 
-  const resetPassword = async (e: React.SyntheticEvent) => {
+  const resetPassword = async () => {
     const curEmail = getValues("email");
     await signIn("reset", { email: curEmail, redirect: false });
 
@@ -73,20 +80,20 @@ const Login = () => {
 
   return (
     <Dialog>
-      <DialogTrigger>Sign in / Sign Up</DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {submitType === "sign-in" ? "Sign In" : "Sign Up"}
+            {mode === "sign-in" ? "Sign In" : "Sign Up"}
           </DialogTitle>
           <DialogDescription>
-            {submitType === "sign-in"
+            {mode === "sign-in"
               ? "Login into an existing account"
               : "Create a new account"}
           </DialogDescription>
         </DialogHeader>
         <form
-          className="flex flex-col items-center justify-center gap-8"
+          className="flex flex-col items-center justify-center gap-5"
           onSubmit={handleSubmit(onSubmit)}
         >
           <p className="h-2 text-center">{formError}</p>
@@ -112,7 +119,7 @@ const Login = () => {
               {...register("password", {
                 required: "Please, input password",
                 validate: (value) => {
-                  if (submitType === "sign-in") return;
+                  if (mode === "sign-in") return;
                   if (value.length < 8)
                     return "Password should be at least 8 characters long";
                   if (!value.match(/(?=.*?[0-9])/))
@@ -154,20 +161,10 @@ const Login = () => {
               </span>
             )}
           </Label>
-
-          <DialogFooter className="w-6/12 items-center gap-10 ">
+          <DialogFooter className="w-4/12">
             <Button className="grow" type="submit">
-              {submitType === "sign-in" ? "Sign In" : "Sign Up"}
+              {mode === "sign-in" ? "Sign In" : "Sign Up"}
             </Button>
-            <Switch
-              value={submitType}
-              onClick={() => {
-                setSuggestReset(false);
-                reset();
-                setFormError("");
-                setSubmitType(submitType === "sign-in" ? "sign-up" : "sign-in");
-              }}
-            />
           </DialogFooter>
         </form>
       </DialogContent>
