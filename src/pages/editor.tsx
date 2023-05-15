@@ -2,6 +2,9 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 
 import {
   Accordion,
@@ -76,6 +79,9 @@ const Editor: NextPage = () => {
 
   const [focused, setFocused] = useState<HTMLInputElement | null>(null);
   const [changed, setChanged] = useState<boolean>(false);
+
+  const router = useRouter();
+  const { t } = useTranslation("editor");
 
   useEffect(() => {
     const keyInputs = headersAccordion.current?.querySelectorAll(
@@ -196,14 +202,14 @@ const Editor: NextPage = () => {
         <article className="flex w-6/12 flex-col">
           <Card className="m-1 flex grow flex-col">
             <CardHeader>
-              <CardTitle>Request Editor</CardTitle>
-              <CardDescription>Wite your Grqphql request</CardDescription>
+              <CardTitle>{t("req editor")}</CardTitle>
+              <CardDescription>{t("req descr")}</CardDescription>
             </CardHeader>
             <CardContent className="flex grow flex-col">
               <MonacoEditor />
             </CardContent>
             <CardFooter>
-              <Button onClick={handleButtonClick}>Send</Button>
+              <Button onClick={handleButtonClick}>{t("send")}</Button>
             </CardFooter>
           </Card>
 
@@ -211,7 +217,7 @@ const Editor: NextPage = () => {
             <CardContent>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>Variables Editor</AccordionTrigger>
+                  <AccordionTrigger>{t("vars editor")}</AccordionTrigger>
                   <AccordionContent className="p-1">
                     <MonacoVariables />
                   </AccordionContent>
@@ -224,7 +230,7 @@ const Editor: NextPage = () => {
             <CardContent>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>Headers Editor</AccordionTrigger>
+                  <AccordionTrigger>{t("headers editor")}</AccordionTrigger>
                   <AccordionContent
                     className="flex w-full p-1"
                     ref={headersAccordion}
@@ -277,10 +283,8 @@ const Editor: NextPage = () => {
         <article className="flex w-6/12 flex-col">
           <Card className="m-1 flex grow flex-col">
             <CardHeader>
-              <CardTitle>Response Section</CardTitle>
-              <CardDescription>
-                This is the section for response
-              </CardDescription>
+              <CardTitle>{t("res section")}</CardTitle>
+              <CardDescription>{t("res descr")}</CardDescription>
             </CardHeader>
             <CardContent className="flex grow">
               <div className="flex grow flex-wrap">
@@ -295,7 +299,7 @@ const Editor: NextPage = () => {
           {schema.isSchema && (
             <Card className="m-1 max-h-screen overflow-y-scroll">
               <CardHeader>
-                <CardTitle>Documentation Explorer</CardTitle>
+                <CardTitle>{t("docs explorer")}</CardTitle>
                 <CardDescription>is lazy-loaded</CardDescription>
               </CardHeader>
               <CardContent className="overflow-y-scroll">
@@ -330,6 +334,12 @@ const Editor: NextPage = () => {
     </>
   );
 };
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common", "editor"])),
+  },
+});
 
 export default dynamic(() => Promise.resolve(Editor), {
   ssr: false,

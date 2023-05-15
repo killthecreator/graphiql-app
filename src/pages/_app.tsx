@@ -10,6 +10,8 @@ import { store } from "~/rtk";
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from "~/components/Fallback";
 
+import { appWithTranslation } from "next-i18next";
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
@@ -27,4 +29,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default MyApp;
+export default appWithTranslation(MyApp);

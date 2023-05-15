@@ -1,0 +1,10 @@
+{
+  "req editor": "Request Editor",
+  "req descr": "Write your GraphQL request",
+  "send": "Send",
+  "res section": "Response Section",
+  "res descr": "This is the section for response",
+  "vars editor": "Variables editor",
+  "headers editor": "Headers editor",
+  "docs explorer": "Documentation Explorer"
+}
