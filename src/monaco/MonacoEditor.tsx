@@ -1,20 +1,34 @@
-import Editor, { OnChange, OnMount } from '@monaco-editor/react';
-import { useEffect, useRef, useState } from 'react';
-import { Uri, editor, languages } from 'monaco-editor';
-import { setEditorText, setSchema, useAppDispatch, useAppSelector } from '~/rtk';
-import { getSchema } from '~/graphql';
-import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { IntrospectionQuery } from 'graphql';
-import { defaultOperations } from '~/consts';
-
+import Editor, { OnChange, OnMount } from "@monaco-editor/react";
+import { useEffect, useRef, useState } from "react";
+import { Uri, editor, languages } from "monaco-editor";
+import {
+  setEditorText,
+  setSchema,
+  useAppDispatch,
+  useAppSelector,
+} from "~/rtk";
+import { getSchema } from "~/graphql";
+import { initializeMode } from "monaco-graphql/esm/initializeMode";
+import { IntrospectionQuery } from "graphql";
+import { defaultOperations } from "~/consts";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
-    if (label === 'json') {
-      return new Worker(new URL('monaco-editor/esm/vs/language/json/json.worker?worker', import.meta.url));
+    if (label === "json") {
+      return new Worker(
+        new URL(
+          "monaco-editor/esm/vs/language/json/json.worker?worker",
+          import.meta.url
+        )
+      );
     }
-    return new Worker(new URL('monaco-editor/esm/vs/editor/editor.worker?worker', import.meta.url));
-  }
+    return new Worker(
+      new URL(
+        "monaco-editor/esm/vs/editor/editor.worker?worker",
+        import.meta.url
+      )
+    );
+  },
 };
 
 export const MonacoEditor = () => {
@@ -32,30 +46,28 @@ export const MonacoEditor = () => {
       setLoading(true);
       getSchema()
         .then((data) => {
-          if (!('data' in data)) {
-            throw Error(
-              'there is no data in schema'
-            );
+          if (!("data" in data)) {
+            throw Error("there is no data in schema");
           }
           initializeMode({
             diagnosticSettings: {
               validateVariablesJSON: {
-                [Uri.file('operation.graphql').toString()]: [
-                  Uri.file('variables.json').toString(),
+                [Uri.file("operation.graphql").toString()]: [
+                  Uri.file("variables.json").toString(),
                 ],
               },
               jsonDiagnosticSettings: {
                 validate: true,
-                schemaValidation: 'error',
+                schemaValidation: "error",
                 // set these again, because we are entirely re-setting them here
                 allowComments: true,
-                trailingCommas: 'ignore',
+                trailingCommas: "ignore",
               },
             },
             schemas: [
               {
                 introspectionJSON: data.data as unknown as IntrospectionQuery,
-                uri: 'myschema.graphql',
+                uri: "myschema.graphql",
               },
             ],
           });
@@ -70,18 +82,20 @@ export const MonacoEditor = () => {
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
-  }
+  };
   const handleEditorChange: OnChange = (value) => {
     if (value !== undefined) dispatch(setEditorText(value));
-  }
+  };
 
-  return (<Editor
-    height="100%"
-    defaultLanguage="graphql"
-    language="graphql"
-    theme={theme.isDay ? 'light' : 'vs-dark'}
-    defaultValue={defaultOperations}
-    onMount={handleEditorDidMount}
-    onChange={handleEditorChange}
-  />);
-}
+  return (
+    <Editor
+      height="100%"
+      defaultLanguage="graphql"
+      language="graphql"
+      theme={theme.isDay ? "light" : "vs-dark"}
+      defaultValue={defaultOperations}
+      onMount={handleEditorDidMount}
+      onChange={handleEditorChange}
+    />
+  );
+};
