@@ -3,7 +3,7 @@ import { api } from './api';
 import dataReducer from './dataSlice';
 import themeReducer from './themeSlice';
 import schemaReducer from './schemaSlice';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import errorReducer from './errorSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +11,7 @@ export const store = configureStore({
     data: dataReducer,
     theme: themeReducer,
     schema: schemaReducer,
+    error: errorReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
