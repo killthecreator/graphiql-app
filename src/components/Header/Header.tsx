@@ -7,7 +7,7 @@ import { Button, Switch } from "~/components/ui";
 import { Sun, Moon } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import { setIsDay, useAppDispatch } from "../../rtk";
+import { setIsDay, useAppDispatch } from "~/rtk";
 
 import { useRouter } from "next/router";
 
