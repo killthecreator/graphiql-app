@@ -23,8 +23,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-
-
 export default NextAuth({
   callbacks: {
     async session({ session, token }) {
@@ -68,7 +66,6 @@ export default NextAuth({
 
       async authorize(credentials) {
         if (!credentials) return null;
-
         try {
           const userCredential = await signInWithEmailAndPassword(
             auth,
@@ -76,6 +73,7 @@ export default NextAuth({
             credentials.password
           );
           const { uid } = userCredential.user;
+
           return uid ? { id: uid, email: credentials.email } : null;
         } catch (e) {
           if (e instanceof FirebaseError) {

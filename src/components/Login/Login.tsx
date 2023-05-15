@@ -57,6 +57,7 @@ const Login = ({ children, mode }: LoginProps) => {
 
   const onSubmit = async (data: FormData) => {
     const signInRes = await signIn(mode, { ...data, redirect: false });
+
     if (signInRes && signInRes.error) {
       if (signInRes.error === "auth/too-many-requests") {
         setSuggestReset(true);
