@@ -1,48 +1,27 @@
-import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
 import { useState, useEffect, useCallback } from "react";
 
-import {
-  Button,
-  Switch,
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
-} from "~/components/ui";
+import { Button, Switch } from "~/components/ui";
 
 import { Sun, Moon } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import {
-  setIsDay,
-  AppDispatch,
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../rtk";
-
-const pages = [
-  { id: 1, pathname: "Home" },
-  { id: 2, pathname: "Editor" },
-] as const;
+import { setIsDay, useAppDispatch } from "../../rtk";
 
 export const Header = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
-  const { isDay } = useAppSelector((state) => state.theme);
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
 
-  const handleClick = () => {
+  const handleThemeSwitch = () => {
     const isDark = document.body.classList.contains("dark") as boolean;
     dispatch(setIsDay(isDark));
+  };
+
+  const handleLangSwitch = () => {
+    console.log("Need a lang switch state");
   };
 
   const handleScroll = useCallback(() => {
@@ -61,38 +40,32 @@ export const Header = () => {
     <header
       className={cn(
         `shadow${headerScroll}`,
-        "fixed flex h-16 w-full justify-end px-2 pt-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
+        "fixed z-10 flex h-16 w-screen items-center px-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
       )}
     >
-
-      <div className="flex flex-nowrap items-center">
-        <Sun className="mx-2" />
-        <div className="mx-2">
-          <Switch onClick={handleClick} className="mt-2" />
-        </div>
-        <Moon className="ml-2 mr-4" />
-        {session && <Button onClick={() => signOut()}>Sign Out</Button>}
-      </div>
+      <nav className="w-full px-4">
+        <ul className="flex justify-between">
+          <li className="flex gap-10">
+            <div className="flex items-center">
+              <span className="mx-2 font-semibold">ENG</span>
+              <div className="mx-2">
+                <Switch onClick={handleLangSwitch} className="mt-2" />
+              </div>
+              <span className="mx-2 font-semibold">RU</span>
+            </div>
+            <div className="flex flex-nowrap items-center">
+              <Sun className="mx-2" />
+              <div className="mx-2">
+                <Switch onClick={handleThemeSwitch} className="mt-2" />
+              </div>
+              <Moon className="ml-2 mr-4" />
+            </div>
+          </li>
+          <li>
+            {session && <Button onClick={() => signOut()}>Sign Out</Button>}
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 };
-
-/*<NavigationMenu className="grow-0">
-        <NavigationMenuList>
-          {pages.map((page) => (
-            <NavigationMenuItem className="hover:cursor-pointer" key={page.id}>
-              <Link
-                href={
-                  page.pathname === "Home"
-                    ? "/"
-                    : "/" + page.pathname.toLowerCase()
-                }
-              >
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  {page.pathname}
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu> */
