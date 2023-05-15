@@ -1,7 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
 
-import ghLogo from "~/assets/github.png";
 import rsLogo from "~/assets/rs_school_js.svg";
 
 import {
