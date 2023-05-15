@@ -5,8 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import { Layout } from "~/components/Layout";
 import "~/styles/globals.css";
 
-import { Provider } from 'react-redux';
-import { store } from '../rtk';
+import { Provider } from "react-redux";
+import { store } from "~/rtk";
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from "~/components/Fallback";
 
@@ -15,9 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <ErrorBoundary
-      FallbackComponent={Fallback}
-    >
+    <ErrorBoundary FallbackComponent={Fallback}>
       <Provider store={store}>
         <SessionProvider session={session}>
           <Layout>
