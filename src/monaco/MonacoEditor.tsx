@@ -6,6 +6,7 @@ import {
   setSchema,
   useAppDispatch,
   useAppSelector,
+  setIsError
 } from "~/rtk";
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
@@ -85,6 +86,7 @@ export const MonacoEditor = () => {
   };
   const handleEditorChange: OnChange = (value) => {
     if (value !== undefined) dispatch(setEditorText(value));
+    dispatch(setIsError(false));
   };
 
   return (
