@@ -10,7 +10,11 @@ import {
   CardTitle,
 } from "~/components/ui";
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 const Custom404: NextPage = () => {
+  const { t } = useTranslation("404");
   return (
     <>
       <Head>
@@ -20,11 +24,11 @@ const Custom404: NextPage = () => {
         <Card className="">
           <CardHeader>
             <CardTitle>404</CardTitle>
-            <CardDescription>Page Not Found</CardDescription>
+            <CardDescription>{t("not found")}</CardDescription>
           </CardHeader>
           <CardFooter>
             <Button className="w-full">
-              <Link href="/">Go to Homepage</Link>
+              <Link href="/">{t("to homepage")}</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -34,3 +38,9 @@ const Custom404: NextPage = () => {
 };
 
 export default Custom404;
+
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common", "404"])),
+  },
+});
