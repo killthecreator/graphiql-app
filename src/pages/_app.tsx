@@ -10,6 +10,7 @@ import { store } from "~/rtk";
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from "~/components/Fallback";
 
+import Head from "next/head";
 import { appWithTranslation } from "next-i18next";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -20,6 +21,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <ErrorBoundary FallbackComponent={Fallback}>
       <Provider store={store}>
         <SessionProvider session={session}>
+          <Head>
+            <meta name="description" content="GraphiQL App" />
+            <link rel="icon" href="/favicon32.png" />
+          </Head>
           <Layout>
             <Component {...pageProps} />
           </Layout>
