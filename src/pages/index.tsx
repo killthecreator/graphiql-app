@@ -28,7 +28,7 @@ const Home: NextPage = () => {
           <Link href="/editor">{t("go to editor")}</Link>
         </Button>
       ) : (
-        <div className="mr-2 mt-4 self-end">
+        <div className="mr-2 mt-4 flex gap-2 self-end">
           <Login mode="sign-in">
             <Button>{t("sign in")}</Button>
           </Login>
