@@ -55,7 +55,7 @@ export const Footer = () => {
               href="https://rs.school/"
             >
               <Image
-                priority
+                priority={true}
                 className="w-24 dark:invert"
                 src={rsLogo}
                 alt="rs-logo"

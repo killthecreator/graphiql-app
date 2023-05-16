@@ -107,9 +107,9 @@ const Editor: NextPage = () => {
     setIsLoading(true);
     const headersWithoutEmpty: Headers = {};
     Object.keys(data.headers).forEach((key) => {
-      if (key !== "") headersWithoutEmpty[key] = data.headers[key] as string;
+      if (key) headersWithoutEmpty[key] = data.headers[key] as string;
     });
-    const resp = graphql({
+    graphql({
       query: data.editorText,
       variables: data.variables,
       headers: headersWithoutEmpty,
@@ -118,7 +118,6 @@ const Editor: NextPage = () => {
       .then((resp) => {
         const stringified = JSON.stringify(resp.data, null, 4);
         dispatch(setResponseText(stringified));
-
         const isIntrospective = stringified.match(/\_\_\w/) !== null;
         dispatch(setIsSchema(isIntrospective));
         dispatch(setIsError(false));
