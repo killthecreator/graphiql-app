@@ -282,10 +282,9 @@ const Editor: NextPage = () => {
               <div className="flex grow flex-wrap overflow-x-hidden">
                 {isLoading ? <GraphqlResponseSkeleton /> : <MonacoResponse />}
               </div>
-              {error.isError && <Error />}
             </CardContent>
             <CardFooter>
-              <p></p>
+              {error.isError && <Error />}
             </CardFooter>
           </Card>
 

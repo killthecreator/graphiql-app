@@ -26,7 +26,7 @@ export const Error = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button ref={errorButton} className="max-w-max">Error!</Button>
+        <Button variant="destructive" ref={errorButton} className="max-w-max">Error!</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="z-50">
         <AlertDialogHeader>
