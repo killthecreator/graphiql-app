@@ -63,6 +63,9 @@ const config = {
     config.module.rules.push({ test: /\.ttf$/, type: 'asset/resource' });
     return config;
   },
+  devIndicators: {
+    buildActivity: false
+  },
   reactStrictMode: true,
   i18n
   

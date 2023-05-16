@@ -320,6 +320,4 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   },
 });
 
-export default dynamic(() => Promise.resolve(Editor), {
-  ssr: false,
-});
+export default Editor;
