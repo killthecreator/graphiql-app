@@ -284,7 +284,7 @@ const Editor: NextPage = () => {
                 <CardTitle>{t("docs explorer")}</CardTitle>
                 <CardDescription>{t("lazy loaded")}</CardDescription>
               </CardHeader>
-              <CardContent className="overflow-y-scroll">
+              <CardContent className="overflow-y-scroll dark:invert-[0.882]">
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
                   <Doc01Welcome />
                 </Suspense>
