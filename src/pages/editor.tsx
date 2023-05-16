@@ -4,7 +4,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
 
 import {
   Accordion,
@@ -19,13 +18,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  ScrollArea,
-  Textarea,
+  GraphqlResponseSkeleton,
 } from "~/components/ui";
 
 import {
   setResponseText,
-  setVariables,
   setIsSchema,
   setIsError,
   setError,
@@ -38,19 +35,15 @@ import {
 } from "~/rtk";
 
 import {
-  ChangeEvent,
-  FormEventHandler,
   MouseEventHandler,
   Suspense,
   useState,
   ChangeEventHandler,
-  KeyboardEventHandler,
   useRef,
   useEffect,
   FocusEventHandler,
 } from "react";
 
-import GraphqlResponseSkeleton from "~/components/ui/graphqlResponseSkeleton";
 import {
   Doc01Welcome,
   Doc02Examples,
@@ -66,12 +59,10 @@ import {
 import { queries, types } from "~/consts";
 
 const Editor: NextPage = () => {
-  const [graphql, response] = useGraphqlMutation();
+  const [graphql] = useGraphqlMutation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.data);
-  const schema = useAppSelector((state) => state.schema);
-  const error = useAppSelector((state) => state.error);
+  const { data, schema, error } = useAppSelector((state) => state);
 
   const headersAccordion = useRef<HTMLDivElement>(null);
   const lastKeyInput = useRef<HTMLInputElement>(null);
@@ -80,7 +71,6 @@ const Editor: NextPage = () => {
   const [focused, setFocused] = useState<HTMLInputElement | null>(null);
   const [changed, setChanged] = useState<boolean>(false);
 
-  const router = useRouter();
   const { t } = useTranslation("editor");
 
   useEffect(() => {

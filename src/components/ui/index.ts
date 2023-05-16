@@ -13,5 +13,6 @@ export * from "./separator";
 export * from "./switch";
 export * from "./tabs";
 export * from "./textarea";
-export * from './skeleton';
-export * from './alert-dialog';
+export * from "./skeleton";
+export * from "./alert-dialog";
+export * from "./graphqlResponseSkeleton";

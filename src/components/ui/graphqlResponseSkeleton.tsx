@@ -23,4 +23,4 @@ const GraphqlResponseSkeleton = () => (
   </ContentLoader>
 );
 
-export default GraphqlResponseSkeleton;
+export { GraphqlResponseSkeleton };
