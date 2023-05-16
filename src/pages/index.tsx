@@ -18,6 +18,8 @@ import graphQlPic from '~/assets/graphql.webp';
 import pokemonApi from '~/assets/pokemon.webp';
 import monacoPic from '~/assets/monaco.webp';
 import Olga from '~/assets/Olga.jpg';
+import RSSchool from '~/assets/rs_school_js.svg';
+import ReactCourse from '~/assets/react-course.webp';
 
 import { CustomCard } from "~/components/CustomCard";
 import { Example } from "~/components/Example";
@@ -140,6 +142,39 @@ const Home: NextPage = () => {
               <Image src={Olga} alt={"Olga"} />
             </CustomCard>
           </div>
+        </article>
+        <article className={articleClass}>
+          <Image
+            className={imageClass}
+            src={RSSchool}
+            alt="rs-school__logo"
+          />
+          <CustomCard
+            title="RS School"
+            description="RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community
+            since 2013."
+          >
+            <p className="mb-4">Everyone can study at RS School, regardless of age, professional employment, or place of residence. The mentors and trainers of our school are front-end and javascript developers from different companies and countries.</p>
+            <Button variant="outline">
+              <Link href="https://rs.school/" >RS School website</Link>
+            </Button>
+          </CustomCard>
+        </article>
+        <article className={articleClass}>
+          <CustomCard
+            title="React course"
+            description="Free | Online | in English"
+          >
+            <p className="mb-4">// TODO write some words about react course</p>
+            <Button variant="outline">
+              <Link href="https://wearecommunity.io/events/rs-react-2023q1" >React course</Link>
+            </Button>
+          </CustomCard>
+          <Image
+            className={imageClass}
+            src={ReactCourse}
+            alt="react-course"
+          />
         </article>
       </section>
     </>
