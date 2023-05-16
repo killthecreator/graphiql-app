@@ -1,15 +1,16 @@
 import { Editor } from "@monaco-editor/react";
 import { useAppSelector } from "~/rtk";
 
-export const Example = () => {
-  const { data, theme } = useAppSelector((state) => state);
+export const Example = (props: { value: string }) => {
+  const { theme } = useAppSelector((state) => state);
   return (
-    <Editor
-      height="10rem"
+    <div className="editor-wrapper sm:w-6/12">
+      <Editor
+      height="100%"
       defaultLanguage="graphql"
       language="graphql"
       theme={theme.isDay ? "light" : "vs-dark"}
-      value={data.responseText}
+      value={props.value}
       options={{
         readOnly: true,
         smoothScrolling: true,
@@ -18,6 +19,7 @@ export const Example = () => {
           horizontalScrollbarSize: 8,
         },
       }}
-    />
+      />
+    </div>
   )
 };

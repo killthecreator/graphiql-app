@@ -7,7 +7,7 @@ type CustomCardProps = {
 }
 
 export const CustomCard = (props: PropsWithChildren<CustomCardProps>) => (
-  <Card className="sm:w-6/12">
+  <Card className="sm:min-w-6/12 grow">
     <CardHeader>
       <CardTitle>{props.title}</CardTitle>
       <CardDescription>{props.description}</CardDescription>

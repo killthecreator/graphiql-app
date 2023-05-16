@@ -17,8 +17,10 @@ import { Button } from "~/components/ui";
 import graphQlPic from '~/assets/graphql.webp';
 import pokemonApi from '~/assets/pokemon.webp';
 import monacoPic from '~/assets/monaco.webp';
+import Olga from '~/assets/Olga.jpg';
 
 import { CustomCard } from "~/components/CustomCard";
+import { Example } from "~/components/Example";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -28,13 +30,23 @@ const Home: NextPage = () => {
   const articleClass = 'flex gap-[5vw] px-[5vw] flex-col sm:flex-row';
   const imageClass = 'sm:w-6/12 rounded-lg';
 
+  const introspectiveExample=`
+  {
+    __schema {
+      types {
+        name
+      }
+    }
+  }
+  `;
+
   return (
     <>
       <Head>
         <title>GraphiQL</title>
       </Head>
       {session ? (
-        <Button className="fixed right-8 top-20">
+        <Button className="z-40 fixed right-8 top-28 sm:top-20">
           <Link href="/editor">{t("go to editor")}</Link>
         </Button>
       ) : (
@@ -92,6 +104,42 @@ const Home: NextPage = () => {
               <Link href="https://www.npmjs.com/package/@monaco-editor/react" >@monaco-editor/react</Link>
             </Button>
           </CustomCard>
+        </article>
+        <article className={articleClass}>
+          <CustomCard
+            title="Documentation section"
+            description="Visible only when app will receive a successfull response with the schema definition from the api"
+          >
+            <p className="mb-4">To receive a successfull response with the schema definition you should send introspective query with empty variables object to the API. Introspective query is an official GraphQL feature for getting schema. Here is an example of introspective query for SDL request. You may write your own introspective query or read about it in the official GraphQLDocumantation</p>
+            <Button variant="outline">
+              <Link href="https://graphql-pokemon.js.org/" >Introspection</Link>
+            </Button>
+          </CustomCard>
+          <Example
+            value={introspectiveExample}
+          />
+        </article>
+        <article className={articleClass}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-[5vw]">
+            <CustomCard
+              title="Olga Khmaruk"
+              description="React developer"
+            >
+              <Image src={Olga} alt={"Olga"}/>
+            </CustomCard>
+            <CustomCard
+              title="Olga Khmaruk"
+              description="React developer"
+            >
+              <Image src={Olga} alt={"Olga"} />
+            </CustomCard>
+            <CustomCard
+              title="Olga Khmaruk"
+              description="React developer"
+            >
+              <Image src={Olga} alt={"Olga"} />
+            </CustomCard>
+          </div>
         </article>
       </section>
     </>
