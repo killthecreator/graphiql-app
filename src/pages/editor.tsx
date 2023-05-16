@@ -282,7 +282,7 @@ const Editor: NextPage = () => {
             <Card className="m-1 flex h-80 max-h-screen grow flex-col overflow-y-scroll">
               <CardHeader>
                 <CardTitle>{t("docs explorer")}</CardTitle>
-                <CardDescription>is lazy-loaded</CardDescription>
+                <CardDescription>{t("lazy loaded")}</CardDescription>
               </CardHeader>
               <CardContent className="overflow-y-scroll">
                 <Suspense fallback={<GraphqlResponseSkeleton />}>

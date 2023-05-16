@@ -6,5 +6,6 @@
   "res descr": "This is the section for response",
   "vars editor": "Variables editor",
   "headers editor": "Headers editor",
-  "docs explorer": "Documentation Explorer"
+  "docs explorer": "Documentation Explorer",
+  "lazy loaded": "Lazy loading is used"
 }
