@@ -43,6 +43,10 @@ export const MonacoResponse = () => {
       options={{
         readOnly: true,
         smoothScrolling: true,
+        scrollbar: {
+          verticalScrollbarSize: 8,
+          horizontalScrollbarSize: 8,
+        },
       }}
     />
   );

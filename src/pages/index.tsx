@@ -4,6 +4,10 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Login from "~/components/Login/Login";
 
@@ -11,6 +15,8 @@ import { Button } from "~/components/ui";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { t } = useTranslation("home");
 
   return (
     <>
@@ -20,16 +26,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon32.png" />
       </Head>
       {session ? (
-        <Button className="self-end mt-4 mr-6">
-          <Link href="/editor">Go to the editor</Link>
+        <Button className="fixed right-8 top-20">
+          <Link href="/editor">{t("go to editor")}</Link>
         </Button>
       ) : (
         <div className="self-end mt-4 mr-2">
           <Login mode="sign-in">
-            <Button>Sign In</Button>
+            <Button>{t("sign in")}</Button>
           </Login>
           <Login mode="sign-up">
-            <Button>Sign Up</Button>
+            <Button>{t("sign up")}</Button>
           </Login>
         </div>
       )}
@@ -38,3 +44,9 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["home", "common", "login"])),
+  },
+});

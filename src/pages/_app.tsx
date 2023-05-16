@@ -5,19 +5,19 @@ import { SessionProvider } from "next-auth/react";
 import { Layout } from "~/components/Layout";
 import "~/styles/globals.css";
 
-import { Provider } from 'react-redux';
-import { store } from '../rtk';
+import { Provider } from "react-redux";
+import { store } from "~/rtk";
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from "~/components/Fallback";
+
+import { appWithTranslation } from "next-i18next";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <ErrorBoundary
-      FallbackComponent={Fallback}
-    >
+    <ErrorBoundary FallbackComponent={Fallback}>
       <Provider store={store}>
         <SessionProvider session={session}>
           <Layout>
@@ -29,4 +29,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default MyApp;
+export default appWithTranslation(MyApp);

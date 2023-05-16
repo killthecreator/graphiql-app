@@ -1,8 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
 
-import ghLogo from "./../../assets/github.png";
-import rsLogo from "./../../assets/rs_school_js.svg";
+import rsLogo from "~/assets/rs_school_js.svg";
 
 import {
   NavigationMenu,
@@ -56,11 +54,7 @@ export const Footer = () => {
               className={"h-20 " + navigationMenuTriggerStyle()}
               href="https://rs.school/"
             >
-              <Image
-                className="w-24 dark:invert"
-                src={rsLogo}
-                alt="rs-logo"
-              />
+              <Image className="w-24 dark:invert" src={rsLogo} alt="rs-logo" />
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

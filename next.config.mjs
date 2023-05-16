@@ -7,12 +7,15 @@ await import("./src/env.mjs");
 import withTM from 'next-transpile-modules';
 import { createRequire } from 'node:module';
 
+
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 const withTMnew = withTM([
   'monaco-editor',
 ]);
 
 const require = createRequire(import.meta.url);
+
+const { i18n } = require('./next-i18next.config');
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -29,7 +32,10 @@ const config = {
       //
       // (the error mentions that exports.Lexer is a const that can't be re-declared)
       '../common/marked/marked.js': 'marked',
+      
     };
+    config.resolve.fallback = {fs: false};
+    
     if (!options.isServer) {
       config.plugins.push(
         // if you find yourself needing to override
@@ -58,10 +64,8 @@ const config = {
     return config;
   },
   reactStrictMode: true,
-  i18n: {
-    locales: ["en", "ru"],
-    defaultLocale: "en",
-  },
-}
+  i18n
+  
+};
 
 export default withTMnew(config);

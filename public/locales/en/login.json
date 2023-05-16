@@ -1,0 +1,23 @@
+{
+  "sign in": "Sign in",
+  "sign up": "Sign up",
+  "login": "Login into an existing account",
+  "create": "Create a new account",
+  "email": "Email",
+  "password": "Password",
+  "please input email": "Please, input email",
+  "please input pass": "Pleas, input password",
+  "too short": "Password should be at least 8 characters long",
+  "need digit": "Password requires at least one digit",
+  "need letter": "Password requires at least one letter",
+  "need special": "Password requires at least one special character",
+  "forgot pass": "Forgot password?",
+  "can restore": "You can resotre it via email",
+  "sent an email": "We sent you an email to restore your password",
+
+  "auth/invalid-email": "User with such email is not registred or you inputed the wrong password",
+  "auth/user-not-found": "User with such email does not exist",
+  "auth/email-already-in-use": "User with such email already exists",
+  "auth/wrong-password": "The password is not correct",
+  "auth/too-many-requests": "Too many attempts with incorrect password..."
+}

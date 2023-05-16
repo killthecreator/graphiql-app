@@ -7,14 +7,17 @@ import { Button, Switch } from "~/components/ui";
 import { Sun, Moon } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import { setIsDay, useAppDispatch } from "../../rtk";
+import { setIsDay, useAppDispatch } from "~/rtk";
 
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export const Header = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { locale: curLocale, locales, push, pathname } = router;
+  const { t } = useTranslation("common");
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
 
@@ -24,7 +27,8 @@ export const Header = () => {
   };
 
   const handleLangSwitch = () => {
-    console.log("Need a lang switch state");
+    const newLocale = locales!.find((locale) => locale !== curLocale);
+    push(pathname, undefined, { locale: newLocale });
   };
 
   const handleScroll = useCallback(() => {
@@ -52,7 +56,11 @@ export const Header = () => {
             <div className="flex items-center">
               <span className="mx-2 font-semibold">ENG</span>
               <div className="mx-2">
-                <Switch onClick={handleLangSwitch} className="mt-2" />
+                <Switch
+                  defaultChecked={curLocale === "ru"}
+                  onClick={handleLangSwitch}
+                  className="mt-2"
+                />
               </div>
               <span className="mx-2 font-semibold">RU</span>
             </div>
@@ -75,7 +83,7 @@ export const Header = () => {
                   router.push(data.url);
                 }}
               >
-                Sign Out
+                {t("sign out")}
               </Button>
             )}
           </li>
