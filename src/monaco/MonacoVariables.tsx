@@ -39,6 +39,7 @@ export const MonacoVariables = () => {
 
   const schema = useAppSelector((state) => state.schema);
   const theme = useAppSelector((state) => state.theme);
+  const data = useAppSelector((state) => state.data);
 
   const dispatch = useAppDispatch();
 
@@ -95,7 +96,7 @@ export const MonacoVariables = () => {
       defaultLanguage="graphql"
       language="graphql"
       theme={theme.isDay ? "light" : "vs-dark"}
-      defaultValue={defaultVariables}
+      defaultValue={data.variables}
       onMount={handleEditorDidMount}
       onChange={handleEditorChange}
     />

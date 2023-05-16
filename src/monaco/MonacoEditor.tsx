@@ -39,6 +39,7 @@ export const MonacoEditor = () => {
 
   const schema = useAppSelector((state) => state.schema);
   const theme = useAppSelector((state) => state.theme);
+  const data = useAppSelector((state) => state.data);
 
   const dispatch = useAppDispatch();
 
@@ -95,9 +96,12 @@ export const MonacoEditor = () => {
       defaultLanguage="graphql"
       language="graphql"
       theme={theme.isDay ? "light" : "vs-dark"}
-      defaultValue={defaultOperations}
+      defaultValue={data.editorText}
       onMount={handleEditorDidMount}
       onChange={handleEditorChange}
+      options={{
+        smoothScrolling: true,
+      }}
     />
   );
 };

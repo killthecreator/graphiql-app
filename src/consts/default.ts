@@ -1,5 +1,4 @@
 export const defaultOperations = `
-
   query (
     $offset: Int
     $take: Int

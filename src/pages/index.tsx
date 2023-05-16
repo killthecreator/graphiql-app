@@ -20,11 +20,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon32.png" />
       </Head>
       {session ? (
-        <Button className="fixed right-8 top-20">
+        <Button className="self-end mt-4 mr-6">
           <Link href="/editor">Go to the editor</Link>
         </Button>
       ) : (
-        <div className="fixed right-8 top-20 flex gap-3">
+        <div className="self-end mt-4 mr-2">
           <Login mode="sign-in">
             <Button>Sign In</Button>
           </Login>
