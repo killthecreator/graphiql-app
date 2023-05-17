@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import NProgress from "nprogress";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+export const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {

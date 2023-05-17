@@ -23,7 +23,7 @@ import ReactCourse from '~/assets/react-course.webp';
 import { CustomCard } from "~/components/CustomCard";
 import { Example } from "~/components/Example";
 
-const Home: NextPage = () => {
+export const Home: NextPage = () => {
   const { data: session } = useSession();
   const { t } = useTranslation("home");
 
