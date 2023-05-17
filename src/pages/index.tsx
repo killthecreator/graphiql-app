@@ -24,7 +24,8 @@ import { Example } from "~/components/Example";
 import { InfoCard, ProfileCard } from "~/components/Cards";
 import { profileCards, dataCards } from "~/data";
 
-const articleClass = "grid gap-[5vw] grid-cols-1 sm:grid-cols-2";
+const articleClass =
+  "grid gap-[5vw] grid-cols-1 even:sm:grid-cols-[1fr_50%] odd:sm:grid-cols-[50%_1fr]";
 const imageClass =
   "rounded-lg w-full h-full object-contain h-fit self-center order-first sm:order-none";
 
