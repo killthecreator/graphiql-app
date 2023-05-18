@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -30,18 +29,18 @@ import {
   useAppSelector,
   useAppDispatch,
   setHeaders,
-  Headers,
-  ErrorType,
+  type Headers,
+  type ErrorType,
 } from "~/rtk";
 
 import {
-  MouseEventHandler,
+  type MouseEventHandler,
   Suspense,
   useState,
-  ChangeEventHandler,
+  type ChangeEventHandler,
   useRef,
   useEffect,
-  FocusEventHandler,
+  type FocusEventHandler,
 } from "react";
 
 import {
@@ -101,9 +100,9 @@ const Editor: NextPage = () => {
       inputToFocus.focus();
       setFocused(inputToFocus);
     }
-  }, [changed]);
+  }, [changed, focused]);
 
-  const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
     setIsLoading(true);
     const headersWithoutEmpty: Headers = {};
     Object.keys(data.headers).forEach((key) => {
@@ -155,7 +154,7 @@ const Editor: NextPage = () => {
     headersSetting();
   };
 
-  const handleHeaderInputs: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleHeaderInputs: ChangeEventHandler<HTMLInputElement> = () => {
     headersSetting();
     setChanged(!changed);
   };
@@ -168,7 +167,7 @@ const Editor: NextPage = () => {
       ".value"
     ) as NodeListOf<HTMLInputElement>;
 
-    let newHeaders: Headers = {};
+    const newHeaders: Headers = {};
     keyInputs.forEach((keyInput: HTMLInputElement, i: number) => {
       const key = keyInput.value as keyof typeof newHeaders;
       const val = valueInputs[i]?.value as string;

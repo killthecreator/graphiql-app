@@ -1,5 +1,4 @@
-import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
-import { GraphQLSchema } from 'graphql';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface SchemaState {
   isSchema: boolean;
@@ -12,7 +11,7 @@ const initialState: SchemaState = {
 };
 
 export const schemaSlice = createSlice({
-  name: 'schema',
+  name: "schema",
   initialState,
   reducers: {
     setIsSchema(state, action: PayloadAction<boolean>) {
@@ -20,7 +19,7 @@ export const schemaSlice = createSlice({
     },
     setSchema(state, action: PayloadAction<unknown>) {
       state.schema = action.payload;
-    }
+    },
   },
 });
 

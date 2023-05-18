@@ -2,10 +2,8 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-  Button,
 } from "../ui";
 
 import { useTranslation } from "next-i18next";
@@ -17,7 +15,7 @@ interface ProfileCardProps {
   imageAlt: string;
 }
 
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 
 export const ProfileCard = ({ data }: { data: ProfileCardProps }) => {
   const { t } = useTranslation("home");

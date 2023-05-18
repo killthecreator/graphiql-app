@@ -7,7 +7,8 @@ import { z } from "zod";
 const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET:
-    process.env.NODE_ENV === "production" ? z.string().min(1)
+    process.env.NODE_ENV === "production"
+      ? z.string().min(1)
       : z.string().min(1).optional(),
   NEXTAUTH_URL: z.preprocess(
     // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
@@ -68,7 +69,8 @@ if (!skip) {
   const isServer = typeof window === "undefined";
 
   const parsed = /** @type {MergedSafeParseReturn} */ (
-    isServer ? merged.safeParse(processEnv) // on server we can validate all env vars
+    isServer
+      ? merged.safeParse(processEnv) // on server we can validate all env vars
       : client.safeParse(processEnv) // on client we can only validate the ones that are exposed
   );
 
@@ -87,7 +89,8 @@ if (!skip) {
       // Otherwise it would just be returning `undefined` and be annoying to debug
       if (!isServer && !prop.startsWith("NEXT_PUBLIC_"))
         throw new Error(
-          process.env.NODE_ENV === "production" ? "❌ Attempted to access a server-side environment variable on the client"
+          process.env.NODE_ENV === "production"
+            ? "❌ Attempted to access a server-side environment variable on the client"
             : `❌ Attempted to access server-side environment variable '${prop}' on the client`
         );
       return target[/** @type {keyof typeof target} */ (prop)];

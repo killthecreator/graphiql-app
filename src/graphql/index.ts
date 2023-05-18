@@ -1,2 +1,2 @@
-export * from './getSchema';
-export * from './getOrCreateModel';
+export * from "./getSchema";
+export * from "./getOrCreateModel";

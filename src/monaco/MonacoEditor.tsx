@@ -1,6 +1,6 @@
-import Editor, { OnChange, OnMount } from "@monaco-editor/react";
+import Editor, { type OnChange, type OnMount } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
-import { Uri, editor, languages } from "monaco-editor";
+import { Uri, type editor } from "monaco-editor";
 import {
   setEditorText,
   setSchema,
@@ -10,8 +10,7 @@ import {
 } from "~/rtk";
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
-import { IntrospectionQuery } from "graphql";
-import { defaultOperations } from "~/consts";
+import type { IntrospectionQuery } from "graphql";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -80,9 +79,9 @@ export const MonacoEditor = () => {
         })
         .then(() => setLoading(false));
     }
-  }, [schema, loading]);
+  }, [schema, loading, dispatch]);
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
+  const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
   };
   const handleEditorChange: OnChange = (value) => {
