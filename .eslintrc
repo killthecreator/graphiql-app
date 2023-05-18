@@ -38,7 +38,9 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-reqiures": "off",
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/consistent-type-imports": [
+      "off",
       {
         "prefer": "type-imports",
         "fixStyle": "inline-type-imports"

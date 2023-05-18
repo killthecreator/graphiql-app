@@ -1,6 +1,6 @@
 import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
-import { Uri, editor, languages } from "monaco-editor";
+import { Uri, editor } from "monaco-editor";
 import {
   setVariables,
   setSchema,
@@ -11,7 +11,6 @@ import {
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
 import { IntrospectionQuery } from "graphql";
-import { defaultOperations, defaultVariables } from "~/consts";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -80,9 +79,9 @@ export const MonacoVariables = () => {
         })
         .then(() => setLoading(false));
     }
-  }, [schema, loading]);
+  }, [schema, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
+  const handleEditorDidMount: OnMount = (editor) => {
     variablesRef.current = editor;
   };
   const handleEditorChange: OnChange = (value) => {

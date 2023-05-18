@@ -1,7 +1,7 @@
 import Editor, { OnMount } from "@monaco-editor/react";
 import { useRef } from "react";
 import { editor } from "monaco-editor";
-import { useAppDispatch, useAppSelector } from "~/rtk";
+import { useAppSelector } from "~/rtk";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -28,7 +28,7 @@ export const MonacoResponse = () => {
   const data = useAppSelector((state) => state.data);
   const theme = useAppSelector((state) => state.theme);
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
+  const handleEditorDidMount: OnMount = (editor) => {
     responseRef.current = editor;
   };
 

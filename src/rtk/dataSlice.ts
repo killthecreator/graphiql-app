@@ -1,9 +1,9 @@
-import { ActionCreatorWithoutPayload, createSlice, PayloadAction, Slice, SliceCaseReducers } from '@reduxjs/toolkit';
-import { defaultOperations, defaultVariables } from '~/consts';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { defaultOperations, defaultVariables } from "~/consts";
 
 export type Headers = {
   [key: string]: string;
-}
+};
 
 interface DataState {
   editorText: string;
@@ -14,13 +14,13 @@ interface DataState {
 
 const initialState: DataState = {
   editorText: defaultOperations,
-  responseText: 'There will be a response',
+  responseText: "There will be a response",
   variables: defaultVariables,
   headers: {},
 };
 
 export const dataSlice = createSlice({
-  name: 'data',
+  name: "data",
   initialState,
   reducers: {
     setEditorText(state, action: PayloadAction<string>) {
@@ -34,7 +34,7 @@ export const dataSlice = createSlice({
     },
     setHeaders(state, action: PayloadAction<Headers>) {
       state.headers = action.payload;
-    }
+    },
   },
 });
 

@@ -1,22 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const mainUrl = 'https://graphqlpokemon.favware.tech/v7';
+export const mainUrl = "https://graphqlpokemon.favware.tech/v7";
 
 export const api = createApi({
-  reducerPath: 'myApi',
+  reducerPath: "myApi",
   baseQuery: fetchBaseQuery({
     baseUrl: mainUrl,
     prepareHeaders: (headers) => {
 
-      headers.set('Content-Type', 'application/json');
+      headers.set("Content-Type", "application/json");
       return headers;
     },
   }),
   endpoints: (builder) => ({
     graphql: builder.mutation({
       query: (payload) => ({
-        url: '',
-        method: 'POST',
+        url: "",
+        method: "POST",
         body: JSON.stringify({
           query: payload.query,
           variables: payload.variables,

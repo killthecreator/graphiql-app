@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { api } from './api';
-import dataReducer from './dataSlice';
-import themeReducer from './themeSlice';
-import schemaReducer from './schemaSlice';
-import errorReducer from './errorSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { api } from "./api";
+import dataReducer from "./dataSlice";
+import themeReducer from "./themeSlice";
+import schemaReducer from "./schemaSlice";
+import errorReducer from "./errorSlice";
 
 export const store = configureStore({
   reducer: {
