@@ -4,23 +4,20 @@
  */
 await import("./src/env.mjs");
 //import withImages from 'next-images';
-import withTM from 'next-transpile-modules';
-import { createRequire } from 'node:module';
+import withTM from "next-transpile-modules";
+import { createRequire } from "node:module";
 
-
-import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
-const withTMnew = withTM([
-  'monaco-editor',
-]);
+import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
+const withTMnew = withTM(["monaco-editor"]);
 
 const require = createRequire(import.meta.url);
 
-const { i18n } = require('./next-i18next.config');
+const { i18n } = require("./next-i18next.config");
 
 /** @type {import("next").NextConfig} */
 const config = {
   webpack: (config, options) => {
-    config.output.publicPath = '/_next/';
+    config.output.publicPath = "/_next/";
     // because next.js doesn't like node_modules that import css files
     // this solves the issue for monaco-editor, which relies on importing css files
     //patchWebpackConfig(config, options);
@@ -31,11 +28,10 @@ const config = {
       // where vscode contains a version of `marked` with modules pre-transpiled, which seems to break the build.
       //
       // (the error mentions that exports.Lexer is a const that can't be re-declared)
-      '../common/marked/marked.js': 'marked',
-      
+      "../common/marked/marked.js": "marked",
     };
-    config.resolve.fallback = {fs: false};
-    
+    config.resolve.fallback = { fs: false };
+
     if (!options.isServer) {
       config.plugins.push(
         // if you find yourself needing to override
@@ -43,32 +39,32 @@ const config = {
         // you probably just need to tweak configuration here.
         new MonacoWebpackPlugin({
           // you can add other languages here as needed
-          languages: ['json', 'graphql'],
-          filename: 'static/[name].worker.js',
+          languages: ["json", "graphql"],
+          filename: "static/[name].worker.js",
           // this is not in the plugin readme, but saves us having to override
           // MonacoEnvironment.getWorkerUrl or similar.
           customLanguages: [
             {
-              label: 'graphql',
+              label: "graphql",
               worker: {
-                id: 'graphql',
-                entry: require.resolve('monaco-graphql/esm/graphql.worker.js'),
+                id: "graphql",
+                entry: require.resolve("monaco-graphql/esm/graphql.worker.js"),
               },
             },
           ],
-        }),
+        })
       );
     }
     // load monaco-editor provided ttf fonts
-    config.module.rules.push({ test: /\.ttf$/, type: 'asset/resource' });
+    config.module.rules.push({ test: /\.ttf$/, type: "asset/resource" });
     return config;
   },
   devIndicators: {
-    buildActivity: false
+    buildActivity: false,
   },
   reactStrictMode: true,
-  i18n
-  
+  i18n,
+  localePath: path.resolve("./public/locales"),
 };
 
 export default withTMnew(config);
