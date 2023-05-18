@@ -4,13 +4,9 @@ import rsLogo from "~/assets/rs_school_js.svg";
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
 

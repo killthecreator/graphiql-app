@@ -2,10 +2,8 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-  Button,
 } from "../ui";
 
 import { useTranslation } from "next-i18next";

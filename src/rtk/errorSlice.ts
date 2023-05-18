@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GraphQLSchema } from "graphql";
 
 export type ErrorType = {
   errors: [
     {
-        message: string,
-        code: string
+        message: string;
+        code: string;
     }
   ]
-}
+};
 
 interface ErrorState {
   isError: boolean;
@@ -20,8 +19,8 @@ const initialState: ErrorState = {
   error: {
     errors: [
       {
-          message: "",
-          code: "",
+        message: "",
+        code: "",
       },
     ],
   },

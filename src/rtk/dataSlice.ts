@@ -39,4 +39,5 @@ export const dataSlice = createSlice({
 });
 
 export const { setEditorText, setResponseText, setVariables, setHeaders } = dataSlice.actions;
+
 export default dataSlice.reducer;
