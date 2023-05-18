@@ -12,12 +12,23 @@ import { setIsDay, useAppDispatch } from "~/rtk";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+import Link from "next/link";
+
+import Login from "~/components/Login/Login";
+
 export const Header = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { locale: curLocale, locales, push, pathname } = router;
   const { t } = useTranslation("common");
+  const [display, setDisplay] = useState(false);
+
+  if (router.pathname === '/' && display === false) {
+    setDisplay(true)
+  } else if (router.pathname !== '/' && display === true) {
+    setDisplay(false);
+  }
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
 
@@ -51,8 +62,8 @@ export const Header = () => {
       )}
     >
       <nav className="w-full sm:px-4">
-        <ul className="flex flex-wrap justify-between">
-          <li className="flex gap-2 py-2 sm:gap-10">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 w-full">
+          <li className="flex gap-2 py-2 sm:gap-10 justify-center sm:justify-start">
             <div className="flex items-center">
               <span className="mx-2 font-semibold">ENG</span>
               <div className="mx-2">
@@ -72,7 +83,17 @@ export const Header = () => {
               <Moon className="ml-2 mr-4" />
             </div>
           </li>
-          <li className="flex grow items-center justify-end">
+          <li className="flex grow gap-2 items-center justify-center sm:justify-end">
+            {display && (session ? (<Button>
+                <Link href="/editor">{t("go to editor")}</Link>
+              </Button>) : (<div>
+                <Login mode="sign-in">
+                  <Button className="mr-4">{t("sign in")}</Button>
+                </Login>
+                <Login mode="sign-up">
+                  <Button>{t("sign up")}</Button>
+                </Login>
+              </div>))}
             {session && (
               <Button
                 onClick={async () => {
