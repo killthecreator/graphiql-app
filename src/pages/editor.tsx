@@ -100,7 +100,7 @@ const Editor: NextPage = () => {
       inputToFocus.focus();
       setFocused(inputToFocus);
     }
-  }, [changed, focused]);
+  }, [changed]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
     setIsLoading(true);
