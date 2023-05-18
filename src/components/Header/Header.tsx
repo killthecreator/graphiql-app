@@ -24,10 +24,10 @@ export const Header = () => {
   const { t } = useTranslation("common");
   const [display, setDisplay] = useState(false);
 
-  if (router.pathname === '/') {
-    if (display === false) setDisplay(true)
-  } else {
-    display ?? setDisplay(false);
+  if (router.pathname === '/' && display === false) {
+    setDisplay(true)
+  } else if (router.pathname !== '/' && display === true) {
+    setDisplay(false);
   }
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
@@ -88,14 +88,12 @@ export const Header = () => {
                 <Link href="/editor">{t("go to editor")}</Link>
               </Button>) : (<div>
                 <Login mode="sign-in">
-                  <Button>{t("sign in")}</Button>
+                  <Button className="mr-4">{t("sign in")}</Button>
                 </Login>
                 <Login mode="sign-up">
                   <Button>{t("sign up")}</Button>
                 </Login>
               </div>))}
-
-
             {session && (
               <Button
                 onClick={async () => {
