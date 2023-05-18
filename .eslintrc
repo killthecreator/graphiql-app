@@ -39,7 +39,6 @@
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-reqiures": "off",
     "@typescript-eslint/consistent-type-imports": [
-      "off",
       {
         "prefer": "type-imports",
         "fixStyle": "inline-type-imports"
