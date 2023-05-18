@@ -9,7 +9,7 @@
   "pokemon text": "GraphQL-Pokemon это GraphQL API, предоставляющий обширную базу данных о покеманах. В отличие от многих современных API этот API сфокусирован на скорости, точности и качестве предоставляемых данных. API предоставляет полностью сгенерирированную для клиента TypeScript типизацию, изображения, информацию о различных ассетах покемонов: Pokedex, Items, AbilitiesMoves, Learnsets, Type matchups",
   "pokemon link text": "Документация API",
   "monaco title": "Monaco Editor для React",
-  "monaco text": " We use Monaco Editor for React in our app. The monaco-editor is a well-known web technology based code editor that powers VS Code. This library handles the setup process of the monaco-editor an provides a clean API to interact with monaco from any React environment",
+  "monaco text": " Мы используем Monaco Editor для React в нашем приложении. monaco-editor - это широко изветный редактор кода, который используется в VS Code. Данная библиотека управляет управляет процессом запуска и настройки monaco-editor и предоставляет удобный API для взаимодействия с monaco из любого React окружения",
   "docs title": "Секция с документацией",
   "docs descr": "Видна только когда приложение получает успешный ответ со схемой от API",
   "docs text": "Чтобы получить успешный ответ со нужной схемой, на API нужно отправить запрос с  интроспективной квери-строкой с пустым объектом переменных. Интроспективная квери-строка -  официальная возможность GraphQL для получения схемы. Здесь приведен пример интроспективной квери-строки для SDL запроса. Вы можете написать свой интроспективный запрос или прочитать подробнее о них в официальной документации GraphQL.",

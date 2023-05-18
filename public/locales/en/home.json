@@ -9,7 +9,7 @@
   "pokemon text": "GraphQL-Pokemon is a GraphQL API that provides extensive Pokémon data. Unlike contemporary APIs this API focusses on speed, accuracy and data quality. API provides fully generated client-side TypeScript typings, images, information about various assets in Pokemon: Pokedex, Items, AbilitiesMoves, Learnsets, Type matchups.",
   "pokemon link text": " API Documentation",
   "monaco title": "Monaco Editor for React",
-  "monaco text": " We use Monaco Editor for React in our app. The monaco-editor is a well-known web technology based code editor that powers VS Code. This library handles the setup process of the monaco-editor an provides a clean API to interact with monaco from any React environment",
+  "monaco text": " We use Monaco Editor for React in our app. monaco-editor is a well-known web technology based code editor that powers VS Code. This library handles the setup process of monaco-editor and provides a clean API to interact with monaco from any React environment",
   "docs title": "Documentation section",
   "docs descr": "Visible only when app receives a successfull response with a schema definition from the API",
   "docs text": "To receive a successfull response with a schema definition you should send introspective query with empty variables object to the API. Introspective query is an official GraphQL feature for getting the schema. Here is an example of introspective query for SDL request. You may write your own introspective query or read about it in the official GraphQL Documentation.",
