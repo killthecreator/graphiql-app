@@ -1,17 +1,12 @@
 import { type NextPage } from "next";
 
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
 
 import { useSession } from "next-auth/react";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import Login from "~/components/Login/Login";
-
-import { Button } from "~/components/ui";
 
 import graphQlPic from "~/assets/graphql.webp";
 import pokemonApi from "~/assets/pokemon.webp";
@@ -39,29 +34,11 @@ const introspectiveExample = `
 }
 `;
 
-const Home: NextPage = () => {
-  const { data: session } = useSession();
-  const { t } = useTranslation("home");
-
-  return (
+const Home: NextPage = () => (
     <>
       <Head>
         <title>GraphiQL</title>
       </Head>
-      {session ? (
-        <Button className="fixed right-8 top-28 z-40 sm:top-20">
-          <Link href="/editor">{t("go to editor")}</Link>
-        </Button>
-      ) : (
-        <div className="fixed right-8 top-28 z-40 flex gap-2 sm:top-20">
-          <Login mode="sign-in">
-            <Button>{t("sign in")}</Button>
-          </Login>
-          <Login mode="sign-up">
-            <Button>{t("sign up")}</Button>
-          </Login>
-        </div>
-      )}
       <section className="flex max-w-[1400px] flex-col gap-[5vw] px-[5vw] py-5">
         <article className={articleClass}>
           <Image className={imageClass} src={graphQlPic} alt="graphQLpicture" />
@@ -101,8 +78,7 @@ const Home: NextPage = () => {
         </article>
       </section>
     </>
-  );
-};
+);
 
 export default Home;
 

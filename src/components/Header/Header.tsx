@@ -12,12 +12,23 @@ import { setIsDay, useAppDispatch } from "~/rtk";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+import Link from "next/link";
+
+import Login from "~/components/Login/Login";
+
 export const Header = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { locale: curLocale, locales, push, pathname } = router;
   const { t } = useTranslation("common");
+  const [display, setDisplay] = useState(false);
+
+  if (router.pathname === '/') {
+    if (display === false) setDisplay(true)
+  } else {
+    display ?? setDisplay(false);
+  }
 
   const [headerScroll, setHeaderScroll] = useState("-sm");
 
@@ -72,7 +83,19 @@ export const Header = () => {
               <Moon className="ml-2 mr-4" />
             </div>
           </li>
-          <li className="flex grow items-center justify-center sm:justify-end">
+          <li className="flex grow gap-2 items-center justify-center sm:justify-end">
+            {display && (session ? (<Button>
+                <Link href="/editor">{t("go to editor")}</Link>
+              </Button>) : (<div>
+                <Login mode="sign-in">
+                  <Button>{t("sign in")}</Button>
+                </Login>
+                <Login mode="sign-up">
+                  <Button>{t("sign up")}</Button>
+                </Login>
+              </div>))}
+
+
             {session && (
               <Button
                 onClick={async () => {
