@@ -11,6 +11,7 @@ import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 const withTMnew = withTM(["monaco-editor"]);
 
 const require = createRequire(import.meta.url);
+const path = require('path');
 
 const { i18n } = require("./next-i18next.config");
 
