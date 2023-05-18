@@ -159,8 +159,8 @@ const Login = ({ children, mode }: LoginProps) => {
               </span>
             )}
           </Label>
-          <DialogFooter className="w-4/12">
-            <Button className="grow" type="submit">
+          <DialogFooter>
+            <Button className="grow whitespace-nowrap" type="submit">
               {mode === "sign-in" ? t("sign in") : t("sign up")}
             </Button>
           </DialogFooter>
