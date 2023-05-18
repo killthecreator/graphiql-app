@@ -49,7 +49,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <SessionProvider session={session}>
           <Head>
             <meta name="description" content="GraphiQL App" />
-            <link rel="icon" href="/favicon32.png" />
+            <link rel="icon" href="favicon.ico" />
           </Head>
           <Layout>
             <Component {...pageProps} />
