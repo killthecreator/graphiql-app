@@ -21,8 +21,8 @@ const ghUsers = [
 export const Footer = () => {
   return (
     <footer className="px-2">
-      <NavigationMenu className="flex min-h-max w-full grow flex-wrap justify-between gap-4 sm:grid sm:grid-cols-3">
-        <NavigationMenuList className="justify-start">
+      <NavigationMenu className="grid min-h-max w-full grow gap-4 grid-cols-1 sm:grid-cols-3">
+        <NavigationMenuList className="justify-center sm:justify-start sm:ml-[4vw]">
           {ghUsers.map((user) => (
             <NavigationMenuItem key={user.id}>
               <NavigationMenuLink
@@ -44,7 +44,7 @@ export const Footer = () => {
             <span className="font-medium">2023</span>
           </NavigationMenuItem>
         </NavigationMenuList>
-        <NavigationMenuList className="justify-end">
+        <NavigationMenuList className="justify-center sm:justify-end">
           <NavigationMenuItem key={2024}>
             <NavigationMenuLink
               className={"h-20 " + navigationMenuTriggerStyle()}
