@@ -1,6 +1,4 @@
 {
-  "sign in": "Войти",
-  "sign up": "Зарегестрироваться",
   "go to editor": "Перейти к редактору",
   "graphiql descr": "GraphiQL это песочница/IDE для GraphQL запросов",
   "graphiql text": "// TODO Here we should write some description",
