@@ -3,9 +3,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import { useSession } from "next-auth/react";
-
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import graphQlPic from "~/assets/graphql.webp";
