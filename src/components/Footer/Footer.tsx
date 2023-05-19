@@ -21,8 +21,8 @@ const ghUsers = [
 export const Footer = () => {
   return (
     <footer className="px-2">
-      <NavigationMenu className="grid min-h-max w-full grow gap-4 grid-cols-1 sm:grid-cols-3">
-        <NavigationMenuList className="justify-center sm:justify-start sm:ml-[4vw]">
+      <NavigationMenu className="grid min-h-max w-full grow grid-cols-1 gap-4 sm:grid-cols-3">
+        <NavigationMenuList className="justify-center sm:ml-[4vw] sm:justify-start">
           {ghUsers.map((user) => (
             <NavigationMenuItem key={user.id}>
               <NavigationMenuLink
