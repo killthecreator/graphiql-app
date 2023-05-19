@@ -292,15 +292,15 @@ const Editor: NextPage = () => {
                 </Suspense>
                 {types
                   .filter((docUrl) => data.responseText.includes(docUrl))
-                  .map((docUrl) => (
-                    <Suspense>
+                  .map((docUrl, index) => (
+                    <Suspense key={index}>
                       <SomeDoc url={`types/${docUrl}`} />
                     </Suspense>
                   ))}
                 {queries
                   .filter((docUrl) => data.responseText.includes(docUrl))
-                  .map((docUrl) => (
-                    <Suspense>
+                  .map((docUrl, index) => (
+                    <Suspense key={index}>
                       <SomeDoc url={`queries/${docUrl}`} />
                     </Suspense>
                   ))}
