@@ -3,7 +3,7 @@
   "sign up": "Sign Up",
   "go to editor": "Go to the editor",
   "graphiql descr": "GraphiQL is a playground/IDE for graphQL requests",
-  "graphiql text": "placeholder",
+  "graphiql text": "GraphiQL is a sandbox for compiling, editing and sending GraphQL requests to the server API and getting responses to them. Our application also allows user to specify variables and headers and add them to the request. The user can also retrieve the API schema using an introspective query. To perform validation, we always get the schema when the editor is loaded.",
   "graphiql link text": "GraphQL Website",
   "pokemon descr": "Extensive Pokemon GraphQL API",
   "pokemon text": "GraphQL-Pokemon is a GraphQL API that provides extensive Pokémon data. Unlike contemporary APIs this API focusses on speed, accuracy and data quality. API provides fully generated client-side TypeScript typings, images, information about various assets in Pokemon: Pokedex, Items, AbilitiesMoves, Learnsets, Type matchups.",
