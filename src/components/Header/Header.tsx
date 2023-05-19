@@ -24,9 +24,9 @@ export const Header = () => {
   const { t } = useTranslation("common");
   const [display, setDisplay] = useState(false);
 
-  if (router.pathname === '/' && display === false) {
-    setDisplay(true)
-  } else if (router.pathname !== '/' && display === true) {
+  if (router.pathname === "/" && display === false) {
+    setDisplay(true);
+  } else if (router.pathname !== "/" && display === true) {
     setDisplay(false);
   }
 
@@ -61,9 +61,9 @@ export const Header = () => {
         "fixed z-10 flex h-24 w-screen items-center px-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a] sm:h-16"
       )}
     >
-      <nav className="w-full sm:px-4">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 w-full">
-          <li className="flex gap-2 py-2 sm:gap-10 justify-center sm:justify-start">
+      <nav className="w-full py-2 sm:px-4">
+        <ul className="grid w-full grid-cols-1 gap-y-2 sm:grid-cols-2">
+          <li className="flex justify-center  gap-2 sm:justify-start sm:gap-10">
             <div className="flex items-center">
               <span className="mx-2 font-semibold">ENG</span>
               <div className="mx-2">
@@ -83,17 +83,22 @@ export const Header = () => {
               <Moon className="ml-2 mr-4" />
             </div>
           </li>
-          <li className="flex grow gap-2 items-center justify-center sm:justify-end">
-            {display && (session ? (<Button>
-                <Link href="/editor">{t("go to editor")}</Link>
-              </Button>) : (<div>
-                <Login mode="sign-in">
-                  <Button className="mr-4">{t("sign in")}</Button>
-                </Login>
-                <Login mode="sign-up">
-                  <Button>{t("sign up")}</Button>
-                </Login>
-              </div>))}
+          <li className="flex grow items-center justify-center gap-2 sm:justify-end">
+            {display &&
+              (session ? (
+                <Button>
+                  <Link href="/editor">{t("go to editor")}</Link>
+                </Button>
+              ) : (
+                <div>
+                  <Login mode="sign-in">
+                    <Button className="mr-4">{t("sign in")}</Button>
+                  </Login>
+                  <Login mode="sign-up">
+                    <Button>{t("sign up")}</Button>
+                  </Login>
+                </div>
+              ))}
             {session && (
               <Button
                 onClick={async () => {

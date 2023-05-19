@@ -83,7 +83,7 @@ const Login = ({ children, mode }: LoginProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="top-1/4">
         <DialogHeader>
           <DialogTitle>
             {mode === "sign-in" ? t("sign in") : t("sign up")}
