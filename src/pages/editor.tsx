@@ -55,7 +55,7 @@ import {
   MonacoVariables,
   MonacoResponse,
 } from "~/components/Monaco";
-import { queries, types } from "~/consts";
+import { queries, types } from "~/data";
 
 const Editor: NextPage = () => {
   const [graphql] = useGraphqlMutation();

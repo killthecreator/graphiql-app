@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { defaultOperations, defaultVariables } from "~/consts";
+import { defaultOperations, defaultVariables } from "~/data";
 
 export type Headers = {
   [key: string]: string;
