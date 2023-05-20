@@ -47,6 +47,7 @@ import {
   Doc01Welcome,
   Doc02Examples,
   SomeDoc,
+  SchemaDoc
 } from "~/components/Documentation";
 import { Error } from "~/components/Error";
 
@@ -117,8 +118,6 @@ const Editor: NextPage = () => {
       .then((resp) => {
         const stringified = JSON.stringify(resp.data, null, 4);
         dispatch(setResponseText(stringified));
-        const isIntrospective = stringified.match(/\_\_\w/) !== null;
-        dispatch(setIsSchema(isIntrospective));
         dispatch(setIsError(false));
       })
       .catch((error) => {
@@ -141,7 +140,6 @@ const Editor: NextPage = () => {
                 ),
               };
         dispatch(setResponseText(""));
-        dispatch(setIsSchema(false));
         dispatch(setIsError(true));
         dispatch(setError(errorData));
       })
@@ -276,19 +274,21 @@ const Editor: NextPage = () => {
             </CardContent>
             <CardFooter>{error.isError && <Error />}</CardFooter>
           </Card>
-
           {schema.isSchema && (
             <Card className="m-1 flex h-80 max-h-screen grow flex-col overflow-y-scroll">
               <CardHeader>
                 <CardTitle>{t("docs explorer")}</CardTitle>
                 <CardDescription>{t("lazy loaded")}</CardDescription>
               </CardHeader>
-              <CardContent className="overflow-y-scroll dark:invert-[0.882]">
+              <CardContent className="dark:invert-[0.882]">
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
                   <Doc01Welcome />
                 </Suspense>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
                   <Doc02Examples />
+                </Suspense>
+                <Suspense fallback={<GraphqlResponseSkeleton />}>
+                  <SchemaDoc />
                 </Suspense>
                 {types
                   .filter((docUrl) => data.responseText.includes(docUrl))

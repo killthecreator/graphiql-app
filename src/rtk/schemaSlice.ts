@@ -1,8 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { SchemaType } from "~/graphql";
 
 interface SchemaState {
   isSchema: boolean;
-  schema: unknown;
+  schema: SchemaType | undefined;
 }
 
 const initialState: SchemaState = {
@@ -17,7 +18,7 @@ export const schemaSlice = createSlice({
     setIsSchema(state, action: PayloadAction<boolean>) {
       state.isSchema = action.payload;
     },
-    setSchema(state, action: PayloadAction<unknown>) {
+    setSchema(state, action: PayloadAction<SchemaType>) {
       state.schema = action.payload;
     },
   },
