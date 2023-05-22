@@ -1,6 +1,6 @@
 import Olga from "~/assets/Olga.webp";
 import Hleb from "~/assets/Hleb.webp";
-import Alex from '~/assets/Alex.jpg';
+import Alex from "~/assets/Alex.jpg";
 
 export const profileCards = [
   {

@@ -12,7 +12,7 @@ import {
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
 import type { IntrospectionQuery } from "graphql";
-import { SchemaType } from "~/graphql";
+import type { SchemaType } from "~/graphql";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
