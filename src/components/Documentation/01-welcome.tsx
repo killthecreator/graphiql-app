@@ -2,7 +2,7 @@ import React from "react";
 
 const DocWelcome = () => {
   return (
-    <div className="relative h-[400px] overflow-hidden py-10">
+    <div className="relative h-[400px] overflow-hidden py-10 dark:invert-[0.882]">
       <iframe
         src="https://graphql-pokemon.js.org/introduction/welcome"
         className="absolute -top-12 h-full w-full"
