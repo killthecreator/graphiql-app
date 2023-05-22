@@ -279,12 +279,12 @@ const Editor: NextPage = () => {
                 <CardTitle>{t("docs explorer")}</CardTitle>
                 <CardDescription>{t("lazy loaded")}</CardDescription>
               </CardHeader>
-              <CardContent className="dark:invert-[0.882]">
+              <CardContent>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
-                  <Doc01Welcome />
+                  <Doc01Welcome/>
                 </Suspense>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
-                  <Doc02Examples />
+                  <Doc02Examples/>
                 </Suspense>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
                   <SchemaDoc />
