@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { SchemaType } from "~/graphql";
+import { type SchemaType } from "~/graphql";
 
 interface SchemaState {
   isSchema: boolean;

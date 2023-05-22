@@ -12,7 +12,7 @@ import {
 import { getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
 import type { IntrospectionQuery } from "graphql";
-import { SchemaType } from "~/graphql";
+import type { SchemaType } from "~/graphql";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -76,7 +76,6 @@ export const MonacoEditor = () => {
           });
 
           dispatch(setSchema(data.data as SchemaType));
-          console.log(data.data);
           dispatch(setIsSchema(true));
 
           return;

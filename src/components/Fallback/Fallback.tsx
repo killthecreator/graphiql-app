@@ -17,7 +17,7 @@ export const Fallback = ({ error }: FallbackProps) => (
   <AlertDialog>
     <AlertDialogTrigger
       asChild
-      className="flex h-full w-full items-center justify-center"
+      className="flex h-screen w-full items-center justify-center"
     >
       <div className="h-[100vh] grow">
         <Button variant="outline">Error</Button>

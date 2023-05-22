@@ -1,4 +1,3 @@
-
 export type SchemaType = {
   __schema: {
     queryType: {
@@ -14,20 +13,20 @@ export type SchemaType = {
         isDeprecated: boolean;
         name: string;
       }[];
-      fields: {
-        args: [],
-        deprecationReason: string | null;
-        description: string;
-        isDeprecated: boolean;
-        name: string;
-        type: {
-          kind: string;
-          name: string | null;
-          ofType: {
-
-          }
-        }
-      }[] | null;
+      fields:
+        | {
+            args: [];
+            deprecationReason: string | null;
+            description: string;
+            isDeprecated: boolean;
+            name: string;
+            type: {
+              kind: string;
+              name: string | null;
+              ofType: object;
+            };
+          }[]
+        | null;
       inputFields: null;
       interfaces: null;
       kind: string;
@@ -46,12 +45,12 @@ export type SchemaType = {
             kind: string;
             name: string;
             ofType: null;
-          }
-        }
+          };
+        };
       }[];
       description: string;
       locations: string[];
       name: string;
     }[];
-  }
-}
+  };
+};

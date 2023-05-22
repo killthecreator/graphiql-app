@@ -22,7 +22,6 @@ import {
 
 import {
   setResponseText,
-  setIsSchema,
   setIsError,
   setError,
   useGraphqlMutation,
@@ -47,7 +46,7 @@ import {
   Doc01Welcome,
   Doc02Examples,
   SomeDoc,
-  SchemaDoc
+  SchemaDoc,
 } from "~/components/Documentation";
 import { Error } from "~/components/Error";
 

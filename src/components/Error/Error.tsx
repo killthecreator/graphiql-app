@@ -20,7 +20,7 @@ export const Error = () => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger asChild className="w-screen">
         <Button variant="destructive" ref={errorButton} className="max-w-max">
           Error!
         </Button>
@@ -31,7 +31,7 @@ export const Error = () => {
             error.errors.map((err) => (
               <div key="ind">
                 <AlertDialogTitle>
-                  {err.code.replaceAll("_", " ")}
+                  {err.code && err.code.replaceAll("_", " ")}
                 </AlertDialogTitle>
                 <AlertDialogDescription>{err.message}</AlertDialogDescription>
               </div>
