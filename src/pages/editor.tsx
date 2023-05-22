@@ -281,10 +281,10 @@ const Editor: NextPage = () => {
               </CardHeader>
               <CardContent>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
-                  <Doc01Welcome/>
+                  <Doc01Welcome  />
                 </Suspense>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
-                  <Doc02Examples/>
+                  <Doc02Examples />
                 </Suspense>
                 <Suspense fallback={<GraphqlResponseSkeleton />}>
                   <SchemaDoc />
