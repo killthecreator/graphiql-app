@@ -8,7 +8,7 @@ import {
   useAppSelector,
   setIsError,
 } from "~/rtk";
-import { getSchema } from "~/graphql";
+import { type SchemaType, getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
 import { type IntrospectionQuery } from "graphql";
 
@@ -73,7 +73,7 @@ export const MonacoVariables = () => {
             ],
           });
 
-          dispatch(setSchema(data.data));
+          dispatch(setSchema(data.data as SchemaType));
 
           return;
         })
