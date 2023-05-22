@@ -12,7 +12,7 @@ import {
 const SchemaDoc = () => {
   const { schema } = useAppSelector((state) => state);
   return (
-    <div className="relative h-[900px] overflow-hidden py-10">
+    <div className="relative py-10">
       {schema.isSchema && (
         <>
           <div className="my-4 text-3xl font-bold">Types</div>
@@ -30,10 +30,12 @@ const SchemaDoc = () => {
                           <AccordionItem value="item-1">
                             <AccordionTrigger>Feilds</AccordionTrigger>
                             <AccordionContent className="p-1">
-                              <ul>
+                              <ul className="gap-4">
                                 {el.fields.map((field, index) => (
-                                  <li key={index}>
-                                    <div>{field.name}</div>
+                                  <li key={index} className="gap-2">
+                                    <div className="font-semibold">
+                                      {field.name}
+                                    </div>
                                     <div>{field.description}</div>
                                     {field.isDeprecated && (
                                       <div>Deprecated!</div>
@@ -50,10 +52,12 @@ const SchemaDoc = () => {
                           <AccordionItem value="item-1">
                             <AccordionTrigger>Enum Values</AccordionTrigger>
                             <AccordionContent className="p-1">
-                              <ul>
+                              <ul className="gap-4">
                                 {el.enumValues.map((val, index) => (
-                                  <li key={index}>
-                                    <div>{val.name}</div>
+                                  <li key={index} className="gap-2">
+                                    <div className="font-semibold">
+                                      {val.name}
+                                    </div>
                                     <div>{val.description}</div>
                                     {val.isDeprecated && <div>Deprecated!</div>}
                                   </li>

@@ -76,7 +76,6 @@ export const MonacoEditor = () => {
           });
 
           dispatch(setSchema(data.data as SchemaType));
-          console.log(data.data);
           dispatch(setIsSchema(true));
 
           return;
