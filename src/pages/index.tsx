@@ -17,21 +17,8 @@ import { InfoCard, ProfileCard } from "~/components/Cards";
 import { profileCards, dataCards } from "~/data";
 
 import { cn } from "~/lib/utils";
-
-const articleClass =
-  "grid gap-[5vw] grid-cols-1 even:sm:grid-cols-[1fr_50%] odd:sm:grid-cols-[50%_1fr]";
-const imageClass =
-  "rounded-lg w-full object-contain h-fit self-center order-first sm:order-none";
-
-const introspectiveExample = `
-{
-  __schema {
-    types {
-      name
-    }
-  }
-}
-`;
+import { articleClass, imageClass } from "~/data/styles";
+import { introspectiveExample } from "~/data/introspective";
 
 const Home: NextPage = () => (
   <>

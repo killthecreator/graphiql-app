@@ -1,5 +1,6 @@
 import Olga from "~/assets/Olga.webp";
 import Hleb from "~/assets/Hleb.webp";
+import Alex from '~/assets/Alex.jpg';
 
 export const profileCards = [
   {
@@ -26,7 +27,7 @@ export const profileCards = [
     data: {
       name: "alex name",
       descr: "alex descr",
-      imageLink: Olga,
+      imageLink: Alex,
       imageAlt: "Alex",
     },
   },
