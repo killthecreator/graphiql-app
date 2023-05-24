@@ -19,7 +19,7 @@ const SchemaDoc = () => {
           <ul>
             {schema.isSchema &&
               schema.schema?.__schema.types.map((el, ind) => (
-                <Accordion type="single" collapsible key={ind}>
+                <Accordion type="single" collapsible key={`bigAccordion${ind}`}>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>{el.name}</AccordionTrigger>
                     <AccordionContent className="p-1">
@@ -32,7 +32,10 @@ const SchemaDoc = () => {
                             <AccordionContent className="p-1">
                               <ul className="gap-4">
                                 {el.fields.map((field, index) => (
-                                  <li key={index} className="gap-2">
+                                  <li
+                                    key={`fieldAccordion${index}`}
+                                    className="gap-2"
+                                  >
                                     <div className="font-semibold">
                                       {field.name}
                                     </div>
@@ -54,7 +57,10 @@ const SchemaDoc = () => {
                             <AccordionContent className="p-1">
                               <ul className="gap-4">
                                 {el.enumValues.map((val, index) => (
-                                  <li key={index} className="gap-2">
+                                  <li
+                                    key={`enumAccordion${index}`}
+                                    className="gap-2"
+                                  >
                                     <div className="font-semibold">
                                       {val.name}
                                     </div>
