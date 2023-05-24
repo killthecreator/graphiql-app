@@ -2,6 +2,7 @@ import Editor, { type OnMount } from "@monaco-editor/react";
 import { useRef } from "react";
 import { type editor } from "monaco-editor";
 import { useAppSelector } from "~/rtk";
+import { Skeleton } from "~/components/ui";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -36,6 +37,9 @@ export const MonacoResponse = () => {
     <Editor
       height="100%"
       defaultLanguage="graphql"
+      loading={
+        <Skeleton className="justify flex h-4 w-[250px] flex-col items-start" />
+      }
       language="graphql"
       theme={theme.isDay ? "light" : "vs-dark"}
       value={data.responseText}

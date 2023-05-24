@@ -56,6 +56,7 @@ import {
   MonacoResponse,
 } from "~/components/Monaco";
 import { queries, types } from "~/data";
+import { validHeader } from "~/validation";
 
 const Editor: NextPage = () => {
   const [graphql] = useGraphqlMutation();
@@ -170,7 +171,13 @@ const Editor: NextPage = () => {
       const val = valueInputs[i]?.value as string;
       newHeaders[key] = val;
     });
-    dispatch(setHeaders(newHeaders));
+    let allowSet = true;
+    Object.entries(newHeaders).forEach((entrie) => {
+      entrie.forEach((el) => {
+        if (!validHeader(el) && el !== "") allowSet = false;
+      });
+    });
+    if (allowSet) dispatch(setHeaders(newHeaders));
   };
 
   return (
@@ -216,39 +223,39 @@ const Editor: NextPage = () => {
                     ref={headersAccordion}
                   >
                     {Object.entries(data.headers).map((entry, index) => (
-                      <>
+                      <div key={`wrapperKey${index}`}>
                         {(entry[0] !== "" || entry[1] !== "") && (
-                          <div className="flex w-full">
+                          <div className="flex w-full" key={`divKey${index}`}>
                             <Input
                               className="key m-1 w-6/12"
-                              key={2 * index}
+                              key={`myKey${index}`}
                               defaultValue={entry[0]}
                               onChange={handleHeaderInputs}
                               onFocus={handleInputFocus}
                             />
                             <Input
                               className="value m-1 w-6/12"
-                              key={2 * index + 1}
+                              key={`myVal${index}`}
                               defaultValue={entry[1]}
                               onChange={handleHeaderInputs}
                               onFocus={handleInputFocus}
                             />
                           </div>
                         )}
-                      </>
+                      </div>
                     ))}
-                    <div className="flex w-full">
+                    <div className="flex w-full" key="divKeyIndex">
                       <Input
                         ref={lastKeyInput}
                         className="key last-key m-1 w-6/12"
-                        key="200"
+                        key="someuniquekey"
                         onChange={handleHeaderInputs}
                         onFocus={handleInputFocus}
                       />
                       <Input
                         ref={lastValueInput}
                         className="value last-value m-1 w-6/12"
-                        key="201"
+                        key="onemoreuniquekey"
                         onChange={handleHeaderInputs}
                         onFocus={handleInputFocus}
                       />
@@ -292,14 +299,14 @@ const Editor: NextPage = () => {
                 {types
                   .filter((docUrl) => data.responseText.includes(docUrl))
                   .map((docUrl, index) => (
-                    <Suspense key={index}>
+                    <Suspense key={`docUrl${index}`}>
                       <SomeDoc url={`types/${docUrl}`} />
                     </Suspense>
                   ))}
                 {queries
                   .filter((docUrl) => data.responseText.includes(docUrl))
                   .map((docUrl, index) => (
-                    <Suspense key={index}>
+                    <Suspense key={`otherDocUrl${index}`}>
                       <SomeDoc url={`queries/${docUrl}`} />
                     </Suspense>
                   ))}

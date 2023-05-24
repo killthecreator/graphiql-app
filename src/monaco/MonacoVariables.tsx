@@ -11,6 +11,8 @@ import {
 import { type SchemaType, getSchema } from "~/graphql";
 import { initializeMode } from "monaco-graphql/esm/initializeMode";
 import { type IntrospectionQuery } from "graphql";
+import { valid } from "~/validation";
+import { Skeleton } from "~/components/ui";
 
 window.MonacoEnvironment = {
   getWorker: (workerId, label) => {
@@ -85,7 +87,7 @@ export const MonacoVariables = () => {
     variablesRef.current = editor;
   };
   const handleEditorChange: OnChange = (value) => {
-    if (value !== undefined) dispatch(setVariables(value));
+    if (value !== undefined && valid(value)) dispatch(setVariables(value));
     dispatch(setIsError(false));
   };
 
@@ -93,6 +95,13 @@ export const MonacoVariables = () => {
     <Editor
       height="10rem"
       defaultLanguage="graphql"
+      loading={
+        <div className="flex w-full flex-col items-start justify-start space-y-2">
+          <Skeleton className="h-4 w-[220px]" />
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[180px]" />
+        </div>
+      }
       language="graphql"
       theme={theme.isDay ? "light" : "vs-dark"}
       defaultValue={data.variables}
