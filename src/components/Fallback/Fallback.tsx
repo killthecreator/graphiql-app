@@ -17,14 +17,14 @@ export const Fallback = ({ error }: FallbackProps) => (
     <AlertDialog>
       <AlertDialogTrigger asChild className="w-full h-full flex items-center justify-center">
         <div className="h-[100vh] grow">
-          <Button variant="outline">Error</Button>
+          <Button variant="outline" data-testid="error-button">Error</Button>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Error has happened on the page</AlertDialogTitle>
           <AlertDialogDescription>
-            {error.message}
+            <span data-testid="error-message">{error.message}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
