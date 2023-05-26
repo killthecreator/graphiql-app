@@ -47,12 +47,13 @@ export const Header = () => {
     <header
       className={cn(
         `shadow${headerScroll}`,
-        "fixed z-10 flex h-24 sm:h-16 w-screen items-center px-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a]"
+        "fixed z-10 flex h-24 w-screen items-center px-2 backdrop-blur-[2px] dark:shadow-[#ffffff1a] sm:h-16"
       )}
+      data-testid="header"
     >
       <nav className="w-full sm:px-4">
-        <ul className="flex justify-between flex-wrap">
-          <li className="flex sm:gap-10 gap-2 py-2">
+        <ul className="flex flex-wrap justify-between">
+          <li className="flex gap-2 py-2 sm:gap-10">
             <div className="flex items-center">
               <span className="mx-2 font-semibold">ENG</span>
               <div className="mx-2">
@@ -72,7 +73,7 @@ export const Header = () => {
               <Moon className="ml-2 mr-4" />
             </div>
           </li>
-          <li className="flex grow justify-end items-center justify-end">
+          <li className="flex grow items-center justify-end justify-end">
             {session && (
               <Button
                 onClick={async () => {

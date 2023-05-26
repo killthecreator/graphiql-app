@@ -1,6 +1,6 @@
-import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from "@reduxjs/toolkit/query/react";
 
-export const mainUrl = 'https://graphqlpokemon.favware.tech/v7';
+export const mainUrl = "https://graphqlpokemon.favware.tech/v7";
 
 const data = {};
 
@@ -10,13 +10,13 @@ const fakeFetch = Promise.resolve({
 });
 
 export const api = createApi({
-  reducerPath: 'myApi',
+  reducerPath: "myApi",
   baseQuery: () => Promise.resolve({ data }),
   endpoints: (builder) => ({
     graphql: builder.mutation({
       query: (payload) => ({
-        url: '',
-        method: 'POST',
+        url: "",
+        method: "POST",
         body: JSON.stringify({
           query: payload.query,
           variables: payload.variables,
