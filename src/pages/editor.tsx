@@ -66,6 +66,7 @@ const Editor: NextPage = () => {
   const schema = useAppSelector((state) => state.schema);
   const theme = useAppSelector((state) => state.theme);
   const data = useAppSelector((state) => state.data);
+  const error = useAppSelector((state) => state.error);
 
   const headersAccordion = useRef<HTMLDivElement>(null);
   const lastKeyInput = useRef<HTMLInputElement>(null);
