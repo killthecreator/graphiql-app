@@ -10,7 +10,7 @@ import {
 } from "~/components/ui";
 
 const SchemaDoc = () => {
-  const { schema } = useAppSelector((state) => state);
+  const schema = useAppSelector((state) => state.schema);
   return (
     <div className="relative py-10">
       {schema.isSchema && (

@@ -2,7 +2,7 @@ import { Editor } from "@monaco-editor/react";
 import { useAppSelector } from "~/rtk";
 
 export const Example = (props: { value: string }) => {
-  const { theme } = useAppSelector((state) => state);
+  const theme = useAppSelector((state) => state.theme);
   return (
     <div className="editor-wrapper relative min-h-[190px]">
       <Editor

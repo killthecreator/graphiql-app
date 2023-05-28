@@ -62,7 +62,10 @@ const Editor: NextPage = () => {
   const [graphql] = useGraphqlMutation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const { data, schema, error } = useAppSelector((state) => state);
+
+  const schema = useAppSelector((state) => state.schema);
+  const theme = useAppSelector((state) => state.theme);
+  const data = useAppSelector((state) => state.data);
 
   const headersAccordion = useRef<HTMLDivElement>(null);
   const lastKeyInput = useRef<HTMLInputElement>(null);
