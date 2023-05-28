@@ -64,7 +64,6 @@ const Editor: NextPage = () => {
   const dispatch = useAppDispatch();
 
   const schema = useAppSelector((state) => state.schema);
-  const theme = useAppSelector((state) => state.theme);
   const data = useAppSelector((state) => state.data);
   const error = useAppSelector((state) => state.error);
 
