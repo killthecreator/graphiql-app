@@ -9,7 +9,7 @@ const DocExamples = () => {
         src="https://graphql-pokemon.js.org/introduction/javascript-examples"
         className="absolute -top-12 h-full w-full"
       >
-        {t(iframe)}
+        {t("iframe")}
       </iframe>
     </div>
   );

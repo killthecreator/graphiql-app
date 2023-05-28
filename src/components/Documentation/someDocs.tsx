@@ -11,7 +11,7 @@ const DocGet = (props: DocGetPropType) => {
   return (
     <div className="relative h-[900px] overflow-hidden py-10">
       <iframe src={link} className="absolute -top-12 h-full w-full">
-        {t(iframe)}
+        {t("iframe")}
       </iframe>
     </div>
   );
