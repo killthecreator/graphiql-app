@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "next-i18next";
 
 type DocGetPropType = {
   url: string;
@@ -6,10 +7,11 @@ type DocGetPropType = {
 
 const DocGet = (props: DocGetPropType) => {
   const link = "https://graphql-pokemon.js.org/" + props.url;
+  const { t } = useTranslation("common");
   return (
     <div className="relative h-[900px] overflow-hidden py-10">
       <iframe src={link} className="absolute -top-12 h-full w-full">
-        Ваш браузер не поддерживает iframe!
+        {t(iframe)}
       </iframe>
     </div>
   );
