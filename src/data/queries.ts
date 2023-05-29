@@ -1,0 +1,15 @@
+export const queries = [
+  "getAbility",
+  "getAllPokemon",
+  "getFuzzyAbility",
+  "getFuzzyItem",
+  "getFuzzyLearnset",
+  "getFuzzyMove",
+  "getFuzzyPokemon",
+  "getItem",
+  "getLearnset",
+  "getMove",
+  "getPokemon",
+  "getPokemonByDexNumber",
+  "getTypeMatchup",
+] as const;
